@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Audio Processing</string>
+    <string name="action_settings">Settings</string>
+</resources>
