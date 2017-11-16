@@ -11,7 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -33,20 +36,22 @@ import be.tarsos.dsp.pitch.PitchProcessor;
 public class MainActivity extends AppCompatActivity
 {
 
-    TextView tb1;
+    TextView tv;
+    ToggleButton tb;
     LineGraphSeries<DataPoint> xySeries;
     private ArrayList<XYValue> xyArray;
     GraphView fGraph;
     public float pitch;
     public float x;
     public int count;
+    public boolean active;
+    Toast toast;
+    Thread audioThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        tb1 = (TextView)findViewById(R.id.tb);
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
         {
 
@@ -54,15 +59,39 @@ public class MainActivity extends AppCompatActivity
 
         }
 
+        setContentView(R.layout.activity_main);
+
+        tv = (TextView)findViewById(R.id.tv);
+        tb = (ToggleButton) findViewById(R.id.tb);
+
         count = 0;
         xyArray = new ArrayList<>();
         fGraph = (GraphView) findViewById(R.id.fGraph);
         x = 0;
+        active = false;
 
+        tb.setText("Record");
+        tb.setTextOff("Record");
+        tb.setTextOn("Stop");
         //fGraph.setDrawBackground(true);
         fGraph.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
 
+        //set Scrollable and Scaleable
+        fGraph.getViewport().setScalable(true);
+        //fGraph.getViewport().setScalableY(true);
+        fGraph.getViewport().setScrollable(true);
+        //fGraph.getViewport().setScrollableY(true);
+
+        fGraph.getViewport().setYAxisBoundsManual(true);
+        fGraph.getViewport().setMaxY(2500);
+        fGraph.getViewport().setMinY(0);
+
+        //fGraph.getViewport().setXAxisBoundsManual(true);
+        //fGraph.getViewport().setMaxX(1000);
+        fGraph.getViewport().setMinX(0);
+
         getPitch();
+
     }
 
 
@@ -73,7 +102,7 @@ public class MainActivity extends AppCompatActivity
 
 
         xyArray.add(new XYValue(x,y));
-        x++;
+        x = x+.1f;
 
         System.out.println(pitch);
         System.out.println(x);
@@ -100,21 +129,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        //set Scrollable and Scaleable
-        fGraph.getViewport().setScalable(true);
-        //fGraph.getViewport().setScalableY(true);
-        fGraph.getViewport().setScrollable(true);
-        //fGraph.getViewport().setScrollableY(true);
 
-        //set manual x bounds
-        fGraph.getViewport().setYAxisBoundsManual(true);
-        fGraph.getViewport().setMaxY(2500);
-        fGraph.getViewport().setMinY(0);
-
-        //set manual y bounds
-        fGraph.getViewport().setXAxisBoundsManual(true);
-        //fGraph.getViewport().setMaxX(1000);
-        fGraph.getViewport().setMinX(0);
 
         fGraph.addSeries(xySeries);
 
@@ -187,10 +202,27 @@ public class MainActivity extends AppCompatActivity
         AudioProcessor pitchProcessor = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.YIN, 44100, 2048, handler);
         dispatcher.addAudioProcessor(pitchProcessor);
 
-        Thread audioThread = new Thread(dispatcher, "Audio Thread");
-        audioThread.start();
+        audioThread = new Thread(dispatcher, "Audio Thread");
+        //audioThread.start();
+
+
     }
 
+    public void toggleClick(View v)
+    {
+        toast = Toast.makeText(getApplicationContext(), "this works 2", Toast.LENGTH_SHORT);
+        if(tb.isChecked())
+        {
+            toast = Toast.makeText(getApplicationContext(), "this works", Toast.LENGTH_SHORT);
+            active = true;
+            audioThread.start();
+        }
+        else if(active)
+        {
+            active = false;
+            audioThread.interrupt();
+        }
+    }
     PitchDetectionHandler handler = new PitchDetectionHandler() {
         @Override
         public void handlePitch(PitchDetectionResult res, AudioEvent e){
@@ -210,18 +242,18 @@ public class MainActivity extends AppCompatActivity
     {
 
         pitch = pitchInHz;
-        tb1.setText("" + pitchInHz);
+        tv.setText("" + pitchInHz);
         //System.out.println(pitch);
 
         count++;
 
         //limit to once every 10 readings, otherwise it fills memory too quickly and crashes.
-        if(count%10 == 0)
+        if(count%4 == 0)
         {
             count = 0;
             init();
         }
-
+        //init();
 
     }
 
