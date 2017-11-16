@@ -58,6 +58,10 @@ public class MainActivity extends AppCompatActivity
         xyArray = new ArrayList<>();
         fGraph = (GraphView) findViewById(R.id.fGraph);
         x = 0;
+
+        //fGraph.setDrawBackground(true);
+        fGraph.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+
         getPitch();
     }
 
@@ -99,7 +103,7 @@ public class MainActivity extends AppCompatActivity
         //set Scrollable and Scaleable
         fGraph.getViewport().setScalable(true);
         //fGraph.getViewport().setScalableY(true);
-        //fGraph.getViewport().setScrollable(true);
+        fGraph.getViewport().setScrollable(true);
         //fGraph.getViewport().setScrollableY(true);
 
         //set manual x bounds
@@ -210,6 +214,8 @@ public class MainActivity extends AppCompatActivity
         //System.out.println(pitch);
 
         count++;
+
+        //limit to once every 10 readings, otherwise it fills memory too quickly and crashes.
         if(count%10 == 0)
         {
             count = 0;
