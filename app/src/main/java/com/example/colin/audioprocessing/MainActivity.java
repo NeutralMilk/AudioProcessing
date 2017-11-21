@@ -11,12 +11,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import java.util.ArrayList;
+import static java.lang.Math.pow;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -34,9 +34,9 @@ public class MainActivity extends AppCompatActivity
     private Yin yin = null;
     private long lastUpdateTime = 0;
 
-
     //display
-    TextView tv;
+    TextView tvFreq;
+    TextView tvNote;
     ToggleButton tb;
 
     //graph variables
@@ -47,24 +47,23 @@ public class MainActivity extends AppCompatActivity
     public float x;
     public int count;
     public boolean active;
-    Toast toast;
-    Thread audioThread;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
         {
 
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
 
-        }
+        }//end if
+
         super.onCreate(savedInstanceState);
-
-
 
         setContentView(R.layout.activity_main);
 
-        tv = (TextView)findViewById(R.id.tv);
+        tvFreq = (TextView)findViewById(R.id.tvFreq);
+        tvNote = (TextView)findViewById(R.id.tvNote);
         tb = (ToggleButton) findViewById(R.id.tb);
 
         count = 0;
@@ -86,11 +85,8 @@ public class MainActivity extends AppCompatActivity
         fGraph.getViewport().setMinY(0);
         fGraph.getViewport().setMinX(0);
 
-        //getPitch();
-
         double yinThreshold = 0.3;
         yin = new Yin(SAMPLERATE, BUFFER_SIZE, yinThreshold);
-        startRecording();
 
     }
 
@@ -116,17 +112,18 @@ public class MainActivity extends AppCompatActivity
 
                 // This loop will be correct after 3 rounds because of
                 // the BUFFER_OVERLAY offset
-                while (isRecording) {
+                while (isRecording)
+                {
                     recorder.read(sData, BUFFER_OVERLAY, diff);
 
                     for (int i = BUFFER_OVERLAY; i < diff; ++i) {
                         fData[i] = (float) sData[i];
-                    }
+                    }//end for
 
                     float currentPitch = yin.getPitch(fData).getPitch();
                     if (currentPitch != -1 && currentPitch > 30) {
                         pitch = currentPitch;
-                    }
+                    }//end if
 
                     runOnUiThread(new Runnable() {
                         public void run()
@@ -138,19 +135,18 @@ public class MainActivity extends AppCompatActivity
                     for (int i = 0; i < BUFFER_OVERLAY; ++i) {
                         sData[i] = sData[i + diff];
                         fData[i] = (float) sData[i + diff];
-                    }
+                    }//end for
                 }
             }
         }.start();
     }
 
-    private final NoteCalculator.NoteGuessResult guess = new NoteCalculator.NoteGuessResult();
     private synchronized void updateNote(final float pitch) {
         long currentTime = System.currentTimeMillis();
         if (lastUpdateTime < currentTime - UPDATE_DELAY)
         {
 
-            tv.setText(String.format("%.1f (%.1f)", pitch, guess.realPitch));
+            convertToNote(pitch);
             lastUpdateTime = currentTime;
 
             count++;
@@ -160,7 +156,7 @@ public class MainActivity extends AppCompatActivity
             {
                 count = 0;
                 init();
-            }
+            }//end if
         }
     }
 
@@ -180,9 +176,6 @@ public class MainActivity extends AppCompatActivity
         xyArray.add(new XYValue(x,y));
         x = x+.1f;
 
-        System.out.println(pitch);
-        System.out.println(x);
-        System.out.println(y);
         createGraph();
     }
 
@@ -214,17 +207,18 @@ public class MainActivity extends AppCompatActivity
     //the array needs to be sorted with the x values ascending, otherwise it doesn't work.
     private ArrayList<XYValue> sortArray(ArrayList<XYValue> array){
 
-        int factor = Integer.parseInt(String.valueOf(Math.round(Math.pow(array.size(),2))));
+        int factor = Integer.parseInt(String.valueOf(Math.round(pow(array.size(),2))));
         int m = array.size() - 1;
         int count = 0;
 
 
-        while (true) {
+        while (true)
+        {
             m--;
             if (m <= 0)
             {
                 m = array.size() - 1;
-            }
+            }//end if
             try
             {
                 float tempY = array.get(m - 1).getY();
@@ -235,20 +229,20 @@ public class MainActivity extends AppCompatActivity
                     array.get(m).setY(tempY);
                     array.get(m - 1).setX(array.get(m).getX());
                     array.get(m).setX(tempX);
-                }
+                }//end if
                 else if (tempX == array.get(m).getX())
                 {
                     count++;
-                }
+                }//end else if
                 else if (array.get(m).getX() > array.get(m - 1).getX())
                 {
                     count++;
-                }
+                }//end else if
                 //break when factorial is done
                 if (count == factor)
                 {
                     break;
-                }
+                }//end if
             }
 
             catch (ArrayIndexOutOfBoundsException e)
@@ -262,19 +256,68 @@ public class MainActivity extends AppCompatActivity
 
     public void toggleClick(View v)
     {
-        toast = Toast.makeText(getApplicationContext(), "this works 2", Toast.LENGTH_SHORT);
         if(tb.isChecked())
         {
-            toast = Toast.makeText(getApplicationContext(), "this works", Toast.LENGTH_SHORT);
             active = true;
-            audioThread.start();
-        }
+            startRecording();
+        }//end if
+
         else if(active)
         {
-            toast = Toast.makeText(getApplicationContext(), "this works", Toast.LENGTH_SHORT);
             active = false;
-            audioThread.interrupt();
-        }
+            stopRecording();
+        }//end if
     }
 
+    public void convertToNote(float pitch)
+    {
+        //Using standard A4 = 440Hz, C4 is 261.6Hz. Using C makes calculations easier.
+        double C4 = 261.626;
+
+        //octave grouping
+        int octave = 4;
+
+        //find the amount of half steps between A and the pitch I want to find
+        double s = ((12)*Math.log(pitch/C4))/Math.log(2);
+        String note[] = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
+
+        s = s%12;
+        octave = (int)(octave - s);
+
+        if(s < 0)
+        {
+            octave = octave*-1;
+        }//end if
+
+        //find note. Display closest note within half a semitone
+        double x = s - Math.floor(s);
+
+        //round to the nearest semitone
+        int sRound = (int)Math.round(s);
+
+        //add 12 if negative to get the right note value
+        if(s < 0)
+        {
+            sRound+=12;
+        }//end if
+        if(sRound == 12)
+        {
+            sRound-=12;
+        }//end if
+
+
+        if(x >= .75 || x <= .25)
+        {
+            tvFreq.setText("" + pitch);
+            tvNote.setText("" + note[sRound]);
+            System.out.println("pitch is " + pitch + " Note is " + note[sRound] + octave);
+        }//end if
+
+        //otherwise just display the frequency
+        else
+        {
+            tvFreq.setText("" + pitch);
+        }//end else
+
+    }
 }
