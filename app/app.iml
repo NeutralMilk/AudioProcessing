@@ -131,6 +131,7 @@
     <orderEntry type="library" name="com.android.support:support-core-ui-26.1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="com.android.support.test:runner-1.0.1" level="project" />
     <orderEntry type="library" scope="TEST" name="com.android.support.test:rules-1.0.1" level="project" />
+    <orderEntry type="library" name="__local_aars__:C.\Users\Colin\Google Drive\Final Year Project\AudioProcessing\app\libs\JTransforms-3.1.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="__local_aars__:C.\Users\Colin\Google Drive\Final Year Project\AudioProcessing\app\libs\TarsosDSP-Android-latest.jar:unspecified@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="com.google.code.findbugs:jsr305:2.0.1@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="com.android.support.test.espresso:espresso-idling-resource-3.0.1" level="project" />
@@ -144,6 +145,5 @@
     <orderEntry type="library" name="com.android.support:animated-vector-drawable-26.1.0" level="project" />
     <orderEntry type="library" name="com.android.support:design-26.1.0" level="project" />
     <orderEntry type="library" name="com.android.support:transition-26.1.0" level="project" />
-    <orderEntry type="library" name="android-android-26" level="project" />
   </component>
 </module>

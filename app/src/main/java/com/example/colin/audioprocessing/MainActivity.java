@@ -2,12 +2,13 @@ package com.example.colin.audioprocessing;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.media.AudioFormat;
+import android.media.AudioRecord;
+import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,19 +17,29 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import java.util.ArrayList;
-import be.tarsos.dsp.AudioDispatcher;
-import be.tarsos.dsp.AudioEvent;
-import be.tarsos.dsp.AudioProcessor;
-import be.tarsos.dsp.io.android.AudioDispatcherFactory;
-import be.tarsos.dsp.pitch.PitchDetectionHandler;
-import be.tarsos.dsp.pitch.PitchDetectionResult;
-import be.tarsos.dsp.pitch.PitchProcessor;
 
 public class MainActivity extends AppCompatActivity
 {
 
+    //pitch settings
+    private static final int SAMPLERATE        = 44100;
+    private static final int NUM_CHANNELS      = AudioFormat.CHANNEL_IN_MONO;
+    private static final int RECORDER_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
+    private static final int BUFFER_SIZE    = 4096;
+    private static final int BUFFER_OVERLAY = BUFFER_SIZE * 3/4;
+    private static final int FRAMERATE    = 60;
+    private static final int UPDATE_DELAY = 1000/FRAMERATE;
+    private AudioRecord recorder    = null;
+    private boolean isRecording = false;
+    private Yin yin = null;
+    private long lastUpdateTime = 0;
+
+
+    //display
     TextView tv;
     ToggleButton tb;
+
+    //graph variables
     LineGraphSeries<DataPoint> xySeries;
     private ArrayList<XYValue> xyArray;
     GraphView fGraph;
@@ -41,14 +52,15 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
         {
 
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
 
         }
+        super.onCreate(savedInstanceState);
+
+
 
         setContentView(R.layout.activity_main);
 
@@ -64,7 +76,7 @@ public class MainActivity extends AppCompatActivity
         tb.setText("Record");
         tb.setTextOff("Record");
         tb.setTextOn("Stop");
-        
+
         //graph settings
         fGraph.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
         fGraph.getViewport().setScalable(true);
@@ -74,10 +86,90 @@ public class MainActivity extends AppCompatActivity
         fGraph.getViewport().setMinY(0);
         fGraph.getViewport().setMinX(0);
 
-        getPitch();
+        //getPitch();
+
+        double yinThreshold = 0.3;
+        yin = new Yin(SAMPLERATE, BUFFER_SIZE, yinThreshold);
+        startRecording();
 
     }
 
+    private void startRecording() {
+        final int minBufferSize = AudioRecord.getMinBufferSize(SAMPLERATE, NUM_CHANNELS, RECORDER_ENCODING);
+
+        final int bufferSize = Math.max(minBufferSize, BUFFER_SIZE);
+
+        recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,
+                SAMPLERATE,
+                NUM_CHANNELS,
+                RECORDER_ENCODING,
+                bufferSize);
+        recorder.startRecording();
+        isRecording = true;
+
+        new Thread() {
+            public void run() {
+                final short[] sData = new short[BUFFER_SIZE];
+                final float[] fData = new float[BUFFER_SIZE];
+
+                final int diff = bufferSize - BUFFER_OVERLAY;
+
+                // This loop will be correct after 3 rounds because of
+                // the BUFFER_OVERLAY offset
+                while (isRecording) {
+                    recorder.read(sData, BUFFER_OVERLAY, diff);
+
+                    for (int i = BUFFER_OVERLAY; i < diff; ++i) {
+                        fData[i] = (float) sData[i];
+                    }
+
+                    float currentPitch = yin.getPitch(fData).getPitch();
+                    if (currentPitch != -1 && currentPitch > 30) {
+                        pitch = currentPitch;
+                    }
+
+                    runOnUiThread(new Runnable() {
+                        public void run()
+                        {
+                            updateNote(pitch);
+                        }
+                    });
+
+                    for (int i = 0; i < BUFFER_OVERLAY; ++i) {
+                        sData[i] = sData[i + diff];
+                        fData[i] = (float) sData[i + diff];
+                    }
+                }
+            }
+        }.start();
+    }
+
+    private final NoteCalculator.NoteGuessResult guess = new NoteCalculator.NoteGuessResult();
+    private synchronized void updateNote(final float pitch) {
+        long currentTime = System.currentTimeMillis();
+        if (lastUpdateTime < currentTime - UPDATE_DELAY)
+        {
+
+            tv.setText(String.format("%.1f (%.1f)", pitch, guess.realPitch));
+            lastUpdateTime = currentTime;
+
+            count++;
+
+            //limit to once every 10 readings, otherwise it fills memory too quickly and crashes.
+            if(count%4 == 0)
+            {
+                count = 0;
+                init();
+            }
+        }
+    }
+
+    private void stopRecording() {
+        isRecording = false;
+        recorder.stop();
+        recorder.release();
+        recorder = null;
+    }
 
     private void init()
     {
@@ -168,18 +260,6 @@ public class MainActivity extends AppCompatActivity
         return array;
     }
 
-    public void getPitch()
-    {
-        AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(44100,2048,0);
-        AudioProcessor pitchProcessor = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.YIN, 44100, 2048, handler);
-        dispatcher.addAudioProcessor(pitchProcessor);
-
-        audioThread = new Thread(dispatcher, "Audio Thread");
-        //audioThread.start();
-
-
-    }
-
     public void toggleClick(View v)
     {
         toast = Toast.makeText(getApplicationContext(), "this works 2", Toast.LENGTH_SHORT);
@@ -195,39 +275,6 @@ public class MainActivity extends AppCompatActivity
             active = false;
             audioThread.interrupt();
         }
-    }
-    PitchDetectionHandler handler = new PitchDetectionHandler() {
-        @Override
-        public void handlePitch(PitchDetectionResult res, AudioEvent e){
-            final float pitchInHz = res.getPitch();
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run()
-                {
-                    display(pitchInHz);
-                }
-            });
-        }
-    };
-
-
-    public void display(float pitchInHz)
-    {
-
-        pitch = pitchInHz;
-        tv.setText("" + pitchInHz);
-        //System.out.println(pitch);
-
-        count++;
-
-        //limit to once every 10 readings, otherwise it fills memory too quickly and crashes.
-        if(count%4 == 0)
-        {
-            count = 0;
-            init();
-        }
-        //init();
-
     }
 
 }
