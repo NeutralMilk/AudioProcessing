@@ -104,9 +104,9 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    //The startRecording method is adapted from https://github.com/solarus/CTuner/blob/master/src/org/tunna/ctuner/MainActivity.java
     private void startRecording() {
         final int minBufferSize = AudioRecord.getMinBufferSize(SAMPLERATE, NUM_CHANNELS, RECORDER_ENCODING);
-
         final int bufferSize = Math.max(minBufferSize, BUFFER_SIZE);
 
         recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,
@@ -118,7 +118,8 @@ public class MainActivity extends AppCompatActivity
         isRecording = true;
 
         new Thread() {
-            public void run() {
+            public void run()
+            {
                 final short[] sData = new short[BUFFER_SIZE];
                 final float[] fData = new float[BUFFER_SIZE];
 
@@ -130,12 +131,18 @@ public class MainActivity extends AppCompatActivity
                 {
                     recorder.read(sData, BUFFER_OVERLAY, diff);
 
-                    for (int i = BUFFER_OVERLAY; i < diff; ++i) {
+                    for (int i = BUFFER_OVERLAY; i < diff; ++i)
+                    {
                         fData[i] = (float) sData[i];
                     }//end for
 
                     float currentPitch = yin.getPitch(fData).getPitch();
-                    if (currentPitch != -1 && currentPitch > 30) {
+
+                    //Set the minimum pitch value to be 65. I do this to allow for alternate tunings such as drop D
+                    //This is when the low E string is tuned down 2 semitones to a D
+                    //Also, the default output when no pitch is detected is - 1. This causes the graph to look funny
+                    //when there's no input because it will shoot down to -1, so it's best to ignore these values.
+                    if (currentPitch != -1 && currentPitch > 65) {
                         pitch = currentPitch;
                     }//end if
 
@@ -235,7 +242,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    //the array needs to be sorted with the x values ascending, otherwise it doesn't work.
+    //the array needs to be sorted with the x values ascending, otherwise it will crash.
     private ArrayList<XYValue> sortArray(ArrayList<XYValue> array){
 
         int factor = Integer.parseInt(String.valueOf(Math.round(pow(array.size(),2))));
