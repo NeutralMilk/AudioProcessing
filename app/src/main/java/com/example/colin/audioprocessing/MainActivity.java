@@ -8,11 +8,18 @@ import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import java.util.ArrayList;
@@ -34,11 +41,6 @@ public class MainActivity extends AppCompatActivity
     private Yin yin = null;
     private long lastUpdateTime = 0;
 
-    //display
-    TextView tvFreq;
-    TextView tvNote;
-    ToggleButton tb;
-
     //graph variables
     LineGraphSeries<DataPoint> xySeries;
     private ArrayList<XYValue> xyArray;
@@ -46,7 +48,17 @@ public class MainActivity extends AppCompatActivity
     public float pitch;
     public float x;
     public int count;
+
+
+    //General variables
+    TextView tvFreq;
+    TextView tvNote;
     public boolean active;
+    public boolean begin;
+    public long clickTime;
+    private GestureDetector gd;
+    View view;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -64,29 +76,31 @@ public class MainActivity extends AppCompatActivity
 
         tvFreq = (TextView)findViewById(R.id.tvFreq);
         tvNote = (TextView)findViewById(R.id.tvNote);
-        tb = (ToggleButton) findViewById(R.id.tb);
 
         count = 0;
         xyArray = new ArrayList<>();
         fGraph = (GraphView) findViewById(R.id.fGraph);
         x = 0;
         active = false;
+        begin = true;
 
-        tb.setText("Record");
-        tb.setTextOff("Record");
-        tb.setTextOn("Stop");
+        //allow double tap to record
+        gestureDetector();
+        fGraph.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // TODO Auto-generated method stub
+                gd.onTouchEvent(event);
+                return false;
+            }
+        });
 
-        //graph settings
-        fGraph.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
-        fGraph.getViewport().setScalable(true);
-        fGraph.getViewport().setScrollable(true);
-        fGraph.getViewport().setYAxisBoundsManual(true);
-        fGraph.getViewport().setMaxY(2500);
-        fGraph.getViewport().setMinY(0);
-        fGraph.getViewport().setMinX(0);
+        graphSettings();
 
         double yinThreshold = 0.3;
         yin = new Yin(SAMPLERATE, BUFFER_SIZE, yinThreshold);
+        startRecording();
 
     }
 
@@ -152,19 +166,33 @@ public class MainActivity extends AppCompatActivity
             count++;
 
             //limit to once every 10 readings, otherwise it fills memory too quickly and crashes.
-            if(count%4 == 0)
+            if(active)
             {
-                count = 0;
-                init();
-            }//end if
+                if(count%4 == 0)
+                {
+                    count = 0;
+                    init();
+                }//end if
+            }
+
         }
     }
 
-    private void stopRecording() {
-        isRecording = false;
-        recorder.stop();
-        recorder.release();
-        recorder = null;
+    public void graphSettings()
+    {
+        //graph settings
+        //fGraph.setBackgroundColor(getResources().getColor(android.R.color.white));
+        fGraph.getViewport().setScalable(true);
+        fGraph.getViewport().setScrollable(true);
+        fGraph.getViewport().setYAxisBoundsManual(true);
+        fGraph.getViewport().setMaxY(2500);
+        fGraph.getViewport().setMinY(0);
+        fGraph.getViewport().setMinX(0);
+
+       /* StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(fGraph);
+        staticLabelsFormatter.setVerticalLabels(new String[] {"C", "D", "E","F", "G", "A", "B",});
+        fGraph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);*/
+
     }
 
     private void init()
@@ -184,12 +212,14 @@ public class MainActivity extends AppCompatActivity
 
         xyArray = sortArray(xyArray);
 
+        float x = 0;
+        float y = 0;
         for (int i = 0; i < xyArray.size(); i ++)
         {
             try
             {
-                float x = xyArray.get(i).getX();
-                float y = xyArray.get(i).getY();
+                x = xyArray.get(i).getX();
+                y = xyArray.get(i).getY();
                 xySeries.appendData(new DataPoint(x,y), true, 1000);
             }
             catch(IllegalArgumentException e)
@@ -201,6 +231,7 @@ public class MainActivity extends AppCompatActivity
 
 
         fGraph.addSeries(xySeries);
+        fGraph.scrollTo((int)x,0);
 
     }
 
@@ -254,43 +285,51 @@ public class MainActivity extends AppCompatActivity
         return array;
     }
 
-    public void toggleClick(View v)
+    //double tap to begin graphing, double tap again to stop
+    public void displayGraphData()
     {
-        if(tb.isChecked())
+        if(begin == true)
         {
+            begin = false;
             active = true;
-            startRecording();
         }//end if
 
         else if(active)
         {
             active = false;
-            stopRecording();
+            begin = true;
         }//end if
-    }
+
+    }//end displayGraphData()
 
     public void convertToNote(float pitch)
     {
-        //Using standard A4 = 440Hz, C4 is 261.6Hz. Using C makes calculations easier.
-        double C4 = 261.626;
 
-        //octave grouping
-        int octave = 4;
-
-        //find the amount of half steps between A and the pitch I want to find
-        double s = ((12)*Math.log(pitch/C4))/Math.log(2);
+        //list of notes
         String note[] = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
 
+        //Using the standard A4 = 440Hz, C4 is 261.6Hz. Using C makes calculations simpler since it's my first element.
+        double C4 = 261.626;
+
+        //octave grouping, this will tell me if a note is an E4, F6, C2 etc.
+        int octave = 4;
+        double o = 0;
+        //Java doesn't have built in subscript so I'll use an array of the unicode values
+        String subscript[] = {"\u2080", "\u2081", "\u2082", "\u2083", "\u2084", "\u2085", "\u2086", "\u2087", "\u2088", "\u2089"};
+
+        //find the amount of semitones between A and the pitch I want to find
+        double s = ((12)*Math.log(pitch/C4))/Math.log(2);
+
+        //calculate octave range
+        o = s/12;
         s = s%12;
-        octave = (int)(octave - s);
-
-        if(s < 0)
+        octave = octave + (int)o;
+        if(octave < 4)
         {
-            octave = octave*-1;
-        }//end if
+            octave-=1;
+        }
+        System.out.println("o is" + (int)o);
 
-        //find note. Display closest note within half a semitone
-        double x = s - Math.floor(s);
 
         //round to the nearest semitone
         int sRound = (int)Math.round(s);
@@ -306,10 +345,12 @@ public class MainActivity extends AppCompatActivity
         }//end if
 
 
+        //display closest note within a 1/4 semitone
+        double x = s - Math.floor(s);
         if(x >= .75 || x <= .25)
         {
             tvFreq.setText("" + pitch);
-            tvNote.setText("" + note[sRound]);
+            tvNote.setText("" + note[sRound] + subscript[octave]);
             System.out.println("pitch is " + pitch + " Note is " + note[sRound] + octave);
         }//end if
 
@@ -319,5 +360,73 @@ public class MainActivity extends AppCompatActivity
             tvFreq.setText("" + pitch);
         }//end else
 
+    }
+
+    //This method is taken from Chintan Rathod's answer on https://stackoverflow.com/questions/21448833/catch-double-click-on-textview-android
+    public void gestureDetector()
+    {
+        // initialize the Gesture Detector
+        gd = new GestureDetector(this,new GestureDetector.OnGestureListener() {
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                // TODO Auto-generated method stub
+                return false;
+            }
+
+            @Override
+            public void onShowPress(MotionEvent e) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+                                    float distanceY) {
+                // TODO Auto-generated method stub
+                return false;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent e) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+                                   float velocityY) {
+                // TODO Auto-generated method stub
+                return false;
+            }
+
+            @Override
+            public boolean onDown(MotionEvent e) {
+                // TODO Auto-generated method stub
+                return false;
+            }
+        });
+
+        // set the on Double tap listener
+        gd.setOnDoubleTapListener(new GestureDetector.OnDoubleTapListener() {
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                displayGraphData();
+                return false;
+            }
+
+            @Override
+            public boolean onDoubleTapEvent(MotionEvent e) {
+                // if the second tap hadn't been released and it's being moved
+
+                return false;
+            }
+
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                // TODO Auto-generated method stub
+                return false;
+            }
+
+        });
     }
 }

@@ -10,35 +10,36 @@
 
     <TextView
         android:id="@+id/tvFreq"
-        android:layout_width="144dp"
-        android:layout_height="112dp"
-        android:layout_marginLeft="236dp"
+        android:layout_width="98dp"
+        android:layout_height="33dp"
+        android:layout_marginLeft="52dp"
+        android:gravity="center"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.4" />
+        app:layout_constraintVertical_bias="0.953" />
 
     <TextView
         android:id="@+id/tvNote"
-        android:layout_width="93dp"
-        android:layout_height="106dp"
-        android:layout_marginLeft="28dp"
+        android:layout_width="115dp"
+        android:layout_height="89dp"
+        android:layout_marginLeft="232dp"
+        android:gravity="top"
+        android:textSize="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.213" />
+        app:layout_constraintVertical_bias="0.99" />
 
-    <ToggleButton
-        android:id="@+id/tb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ToggleButton"
-        android:onClick="toggleClick"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.724" />/>
+
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/fGraph"
+        android:layout_width="match_parent"
+        android:layout_height="499dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 
 
 </android.support.constraint.ConstraintLayout>
