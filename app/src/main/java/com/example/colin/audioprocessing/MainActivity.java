@@ -13,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -22,6 +24,8 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import static java.lang.Math.pow;
 
@@ -58,6 +62,7 @@ public class MainActivity extends AppCompatActivity
     public long clickTime;
     private GestureDetector gd;
     View view;
+    public LinearLayout l;
 
 
     @Override
@@ -76,6 +81,7 @@ public class MainActivity extends AppCompatActivity
 
         tvFreq = (TextView)findViewById(R.id.tvFreq);
         tvNote = (TextView)findViewById(R.id.tvNote);
+        l = (LinearLayout)findViewById(R.id.l);
 
         count = 0;
         xyArray = new ArrayList<>();
@@ -84,15 +90,33 @@ public class MainActivity extends AppCompatActivity
         active = false;
         begin = true;
 
-        //allow double tap to record
-        gestureDetector();
-        fGraph.setOnTouchListener(new View.OnTouchListener()
+        fGraph.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this)
         {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // TODO Auto-generated method stub
-                gd.onTouchEvent(event);
+            public void onSwipeTop()
+            {
+                fGraph.getLayoutParams().height= ViewGroup.LayoutParams.MATCH_PARENT;
+                tvFreq.setVisibility(View.VISIBLE);
+                tvNote.setVisibility(View.VISIBLE);
+            }
+            public void onSwipeBottom()
+            {
+                tvFreq.setVisibility(View.INVISIBLE);
+                tvNote.setVisibility(View.INVISIBLE);
+            }
+
+            public boolean onTouch(View arg0, MotionEvent arg1) {
                 return false;
+            }
+        });
+
+        //plot data
+        fGraph.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v)
+            {
+                v.setClickable(true);
+                displayGraphData();
+                return true;
             }
         });
 
@@ -138,11 +162,11 @@ public class MainActivity extends AppCompatActivity
 
                     float currentPitch = yin.getPitch(fData).getPitch();
 
-                    //Set the minimum pitch value to be 65. I do this to allow for alternate tunings such as drop D
+                    //Set the minimum pitch value to be 60Hz. I do this to allow for alternate tunings such as drop D
                     //This is when the low E string is tuned down 2 semitones to a D
                     //Also, the default output when no pitch is detected is - 1. This causes the graph to look funny
                     //when there's no input because it will shoot down to -1, so it's best to ignore these values.
-                    if (currentPitch != -1 && currentPitch > 65) {
+                    if (currentPitch > 65) {
                         pitch = currentPitch;
                     }//end if
 
@@ -195,11 +219,6 @@ public class MainActivity extends AppCompatActivity
         fGraph.getViewport().setMaxY(2500);
         fGraph.getViewport().setMinY(0);
         fGraph.getViewport().setMinX(0);
-
-       /* StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(fGraph);
-        staticLabelsFormatter.setVerticalLabels(new String[] {"C", "D", "E","F", "G", "A", "B",});
-        fGraph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);*/
-
     }
 
     private void init()
@@ -236,10 +255,8 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-
-        fGraph.addSeries(xySeries);
         fGraph.scrollTo((int)x,0);
-
+        fGraph.addSeries(xySeries);
     }
 
     //the array needs to be sorted with the x values ascending, otherwise it will crash.
@@ -299,6 +316,7 @@ public class MainActivity extends AppCompatActivity
         {
             begin = false;
             active = true;
+
         }//end if
 
         else if(active)
@@ -352,11 +370,12 @@ public class MainActivity extends AppCompatActivity
         }//end if
 
 
+        DecimalFormat f = new DecimalFormat("##.000");
         //display closest note within a 1/4 semitone
         double x = s - Math.floor(s);
         if(x >= .75 || x <= .25)
         {
-            tvFreq.setText("" + pitch);
+            tvFreq.setText("" + f.format(pitch));
             tvNote.setText("" + note[sRound] + subscript[octave]);
             System.out.println("pitch is " + pitch + " Note is " + note[sRound] + octave);
         }//end if
@@ -364,76 +383,8 @@ public class MainActivity extends AppCompatActivity
         //otherwise just display the frequency
         else
         {
-            tvFreq.setText("" + pitch);
+            tvFreq.setText("" + f.format(pitch));
         }//end else
 
-    }
-
-    //This method is taken from Chintan Rathod's answer on https://stackoverflow.com/questions/21448833/catch-double-click-on-textview-android
-    public void gestureDetector()
-    {
-        // initialize the Gesture Detector
-        gd = new GestureDetector(this,new GestureDetector.OnGestureListener() {
-            @Override
-            public boolean onSingleTapUp(MotionEvent e) {
-                // TODO Auto-generated method stub
-                return false;
-            }
-
-            @Override
-            public void onShowPress(MotionEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
-                                    float distanceY) {
-                // TODO Auto-generated method stub
-                return false;
-            }
-
-            @Override
-            public void onLongPress(MotionEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-                                   float velocityY) {
-                // TODO Auto-generated method stub
-                return false;
-            }
-
-            @Override
-            public boolean onDown(MotionEvent e) {
-                // TODO Auto-generated method stub
-                return false;
-            }
-        });
-
-        // set the on Double tap listener
-        gd.setOnDoubleTapListener(new GestureDetector.OnDoubleTapListener() {
-            @Override
-            public boolean onDoubleTap(MotionEvent e) {
-                displayGraphData();
-                return false;
-            }
-
-            @Override
-            public boolean onDoubleTapEvent(MotionEvent e) {
-                // if the second tap hadn't been released and it's being moved
-
-                return false;
-            }
-
-            @Override
-            public boolean onSingleTapConfirmed(MotionEvent e) {
-                // TODO Auto-generated method stub
-                return false;
-            }
-
-        });
     }
 }
