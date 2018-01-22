@@ -77,22 +77,17 @@ import org.jtransforms.fft.FloatFFT_1D;
  * @author Joren Six
  * @author Paul Brossier
  */
-public final class Yin {
+
+//I'm using this variation of the YIN algorithm rather than the standard version because it runs much quicker on my phone and the android emulator.
+//The original version has a lag of around 5 seconds between input and a pitch reading.
+//I'm not sure why. This version still gives very accurate results.
+public final class Yin
+{
     /**
      * The default YIN threshold value. Should be around 0.10~0.15. See YIN
      * paper for more information.
      */
     private static final double DEFAULT_THRESHOLD = 0.20;
-
-    /**
-     * The default size of an audio buffer (in samples).
-     */
-    public static final int DEFAULT_BUFFER_SIZE = 2048;
-
-    /**
-     * The default overlap of two consecutive audio buffers (in samples).
-     */
-    public static final int DEFAULT_OVERLAP = 1536;
 
     /**
      * The actual YIN threshold.
@@ -136,19 +131,6 @@ public final class Yin {
      * An FFT object to quickly calculate the difference function.
      */
     private final FloatFFT_1D fft;
-
-    /**
-     * Create a new pitch detector for a stream with the defined sample rate.
-     * Processes the audio in blocks of the defined size.
-     *
-     * @param audioSampleRate
-     *            The sample rate of the audio stream. E.g. 44.1 kHz.
-     * @param bufferSize
-     *            The size of a buffer. E.g. 1024.
-     */
-    public Yin(final float audioSampleRate, final int bufferSize) {
-        this(audioSampleRate, bufferSize, DEFAULT_THRESHOLD);
-    }
 
     /**
      * Create a new pitch detector for a stream with the defined sample rate.

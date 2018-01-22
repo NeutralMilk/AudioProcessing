@@ -1,7 +1,12 @@
 package com.example.colin.audioprocessing;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
@@ -10,14 +15,19 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+import android.widget.Toolbar;
 
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
@@ -27,6 +37,9 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static java.lang.Math.pow;
 
 public class MainActivity extends AppCompatActivity
@@ -36,8 +49,8 @@ public class MainActivity extends AppCompatActivity
     private static final int SAMPLERATE        = 44100;
     private static final int NUM_CHANNELS      = AudioFormat.CHANNEL_IN_MONO;
     private static final int RECORDER_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
-    private static final int BUFFER_SIZE    = 4096;
-    private static final int BUFFER_OVERLAY = BUFFER_SIZE * 3/4;
+    private static final int WINDOW_DIZE    = 4096;
+    private static final int WINDOW_OVERLAP = WINDOW_DIZE * 3/4;
     private static final int FRAMERATE    = 60;
     private static final int UPDATE_DELAY = 1000/FRAMERATE;
     private AudioRecord recorder    = null;
@@ -52,6 +65,7 @@ public class MainActivity extends AppCompatActivity
     public float pitch;
     public float x;
     public int count;
+    private float maxF;
 
 
     //General variables
@@ -63,8 +77,10 @@ public class MainActivity extends AppCompatActivity
     private GestureDetector gd;
     View view;
     public LinearLayout l;
+    Switch s;
+    long time;
 
-
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -77,11 +93,13 @@ public class MainActivity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
 
+
+
         setContentView(R.layout.activity_main);
 
         tvFreq = (TextView)findViewById(R.id.tvFreq);
         tvNote = (TextView)findViewById(R.id.tvNote);
-        l = (LinearLayout)findViewById(R.id.l);
+        s = (Switch)findViewById(R.id.record);
 
         count = 0;
         xyArray = new ArrayList<>();
@@ -90,48 +108,50 @@ public class MainActivity extends AppCompatActivity
         active = false;
         begin = true;
 
+        Resources r = getResources();
+        final int h = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 439,r.getDisplayMetrics()));
         fGraph.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this)
         {
             public void onSwipeTop()
             {
-                fGraph.getLayoutParams().height= ViewGroup.LayoutParams.MATCH_PARENT;
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) fGraph.getLayoutParams();
+                params.height = h;
+                fGraph.setLayoutParams(params);
+                fGraph.getViewport().setMaxY(2500);
                 tvFreq.setVisibility(View.VISIBLE);
                 tvNote.setVisibility(View.VISIBLE);
+
             }
             public void onSwipeBottom()
             {
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) fGraph.getLayoutParams();
+                params.height = MATCH_PARENT;
+                fGraph.setLayoutParams(params);
+                fGraph.getViewport().setMaxY(3000);
                 tvFreq.setVisibility(View.INVISIBLE);
                 tvNote.setVisibility(View.INVISIBLE);
             }
 
-            public boolean onTouch(View arg0, MotionEvent arg1) {
-                return false;
-            }
         });
 
-        //plot data
-        fGraph.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v)
+        s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                v.setClickable(true);
                 displayGraphData();
-                return true;
             }
         });
-
         graphSettings();
 
         double yinThreshold = 0.3;
-        yin = new Yin(SAMPLERATE, BUFFER_SIZE, yinThreshold);
-        startRecording();
+        yin = new Yin(SAMPLERATE, WINDOW_DIZE, yinThreshold);
 
+        startRecording();
     }
 
     //The startRecording method is adapted from https://github.com/solarus/CTuner/blob/master/src/org/tunna/ctuner/MainActivity.java
     private void startRecording() {
         final int minBufferSize = AudioRecord.getMinBufferSize(SAMPLERATE, NUM_CHANNELS, RECORDER_ENCODING);
-        final int bufferSize = Math.max(minBufferSize, BUFFER_SIZE);
+        final int bufferSize = Math.max(minBufferSize, WINDOW_DIZE);
 
         recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,
                 SAMPLERATE,
@@ -144,18 +164,18 @@ public class MainActivity extends AppCompatActivity
         new Thread() {
             public void run()
             {
-                final short[] sData = new short[BUFFER_SIZE];
-                final float[] fData = new float[BUFFER_SIZE];
+                final short[] sData = new short[WINDOW_DIZE];
+                final float[] fData = new float[WINDOW_DIZE];
 
-                final int diff = bufferSize - BUFFER_OVERLAY;
+                final int diff = bufferSize - WINDOW_OVERLAP;
 
                 // This loop will be correct after 3 rounds because of
-                // the BUFFER_OVERLAY offset
+                // the WINDOW_OVERLAP offset
                 while (isRecording)
                 {
-                    recorder.read(sData, BUFFER_OVERLAY, diff);
+                    recorder.read(sData, WINDOW_OVERLAP, diff);
 
-                    for (int i = BUFFER_OVERLAY; i < diff; ++i)
+                    for (int i = WINDOW_OVERLAP; i < diff; ++i)
                     {
                         fData[i] = (float) sData[i];
                     }//end for
@@ -166,7 +186,7 @@ public class MainActivity extends AppCompatActivity
                     //This is when the low E string is tuned down 2 semitones to a D
                     //Also, the default output when no pitch is detected is - 1. This causes the graph to look funny
                     //when there's no input because it will shoot down to -1, so it's best to ignore these values.
-                    if (currentPitch > 65) {
+                    if (currentPitch > -1 && currentPitch < 4000) {
                         pitch = currentPitch;
                     }//end if
 
@@ -177,7 +197,7 @@ public class MainActivity extends AppCompatActivity
                         }
                     });
 
-                    for (int i = 0; i < BUFFER_OVERLAY; ++i) {
+                    for (int i = 0; i < WINDOW_OVERLAP; ++i) {
                         sData[i] = sData[i + diff];
                         fData[i] = (float) sData[i + diff];
                     }//end for
@@ -197,6 +217,7 @@ public class MainActivity extends AppCompatActivity
             count++;
 
             //limit to once every 10 readings, otherwise it fills memory too quickly and crashes.
+            time = System.currentTimeMillis();
             if(active)
             {
                 if(count%4 == 0)
