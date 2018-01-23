@@ -35,6 +35,7 @@ import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -80,6 +81,8 @@ public class MainActivity extends AppCompatActivity
     Switch s;
     long time;
 
+    //database
+    DatabaseManager db;
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -92,6 +95,14 @@ public class MainActivity extends AppCompatActivity
         }//end if
 
         super.onCreate(savedInstanceState);
+
+        //open the database
+        db= new DatabaseManager(this);
+        try {
+            db.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
 

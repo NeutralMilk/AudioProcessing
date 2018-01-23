@@ -17,21 +17,21 @@ public class DatabaseManager
 {
 
     public static final String KEY_ROWID 	= "_id";
+    public static final String KEY_RECORDINGID 	= "recordingID";
     public static final String KEY_NOTE	= "note";
     public static final String KEY_DURATION 	= "duration";
+    private static final String DATABASE_TABLE 	= "Note_Details";
+
     private static final String DATABASE_NAME 	= "Transcriptions";
-    private static final String DATABASE_TABLE 	= "Transcription_details";
     private static final int DATABASE_VERSION 	= 1;
 
     //
-    private static final String DATABASE_CREATE = "create table "+ "Contact_Details" +
+    private static final String DATABASE_CREATE = "create table "+ "Note_Details" +
             "("+
             "_id integer primary key autoincrement" +
+            "recordingID integer not null" +
             ",note text not null" +
             ",duration text not null unique" +
-            ",email text not null unique" +
-            ",password text not null" +
-            ",team text not null unique" +
             ");";
 
     private final Context context;
@@ -89,21 +89,18 @@ public class DatabaseManager
     {
         db = DBHelper.getWritableDatabase();
         ContentValues initialValues = new ContentValues();
-        initialValues.put(KEY_FULLNAME, fullname);
-        initialValues.put(KEY_USERNAME, username);
-        initialValues.put(KEY_EMAIL, email);
-        initialValues.put(KEY_PASSWORD, password);
-        initialValues.put(KEY_TEAM, team);
+        initialValues.put(KEY_RECORDINGID, fullname);
+        initialValues.put(KEY_NOTE, username);
+        initialValues.put(KEY_DURATION, email);
         return db.insert(DATABASE_TABLE, null, initialValues);
     }
 
     //gets info or person with matching username and password entered
     //used for person log in
-    public Cursor getPerson(String username,String password) throws SQLException
+    public Cursor getPerson(String username) throws SQLException
     {
         String query="SELECT * FROM " + DATABASE_TABLE +
-                " WHERE " + KEY_USERNAME + "=\"" + username +
-                "\" and " + KEY_PASSWORD + "=\"" + password + "\"";
+                " WHERE " + KEY_RECORDINGID + "=\"" + username;
         Cursor mCursor =
                 db.rawQuery(query,null);
 
@@ -116,7 +113,7 @@ public class DatabaseManager
 
     //gets a person with matching username and email and team
     //this is used to check if someone tries to register with already existing user data
-    public Cursor checkReg(String username,String email,String team) throws SQLException
+    /*public Cursor checkReg(String username,String email,String team) throws SQLException
     {
         String query="SELECT * FROM " + DATABASE_TABLE +
                 " WHERE " + KEY_USERNAME + "=\"" + username +
@@ -130,7 +127,7 @@ public class DatabaseManager
             mCursor.moveToFirst();
         }
         return mCursor;
-    }
+    }*/
 
 }//end class
 //end references
