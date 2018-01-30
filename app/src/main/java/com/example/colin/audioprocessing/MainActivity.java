@@ -2,44 +2,31 @@ package com.example.colin.audioprocessing;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
-import android.widget.Toolbar;
-
-import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static java.lang.Math.pow;
 
@@ -58,6 +45,14 @@ public class MainActivity extends AppCompatActivity
     private boolean isRecording = false;
     private Yin yin = null;
     private long lastUpdateTime = 0;
+    String previousNote;
+    String currentNote;
+    long currentTime;
+    long previousTime;
+    String[] adjacentNotes = {"0", "0"};
+    long[] adjacentTimes = {0,0};
+    long counter = 0;
+
 
     //graph variables
     LineGraphSeries<DataPoint> xySeries;
@@ -95,18 +90,25 @@ public class MainActivity extends AppCompatActivity
         }//end if
 
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         //open the database
         db= new DatabaseManager(this);
-        try {
+        try
+        {
             db.open();
-        } catch (SQLException e) {
+        } catch (SQLException e)
+        {
             e.printStackTrace();
         }
 
+        long rowInserted = db.insertNotes("1","2","3");
+        if(rowInserted != -1)
+            System.out.println("this did work");
+        else
+            System.out.println("this didn't work");
 
-
-        setContentView(R.layout.activity_main);
+        checkDataBase();
 
         tvFreq = (TextView)findViewById(R.id.tvFreq);
         tvNote = (TextView)findViewById(R.id.tvNote);
@@ -159,6 +161,19 @@ public class MainActivity extends AppCompatActivity
         startRecording();
     }
 
+    private boolean checkDataBase() {
+        SQLiteDatabase checkDB = null;
+        String DB_FULL_PATH = "/data/data/com.example.colin.audioprocessing/databases";
+        try {
+            checkDB = SQLiteDatabase.openDatabase(DB_FULL_PATH, null,
+                    SQLiteDatabase.OPEN_READONLY);
+            checkDB.close();
+        } catch (SQLiteException e) {
+            System.out.println("DB doesn't exist");
+        }
+        return checkDB != null;
+    }
+
     //The startRecording method is adapted from https://github.com/solarus/CTuner/blob/master/src/org/tunna/ctuner/MainActivity.java
     private void startRecording() {
         final int minBufferSize = AudioRecord.getMinBufferSize(SAMPLERATE, NUM_CHANNELS, RECORDER_ENCODING);
@@ -191,8 +206,8 @@ public class MainActivity extends AppCompatActivity
                         fData[i] = (float) sData[i];
                     }//end for
 
-                    float currentPitch = yin.getPitch(fData).getPitch();
 
+                    float currentPitch = yin.getPitch(fData).getPitch();
                     //Set the minimum pitch value to be 60Hz. I do this to allow for alternate tunings such as drop D
                     //This is when the low E string is tuned down 2 semitones to a D
                     //Also, the default output when no pitch is detected is - 1. This causes the graph to look funny
@@ -217,24 +232,68 @@ public class MainActivity extends AppCompatActivity
         }.start();
     }
 
+    public String getPreviousPitch()
+    {
+
+        return previousNote;
+    }
+
     private synchronized void updateNote(final float pitch) {
-        long currentTime = System.currentTimeMillis();
+
+        String note = convertToNote(pitch);
+        System.out.println("note is " + note);
+        currentTime = System.currentTimeMillis();
+        currentNote = note;
         if (lastUpdateTime < currentTime - UPDATE_DELAY)
         {
 
-            convertToNote(pitch);
+
             lastUpdateTime = currentTime;
 
             count++;
 
             //limit to once every 10 readings, otherwise it fills memory too quickly and crashes.
-            time = System.currentTimeMillis();
+            //time = System.currentTimeMillis();
+            //System.out.println("current time is " + currentTime);
+
+
+
+            //set the very first previous note to be the current note.
+            //there is no 'previous' note at this point but it can't be left empty.
+            if (adjacentNotes[1] == "0")
+            {
+                previousNote = currentNote;
+                adjacentNotes[0] = previousNote;
+                adjacentNotes[1] = previousNote;
+
+                previousTime = currentTime;
+                adjacentTimes[0] = previousTime;
+                adjacentTimes[1] = previousTime;
+            }
+
+            //check if the two adjacent notes are the same.
+            //if they are the same, add the time difference to a counter.
+            if(currentNote == previousNote)
+            {
+                long diff = currentTime - previousTime;
+
+                counter += diff;
+            }//end if
+
+            else
+            {
+                //System.out.println("the note played was " + previousNote + " and it lasted for " + counter + "ms");
+                previousTime = currentTime;
+                previousNote = currentNote;
+                counter = 0;
+            }
             if(active)
             {
                 if(count%4 == 0)
                 {
                     count = 0;
-                    init();
+
+
                 }//end if
             }
 
@@ -359,7 +418,7 @@ public class MainActivity extends AppCompatActivity
 
     }//end displayGraphData()
 
-    public void convertToNote(float pitch)
+    public String convertToNote(float pitch)
     {
 
         //list of notes
@@ -385,7 +444,7 @@ public class MainActivity extends AppCompatActivity
         {
             octave-=1;
         }
-        System.out.println("o is" + (int)o);
+        //System.out.println("o is" + (int)o);
 
 
         //round to the nearest semitone
@@ -409,7 +468,7 @@ public class MainActivity extends AppCompatActivity
         {
             tvFreq.setText("" + f.format(pitch));
             tvNote.setText("" + note[sRound] + subscript[octave]);
-            System.out.println("pitch is " + pitch + " Note is " + note[sRound] + octave);
+            //System.out.println("pitch is " + pitch + " Note is " + note[sRound] + octave);
         }//end if
 
         //otherwise just display the frequency
@@ -418,5 +477,6 @@ public class MainActivity extends AppCompatActivity
             tvFreq.setText("" + f.format(pitch));
         }//end else
 
+        return note[sRound];
     }
 }

@@ -29,7 +29,7 @@ public class DatabaseManager
     private static final String DATABASE_CREATE = "create table "+ "Note_Details" +
             "("+
             "_id integer primary key autoincrement" +
-            "recordingID integer not null" +
+            ",recordingID integer not null" +
             ",note text not null" +
             ",duration text not null unique" +
             ");";
@@ -76,7 +76,7 @@ public class DatabaseManager
 
     public DatabaseManager open() throws SQLException
     {
-        db     = DBHelper.getWritableDatabase();
+        db = DBHelper.getWritableDatabase();
         return this;
     }
 
@@ -84,14 +84,14 @@ public class DatabaseManager
     {
         DBHelper.close();
     }
-    //adds a person to the database
-    public long insertPerson(String fullname, String username, String email,String password,String team)
+    //adds notes to the database
+    public long insertNotes(String recordingID, String note, String duration)
     {
         db = DBHelper.getWritableDatabase();
         ContentValues initialValues = new ContentValues();
-        initialValues.put(KEY_RECORDINGID, fullname);
-        initialValues.put(KEY_NOTE, username);
-        initialValues.put(KEY_DURATION, email);
+        initialValues.put(KEY_RECORDINGID, recordingID);
+        initialValues.put(KEY_NOTE, note);
+        initialValues.put(KEY_DURATION, duration);
         return db.insert(DATABASE_TABLE, null, initialValues);
     }
 
