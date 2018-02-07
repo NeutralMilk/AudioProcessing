@@ -27,6 +27,8 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static java.lang.Math.pow;
 
@@ -101,12 +103,6 @@ public class MainActivity extends AppCompatActivity
         {
             e.printStackTrace();
         }
-
-        long rowInserted = db.insertNotes("1","2","3");
-        if(rowInserted != -1)
-            System.out.println("this did work");
-        else
-            System.out.println("this didn't work");
 
         checkDataBase();
 
@@ -283,6 +279,7 @@ public class MainActivity extends AppCompatActivity
             else
             {
                 //System.out.println("the note played was " + previousNote + " and it lasted for " + counter + "ms");
+                db.insertNotes("1",previousNote,Long.toString(counter));
                 previousTime = currentTime;
                 previousNote = currentNote;
                 counter = 0;
