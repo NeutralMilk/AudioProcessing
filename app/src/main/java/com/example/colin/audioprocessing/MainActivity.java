@@ -2,6 +2,7 @@ package com.example.colin.audioprocessing;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,9 +11,11 @@ import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.View;
@@ -21,9 +24,20 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -39,8 +53,8 @@ public class MainActivity extends AppCompatActivity
     private static final int SAMPLERATE        = 44100;
     private static final int NUM_CHANNELS      = AudioFormat.CHANNEL_IN_MONO;
     private static final int RECORDER_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
-    private static final int WINDOW_DIZE    = 4096;
-    private static final int WINDOW_OVERLAP = WINDOW_DIZE * 3/4;
+    private static final int WINDOW_SIZE    = 4096;
+    private static final int WINDOW_OVERLAP = WINDOW_SIZE * 3/4;
     private static final int FRAMERATE    = 60;
     private static final int UPDATE_DELAY = 1000/FRAMERATE;
     private AudioRecord recorder    = null;
@@ -77,6 +91,15 @@ public class MainActivity extends AppCompatActivity
     public LinearLayout l;
     Switch s;
     long time;
+    DataOutputStream output;
+    File root;
+    File gpxfile;
+    FileWriter writer;
+    private static final String FILENAME = "myFile.txt";
+    private static final String TAG = MainActivity.class.getName();
+    File path;
+    File file;
+    OutputStreamWriter out;
 
     //database
     DatabaseManager db;
@@ -88,6 +111,8 @@ public class MainActivity extends AppCompatActivity
         {
 
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
+            //ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+
 
         }//end if
 
@@ -104,7 +129,30 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-        checkDataBase();
+        //checkDataBase();
+
+        try
+        {
+            out = new OutputStreamWriter(openFileOutput("save.txt", MODE_APPEND));
+        }
+        catch(IOException e)
+        {
+
+        }
+        /*root = new File(Environment.getExternalStorageDirectory(), "Notes");
+        if (!root.exists()) {
+            root.mkdirs();
+        }
+
+        gpxfile = new File(root, "samples.txt");
+        try
+        {
+            writer = new FileWriter(gpxfile);
+        }
+        catch(IOException e)
+        {
+
+        }*/
 
         tvFreq = (TextView)findViewById(R.id.tvFreq);
         tvNote = (TextView)findViewById(R.id.tvNote);
@@ -152,7 +200,7 @@ public class MainActivity extends AppCompatActivity
         graphSettings();
 
         double yinThreshold = 0.3;
-        yin = new Yin(SAMPLERATE, WINDOW_DIZE, yinThreshold);
+        yin = new Yin(SAMPLERATE, WINDOW_SIZE, yinThreshold);
 
         startRecording();
     }
@@ -169,11 +217,11 @@ public class MainActivity extends AppCompatActivity
         }
         return checkDB != null;
     }
-
+    String printNote;
     //The startRecording method is adapted from https://github.com/solarus/CTuner/blob/master/src/org/tunna/ctuner/MainActivity.java
     private void startRecording() {
         final int minBufferSize = AudioRecord.getMinBufferSize(SAMPLERATE, NUM_CHANNELS, RECORDER_ENCODING);
-        final int bufferSize = Math.max(minBufferSize, WINDOW_DIZE);
+        final int bufferSize = Math.max(minBufferSize, WINDOW_SIZE);
 
         recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,
                 SAMPLERATE,
@@ -186,8 +234,8 @@ public class MainActivity extends AppCompatActivity
         new Thread() {
             public void run()
             {
-                final short[] sData = new short[WINDOW_DIZE];
-                final float[] fData = new float[WINDOW_DIZE];
+                final short[] sData = new short[WINDOW_SIZE];
+                final float[] fData = new float[WINDOW_SIZE];
 
                 final int diff = bufferSize - WINDOW_OVERLAP;
 
@@ -195,12 +243,15 @@ public class MainActivity extends AppCompatActivity
                 // the WINDOW_OVERLAP offset
                 while (isRecording)
                 {
-                    recorder.read(sData, WINDOW_OVERLAP, diff);
+                    int readSize = recorder.read(sData, WINDOW_OVERLAP, diff);
 
                     for (int i = WINDOW_OVERLAP; i < diff; ++i)
                     {
                         fData[i] = (float) sData[i];
+                        Log.v(String.valueOf(fData[i]), "fdata");
+                        //System.out.println("fdata is" + fData[i]);
                     }//end for
+
 
 
                     float currentPitch = yin.getPitch(fData).getPitch();
@@ -215,7 +266,7 @@ public class MainActivity extends AppCompatActivity
                     runOnUiThread(new Runnable() {
                         public void run()
                         {
-                            updateNote(pitch);
+                            printNote = updateNote(pitch);
                         }
                     });
 
@@ -223,10 +274,44 @@ public class MainActivity extends AppCompatActivity
                         sData[i] = sData[i + diff];
                         fData[i] = (float) sData[i + diff];
                     }//end for
+
+                    double sum = 0;
+                    for (int i = 0; i < readSize; i++)
+                    {
+                        sum += sData [i] * sData [i];
+                    }//end for
+
+                    if (readSize > 0)
+                    {
+                        final double amplitude = sum / readSize;
+
+                        try
+                        {
+                            /*writer.append(Integer.toString((int) Math.sqrt(amplitude)));
+                            writer.flush();
+                            writer.close();*/
+
+                            out = new OutputStreamWriter(openFileOutput("save.txt", MODE_APPEND));
+                            out.write(Integer.toString((int) Math.sqrt(amplitude)) + " " + printNote);
+                            out.write("\r\n");
+
+                            //close file
+
+                            out.close();
+                        }
+
+                        catch(IOException e)
+                        {
+                            System.out.println("this aint woikin");
+                        }
+
+                        System.out.println((int) Math.sqrt(amplitude));
+                    }//end if
                 }
             }
         }.start();
     }
+    FileWriter fw;
 
     public String getPreviousPitch()
     {
@@ -234,10 +319,10 @@ public class MainActivity extends AppCompatActivity
         return previousNote;
     }
 
-    private synchronized void updateNote(final float pitch) {
+    private synchronized String updateNote(final float pitch) {
 
         String note = convertToNote(pitch);
-        System.out.println("note is " + note);
+        //System.out.println("note is " + note);
         currentTime = System.currentTimeMillis();
         currentNote = note;
         if (lastUpdateTime < currentTime - UPDATE_DELAY)
@@ -279,7 +364,7 @@ public class MainActivity extends AppCompatActivity
             else
             {
                 //System.out.println("the note played was " + previousNote + " and it lasted for " + counter + "ms");
-                db.insertNotes("1",previousNote,Long.toString(counter));
+                //db.insertNotes("1",previousNote,Long.toString(counter));
                 previousTime = currentTime;
                 previousNote = currentNote;
                 counter = 0;
@@ -295,6 +380,7 @@ public class MainActivity extends AppCompatActivity
             }
 
         }
+        return note;
     }
 
     public void graphSettings()
