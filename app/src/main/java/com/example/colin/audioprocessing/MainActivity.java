@@ -2,46 +2,37 @@ package com.example.colin.audioprocessing;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.media.AudioFormat;
+import android.media.AudioManager;
 import android.media.AudioRecord;
+import android.media.AudioTrack;
 import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.GestureDetector;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-
-import java.io.DataOutputStream;
-import java.io.File;
+import java.io.DataInputStream;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static java.lang.Math.pow;
@@ -53,12 +44,14 @@ public class MainActivity extends AppCompatActivity
     private static final int SAMPLERATE        = 44100;
     private static final int NUM_CHANNELS      = AudioFormat.CHANNEL_IN_MONO;
     private static final int RECORDER_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
-    private static final int WINDOW_SIZE    = 4096;
+    private static final int WINDOW_SIZE    = 3072;
     private static final int WINDOW_OVERLAP = WINDOW_SIZE * 3/4;
     private static final int FRAMERATE    = 60;
     private static final int UPDATE_DELAY = 1000/FRAMERATE;
     private AudioRecord recorder    = null;
+    private AudioTrack audioTrack = null;
     private boolean isRecording = false;
+    private boolean isPlaying = false;
     private Yin yin = null;
     private long lastUpdateTime = 0;
     String previousNote;
@@ -68,6 +61,8 @@ public class MainActivity extends AppCompatActivity
     String[] adjacentNotes = {"0", "0"};
     long[] adjacentTimes = {0,0};
     long counter = 0;
+    FileInputStream fin;
+    DataInputStream dis = null;
 
 
     //graph variables
@@ -86,19 +81,8 @@ public class MainActivity extends AppCompatActivity
     public boolean active;
     public boolean begin;
     public long clickTime;
-    private GestureDetector gd;
-    View view;
-    public LinearLayout l;
     Switch s;
-    long time;
-    DataOutputStream output;
-    File root;
-    File gpxfile;
-    FileWriter writer;
-    private static final String FILENAME = "myFile.txt";
-    private static final String TAG = MainActivity.class.getName();
-    File path;
-    File file;
+
     OutputStreamWriter out;
 
     //database
@@ -130,6 +114,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         //checkDataBase();
+
 
         try
         {
@@ -203,6 +188,7 @@ public class MainActivity extends AppCompatActivity
         yin = new Yin(SAMPLERATE, WINDOW_SIZE, yinThreshold);
 
         startRecording();
+        //fromWavFile();
     }
 
     private boolean checkDataBase() {
@@ -252,6 +238,106 @@ public class MainActivity extends AppCompatActivity
                         //System.out.println("fdata is" + fData[i]);
                     }//end for
 
+                    float currentPitch = yin.getPitch(fData).getPitch();
+                    //Set the minimum pitch value to be 60Hz. I do this to allow for alternate tunings such as drop D
+                    //This is when the low E string is tuned down 2 semitones to a D
+                    //Also, the default output when no pitch is detected is - 1. This causes the graph to look funny
+                    //when there's no input because it will shoot down to -1, so it's best to ignore these values.
+                    if (currentPitch > 60) {
+                        pitch = currentPitch;
+                    }//end if
+                    /*else if (currentPitch == -1)
+                    {
+                        pitch = -1;
+                    }*/
+                    runOnUiThread(new Runnable() {
+                        public void run()
+                        {
+                            printNote = updateNote(pitch);
+                        }
+                    });
+
+                    for (int i = 0; i < WINDOW_OVERLAP; ++i) {
+                        sData[i] = sData[i + diff];
+                        fData[i] = (float) sData[i + diff];
+                    }//end for
+
+                    double sum = 0;
+                    for(int i = 0; i < readSize; i++)
+                    {
+                        sum += sData [i] * sData [i];
+                    }//end for
+
+                    if (readSize >= 0)
+                    {
+                        final double amplitude = sum / readSize;
+
+                        try
+                        {
+                            out = new OutputStreamWriter(openFileOutput("save.txt", MODE_APPEND));
+                            out.write(Integer.toString((int) Math.sqrt(amplitude)) + " | " + pitch + "Hz | " + printNote);
+                            out.write("\r\n");
+                            out.close();
+                        }
+
+                        catch(IOException e)
+                        {
+                            System.out.println("not working");
+                        }
+
+                        System.out.println(Integer.toString((int) Math.sqrt(amplitude)) + " | " + pitch + "Hz | " + printNote);
+                    }//end if
+                }
+            }
+        }.start();
+    }
+
+    private void fromWavFile()
+    {
+        final int minBufferSize = AudioRecord.getMinBufferSize(SAMPLERATE, NUM_CHANNELS, RECORDER_ENCODING);
+        final int bufferSize = Math.max(minBufferSize, WINDOW_SIZE);
+
+        audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC,
+                SAMPLERATE,
+                AudioFormat.CHANNEL_OUT_MONO,
+                RECORDER_ENCODING,
+                bufferSize,
+                AudioTrack.MODE_STREAM);
+        isPlaying = true;
+
+        try
+        {
+            fin = new FileInputStream("data/data/com.example.colin.audioprocessing/files" + "/scale.wav");
+            dis = new DataInputStream(fin);
+        }
+        catch(FileNotFoundException e)
+        {
+            System.out.println("file not found");
+        }
+
+        audioTrack.play();
+
+        new Thread() {
+            public void run()
+            {
+                final short[] sData = new short[WINDOW_SIZE];
+                final float[] fData = new float[WINDOW_SIZE];
+
+                final int diff = bufferSize - WINDOW_OVERLAP;
+
+                // This loop will be correct after 3 rounds because of
+                // the WINDOW_OVERLAP offset
+                while (isPlaying)
+                {
+                    int readSize = audioTrack.write(sData, WINDOW_OVERLAP, diff);
+
+                    for (int i = WINDOW_OVERLAP; i < diff; ++i)
+                    {
+                        fData[i] = (float) sData[i];
+                        Log.v(String.valueOf(fData[i]), "fdata");
+                        //System.out.println("fdata is" + fData[i]);
+                    }//end for
+
 
 
                     float currentPitch = yin.getPitch(fData).getPitch();
@@ -281,22 +367,15 @@ public class MainActivity extends AppCompatActivity
                         sum += sData [i] * sData [i];
                     }//end for
 
-                    if (readSize > 0)
+                    if (readSize >= 0)
                     {
                         final double amplitude = sum / readSize;
 
                         try
                         {
-                            /*writer.append(Integer.toString((int) Math.sqrt(amplitude)));
-                            writer.flush();
-                            writer.close();*/
-
                             out = new OutputStreamWriter(openFileOutput("save.txt", MODE_APPEND));
                             out.write(Integer.toString((int) Math.sqrt(amplitude)) + " " + printNote);
                             out.write("\r\n");
-
-                            //close file
-
                             out.close();
                         }
 
@@ -311,8 +390,6 @@ public class MainActivity extends AppCompatActivity
             }
         }.start();
     }
-    FileWriter fw;
-
     public String getPreviousPitch()
     {
 
