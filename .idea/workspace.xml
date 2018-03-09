@@ -67,32 +67,19 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="505">
-              <caret line="251" column="23" lean-forward="false" selection-start-line="251" selection-start-column="23" selection-end-line="251" selection-end-column="23" />
+            <state relative-caret-position="428">
+              <caret line="308" column="35" lean-forward="true" selection-start-line="308" selection-start-column="35" selection-end-line="308" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="class#4656:5561" expanded="false" />
-                <element signature="method#onSwipeTop#0;class#4656:5561" expanded="false" />
-                <element signature="method#onSwipeBottom#0;class#4656:5561" expanded="false" />
-                <element signature="e#5602#5809#0" expanded="true" />
-                <element signature="e#5808#5809#0" expanded="true" />
-                <element signature="method#checkDataBase#0;class#MainActivity#0" expanded="false" />
-                <element signature="e#7091#10168#0" expanded="true" />
-                <element signature="e#8773#8774#0" expanded="false" />
-                <element signature="e#8858#8859#0" expanded="false" />
-                <element signature="e#10167#10168#0" expanded="true" />
-                <element signature="method#fromWavFile#0;class#MainActivity#0" expanded="false" />
-                <element signature="e#10998#13899#0" expanded="true" />
-                <element signature="e#13898#13899#0" expanded="true" />
-                <element signature="method#getPreviousPitch#0;class#MainActivity#0" expanded="false" />
-                <element signature="method#updateNote#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#onSwipeTop#0;class#4730:5635" expanded="false" />
+                <element signature="method#onSwipeBottom#0;class#4730:5635" expanded="false" />
                 <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#init#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#createGraph#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
-                <element signature="method#convertToNote#0;class#MainActivity#0" expanded="false" />
-                <marker date="1518789086798" expanded="true" signature="14296:15924" ph="{...}" />
+                <marker date="1520596497271" expanded="true" signature="11238:11387" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -103,11 +90,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1650">
               <caret line="73" column="16" lean-forward="false" selection-start-line="73" selection-start-column="16" selection-end-line="73" selection-end-column="16" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#954#955#0" expanded="false" />
-                <element signature="e#989#990#0" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -134,14 +117,14 @@
       </file>
       <file leaf-file-name="content_main.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_main.xml">
-          <provider editor-type-id="android-designer2">
-            <state />
-          </provider>
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="325">
               <caret line="13" column="19" lean-forward="false" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
               <folding />
             </state>
+          </provider>
+          <provider editor-type-id="android-designer2">
+            <state />
           </provider>
         </entry>
       </file>
@@ -160,14 +143,14 @@
       </file>
       <file leaf-file-name="activity_main.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
-          <provider editor-type-id="android-designer2">
-            <state />
-          </provider>
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="23" selection-end-column="50" />
               <folding />
             </state>
+          </provider>
+          <provider editor-type-id="android-designer2">
+            <state />
           </provider>
         </entry>
       </file>
@@ -193,10 +176,10 @@
       <find>previou</find>
       <find>getprevious</find>
       <find>System.out</find>
-      <find>lastupdate</find>
       <find>log</find>
       <find>window_dize</find>
       <find>audiorecord</find>
+      <find>lastupdate</find>
     </findStrings>
     <replaceStrings>
       <replace>LineGraphSeries</replace>
@@ -1962,9 +1945,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
       <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -2012,6 +1993,8 @@
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="ProjectPane" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2019,7 +2002,7 @@
     <property name="android.project.structure.last.selected" value="app" />
     <property name="android.project.structure.proportion" value="0.15" />
     <property name="settings.editor.selected.configurable" value="android.sdk-updates" />
-    <property name="device.picker.selection" value="Pixel_XL_API_23" />
+    <property name="device.picker.selection" value="f9d57caf" />
     <property name="android.profiler.active" value="true" />
     <property name="last_opened_file_path" value="$USER_HOME$/Downloads/Telegram Desktop/KeithNevin/Lab7" />
   </component>
@@ -2093,7 +2076,7 @@
       <option name="ACTIVITY_CLASS" value="com.example.colin.audioprocessing.MainActivity" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1518797939120" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1520596702639" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
@@ -2166,7 +2149,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1518797939120" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1520596702639" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -2214,7 +2197,7 @@
       </Profilers>
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1518797939120" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1520596702639" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -2376,7 +2359,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1518797939121" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1520596702639" />
       </method>
     </configuration>
     <list size="2">
@@ -2442,10 +2425,10 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32946634" sideWeight="0.5042965" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20417634" sideWeight="0.49570355" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17169374" sideWeight="0.5107411" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980132" sideWeight="0.49680257" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21693735" sideWeight="0.49840128" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17169374" sideWeight="0.48925886" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.0" sideWeight="0.49624062" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21113689" sideWeight="0.49840128" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973205" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -2456,8 +2439,8 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973205" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3404941" sideWeight="0.5229592" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17792068" sideWeight="0.50431967" order="6" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -2506,7 +2489,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="29" />
+      <option name="time" value="30" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -2546,28 +2529,15 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="class#4656:5561" expanded="false" />
-            <element signature="method#onSwipeTop#0;class#4656:5561" expanded="false" />
-            <element signature="method#onSwipeBottom#0;class#4656:5561" expanded="false" />
-            <element signature="e#5602#5809#0" expanded="true" />
-            <element signature="e#5808#5809#0" expanded="true" />
-            <element signature="method#checkDataBase#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#7091#10168#0" expanded="true" />
-            <element signature="e#8773#8774#0" expanded="false" />
-            <element signature="e#8858#8859#0" expanded="false" />
-            <element signature="e#10167#10168#0" expanded="true" />
-            <element signature="method#fromWavFile#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#10998#13899#0" expanded="true" />
-            <element signature="e#13898#13899#0" expanded="true" />
-            <element signature="method#getPreviousPitch#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#updateNote#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onSwipeTop#0;class#4730:5635" expanded="false" />
+            <element signature="method#onSwipeBottom#0;class#4730:5635" expanded="false" />
             <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
             <element signature="method#init#0;class#MainActivity#0" expanded="false" />
             <element signature="method#createGraph#0;class#MainActivity#0" expanded="false" />
             <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
             <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#convertToNote#0;class#MainActivity#0" expanded="false" />
-            <marker date="1518789086798" expanded="true" signature="14296:15924" ph="{...}" />
+            <marker date="1520596497271" expanded="true" signature="11238:11387" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -2597,28 +2567,15 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="class#4656:5561" expanded="false" />
-            <element signature="method#onSwipeTop#0;class#4656:5561" expanded="false" />
-            <element signature="method#onSwipeBottom#0;class#4656:5561" expanded="false" />
-            <element signature="e#5602#5809#0" expanded="true" />
-            <element signature="e#5808#5809#0" expanded="true" />
-            <element signature="method#checkDataBase#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#7091#10168#0" expanded="true" />
-            <element signature="e#8773#8774#0" expanded="false" />
-            <element signature="e#8858#8859#0" expanded="false" />
-            <element signature="e#10167#10168#0" expanded="true" />
-            <element signature="method#fromWavFile#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#10998#13899#0" expanded="true" />
-            <element signature="e#13898#13899#0" expanded="true" />
-            <element signature="method#getPreviousPitch#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#updateNote#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onSwipeTop#0;class#4730:5635" expanded="false" />
+            <element signature="method#onSwipeBottom#0;class#4730:5635" expanded="false" />
             <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
             <element signature="method#init#0;class#MainActivity#0" expanded="false" />
             <element signature="method#createGraph#0;class#MainActivity#0" expanded="false" />
             <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
             <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#convertToNote#0;class#MainActivity#0" expanded="false" />
-            <marker date="1518789086798" expanded="true" signature="14296:15924" ph="{...}" />
+            <marker date="1520596497271" expanded="true" signature="11238:11387" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -2647,28 +2604,15 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="class#4656:5561" expanded="false" />
-            <element signature="method#onSwipeTop#0;class#4656:5561" expanded="false" />
-            <element signature="method#onSwipeBottom#0;class#4656:5561" expanded="false" />
-            <element signature="e#5602#5809#0" expanded="true" />
-            <element signature="e#5808#5809#0" expanded="true" />
-            <element signature="method#checkDataBase#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#7091#10168#0" expanded="true" />
-            <element signature="e#8773#8774#0" expanded="false" />
-            <element signature="e#8858#8859#0" expanded="false" />
-            <element signature="e#10167#10168#0" expanded="true" />
-            <element signature="method#fromWavFile#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#10998#13899#0" expanded="true" />
-            <element signature="e#13898#13899#0" expanded="true" />
-            <element signature="method#getPreviousPitch#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#updateNote#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onSwipeTop#0;class#4730:5635" expanded="false" />
+            <element signature="method#onSwipeBottom#0;class#4730:5635" expanded="false" />
             <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
             <element signature="method#init#0;class#MainActivity#0" expanded="false" />
             <element signature="method#createGraph#0;class#MainActivity#0" expanded="false" />
             <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
             <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#convertToNote#0;class#MainActivity#0" expanded="false" />
-            <marker date="1518789086798" expanded="true" signature="14296:15924" ph="{...}" />
+            <marker date="1520596497271" expanded="true" signature="11238:11387" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -2697,28 +2641,15 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="class#4656:5561" expanded="false" />
-            <element signature="method#onSwipeTop#0;class#4656:5561" expanded="false" />
-            <element signature="method#onSwipeBottom#0;class#4656:5561" expanded="false" />
-            <element signature="e#5602#5809#0" expanded="true" />
-            <element signature="e#5808#5809#0" expanded="true" />
-            <element signature="method#checkDataBase#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#7091#10168#0" expanded="true" />
-            <element signature="e#8773#8774#0" expanded="false" />
-            <element signature="e#8858#8859#0" expanded="false" />
-            <element signature="e#10167#10168#0" expanded="true" />
-            <element signature="method#fromWavFile#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#10998#13899#0" expanded="true" />
-            <element signature="e#13898#13899#0" expanded="true" />
-            <element signature="method#getPreviousPitch#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#updateNote#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onSwipeTop#0;class#4730:5635" expanded="false" />
+            <element signature="method#onSwipeBottom#0;class#4730:5635" expanded="false" />
             <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
             <element signature="method#init#0;class#MainActivity#0" expanded="false" />
             <element signature="method#createGraph#0;class#MainActivity#0" expanded="false" />
             <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
             <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#convertToNote#0;class#MainActivity#0" expanded="false" />
-            <marker date="1518789086798" expanded="true" signature="14296:15924" ph="{...}" />
+            <marker date="1520596497271" expanded="true" signature="11238:11387" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -2747,28 +2678,15 @@
           <caret line="57" column="126" lean-forward="false" selection-start-line="57" selection-start-column="126" selection-end-line="57" selection-end-column="126" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="class#4656:5561" expanded="false" />
-            <element signature="method#onSwipeTop#0;class#4656:5561" expanded="false" />
-            <element signature="method#onSwipeBottom#0;class#4656:5561" expanded="false" />
-            <element signature="e#5602#5809#0" expanded="true" />
-            <element signature="e#5808#5809#0" expanded="true" />
-            <element signature="method#checkDataBase#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#7091#10168#0" expanded="true" />
-            <element signature="e#8773#8774#0" expanded="false" />
-            <element signature="e#8858#8859#0" expanded="false" />
-            <element signature="e#10167#10168#0" expanded="true" />
-            <element signature="method#fromWavFile#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#10998#13899#0" expanded="true" />
-            <element signature="e#13898#13899#0" expanded="true" />
-            <element signature="method#getPreviousPitch#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#updateNote#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onSwipeTop#0;class#4730:5635" expanded="false" />
+            <element signature="method#onSwipeBottom#0;class#4730:5635" expanded="false" />
             <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
             <element signature="method#init#0;class#MainActivity#0" expanded="false" />
             <element signature="method#createGraph#0;class#MainActivity#0" expanded="false" />
             <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
             <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#convertToNote#0;class#MainActivity#0" expanded="false" />
-            <marker date="1518789086798" expanded="true" signature="14296:15924" ph="{...}" />
+            <marker date="1520596497271" expanded="true" signature="11238:11387" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -2797,28 +2715,15 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="class#4656:5561" expanded="false" />
-            <element signature="method#onSwipeTop#0;class#4656:5561" expanded="false" />
-            <element signature="method#onSwipeBottom#0;class#4656:5561" expanded="false" />
-            <element signature="e#5602#5809#0" expanded="true" />
-            <element signature="e#5808#5809#0" expanded="true" />
-            <element signature="method#checkDataBase#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#7091#10168#0" expanded="true" />
-            <element signature="e#8773#8774#0" expanded="false" />
-            <element signature="e#8858#8859#0" expanded="false" />
-            <element signature="e#10167#10168#0" expanded="true" />
-            <element signature="method#fromWavFile#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#10998#13899#0" expanded="true" />
-            <element signature="e#13898#13899#0" expanded="true" />
-            <element signature="method#getPreviousPitch#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#updateNote#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onSwipeTop#0;class#4730:5635" expanded="false" />
+            <element signature="method#onSwipeBottom#0;class#4730:5635" expanded="false" />
             <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
             <element signature="method#init#0;class#MainActivity#0" expanded="false" />
             <element signature="method#createGraph#0;class#MainActivity#0" expanded="false" />
             <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
             <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#convertToNote#0;class#MainActivity#0" expanded="false" />
-            <marker date="1518789086798" expanded="true" signature="14296:15924" ph="{...}" />
+            <marker date="1520596497271" expanded="true" signature="11238:11387" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -2847,28 +2752,15 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="class#4656:5561" expanded="false" />
-            <element signature="method#onSwipeTop#0;class#4656:5561" expanded="false" />
-            <element signature="method#onSwipeBottom#0;class#4656:5561" expanded="false" />
-            <element signature="e#5602#5809#0" expanded="true" />
-            <element signature="e#5808#5809#0" expanded="true" />
-            <element signature="method#checkDataBase#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#7091#10168#0" expanded="true" />
-            <element signature="e#8773#8774#0" expanded="false" />
-            <element signature="e#8858#8859#0" expanded="false" />
-            <element signature="e#10167#10168#0" expanded="true" />
-            <element signature="method#fromWavFile#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#10998#13899#0" expanded="true" />
-            <element signature="e#13898#13899#0" expanded="true" />
-            <element signature="method#getPreviousPitch#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#updateNote#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onSwipeTop#0;class#4730:5635" expanded="false" />
+            <element signature="method#onSwipeBottom#0;class#4730:5635" expanded="false" />
             <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
             <element signature="method#init#0;class#MainActivity#0" expanded="false" />
             <element signature="method#createGraph#0;class#MainActivity#0" expanded="false" />
             <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
             <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#convertToNote#0;class#MainActivity#0" expanded="false" />
-            <marker date="1518789086798" expanded="true" signature="14296:15924" ph="{...}" />
+            <marker date="1520596497271" expanded="true" signature="11238:11387" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -2897,28 +2789,15 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="class#4656:5561" expanded="false" />
-            <element signature="method#onSwipeTop#0;class#4656:5561" expanded="false" />
-            <element signature="method#onSwipeBottom#0;class#4656:5561" expanded="false" />
-            <element signature="e#5602#5809#0" expanded="true" />
-            <element signature="e#5808#5809#0" expanded="true" />
-            <element signature="method#checkDataBase#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#7091#10168#0" expanded="true" />
-            <element signature="e#8773#8774#0" expanded="false" />
-            <element signature="e#8858#8859#0" expanded="false" />
-            <element signature="e#10167#10168#0" expanded="true" />
-            <element signature="method#fromWavFile#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#10998#13899#0" expanded="true" />
-            <element signature="e#13898#13899#0" expanded="true" />
-            <element signature="method#getPreviousPitch#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#updateNote#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onSwipeTop#0;class#4730:5635" expanded="false" />
+            <element signature="method#onSwipeBottom#0;class#4730:5635" expanded="false" />
             <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
             <element signature="method#init#0;class#MainActivity#0" expanded="false" />
             <element signature="method#createGraph#0;class#MainActivity#0" expanded="false" />
             <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
             <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#convertToNote#0;class#MainActivity#0" expanded="false" />
-            <marker date="1518789086798" expanded="true" signature="14296:15924" ph="{...}" />
+            <marker date="1520596497271" expanded="true" signature="11238:11387" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -2939,28 +2818,15 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="class#4656:5561" expanded="false" />
-            <element signature="method#onSwipeTop#0;class#4656:5561" expanded="false" />
-            <element signature="method#onSwipeBottom#0;class#4656:5561" expanded="false" />
-            <element signature="e#5602#5809#0" expanded="true" />
-            <element signature="e#5808#5809#0" expanded="true" />
-            <element signature="method#checkDataBase#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#7091#10168#0" expanded="true" />
-            <element signature="e#8773#8774#0" expanded="false" />
-            <element signature="e#8858#8859#0" expanded="false" />
-            <element signature="e#10167#10168#0" expanded="true" />
-            <element signature="method#fromWavFile#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#10998#13899#0" expanded="true" />
-            <element signature="e#13898#13899#0" expanded="true" />
-            <element signature="method#getPreviousPitch#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#updateNote#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onSwipeTop#0;class#4730:5635" expanded="false" />
+            <element signature="method#onSwipeBottom#0;class#4730:5635" expanded="false" />
             <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
             <element signature="method#init#0;class#MainActivity#0" expanded="false" />
             <element signature="method#createGraph#0;class#MainActivity#0" expanded="false" />
             <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
             <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#convertToNote#0;class#MainActivity#0" expanded="false" />
-            <marker date="1518789086798" expanded="true" signature="14296:15924" ph="{...}" />
+            <marker date="1520596497271" expanded="true" signature="11238:11387" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -3055,11 +2921,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1650">
           <caret line="73" column="16" lean-forward="false" selection-start-line="73" selection-start-column="16" selection-end-line="73" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#954#955#0" expanded="false" />
-            <element signature="e#989#990#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3085,42 +2947,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Documents/AndroidStudio/DeviceExplorer/Pixel_XL_API_23 [emulator-5554]/data/data/com.example.colin.audioprocessing/files/save.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6275">
-          <caret line="17" column="7" lean-forward="true" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/Documents/AndroidStudio/DeviceExplorer/Pixel_XL_API_23 [emulator-5554]/data/data/com.example.colin.audioprocessing/files/save.txt" />
     <entry file="file://$USER_HOME$/Documents/AndroidStudio/DeviceExplorer/emulator-5554/data/data/com.example.colin.audioprocessing/files/save.txt" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="505">
-          <caret line="251" column="23" lean-forward="false" selection-start-line="251" selection-start-column="23" selection-end-line="251" selection-end-column="23" />
+        <state relative-caret-position="428">
+          <caret line="308" column="35" lean-forward="true" selection-start-line="308" selection-start-column="35" selection-end-line="308" selection-end-column="35" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="class#4656:5561" expanded="false" />
-            <element signature="method#onSwipeTop#0;class#4656:5561" expanded="false" />
-            <element signature="method#onSwipeBottom#0;class#4656:5561" expanded="false" />
-            <element signature="e#5602#5809#0" expanded="true" />
-            <element signature="e#5808#5809#0" expanded="true" />
-            <element signature="method#checkDataBase#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#7091#10168#0" expanded="true" />
-            <element signature="e#8773#8774#0" expanded="false" />
-            <element signature="e#8858#8859#0" expanded="false" />
-            <element signature="e#10167#10168#0" expanded="true" />
-            <element signature="method#fromWavFile#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#10998#13899#0" expanded="true" />
-            <element signature="e#13898#13899#0" expanded="true" />
-            <element signature="method#getPreviousPitch#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#updateNote#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onSwipeTop#0;class#4730:5635" expanded="false" />
+            <element signature="method#onSwipeBottom#0;class#4730:5635" expanded="false" />
             <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
             <element signature="method#init#0;class#MainActivity#0" expanded="false" />
             <element signature="method#createGraph#0;class#MainActivity#0" expanded="false" />
             <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
             <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#convertToNote#0;class#MainActivity#0" expanded="false" />
-            <marker date="1518789086798" expanded="true" signature="14296:15924" ph="{...}" />
+            <marker date="1520596497271" expanded="true" signature="11238:11387" ph="{...}" />
           </folding>
         </state>
       </provider>

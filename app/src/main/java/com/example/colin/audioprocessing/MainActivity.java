@@ -7,7 +7,6 @@ import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.media.AudioFormat;
-import android.media.AudioManager;
 import android.media.AudioRecord;
 import android.media.AudioTrack;
 import android.media.MediaRecorder;
@@ -27,7 +26,6 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.sql.SQLException;
@@ -44,8 +42,10 @@ public class MainActivity extends AppCompatActivity
     private static final int SAMPLERATE        = 44100;
     private static final int NUM_CHANNELS      = AudioFormat.CHANNEL_IN_MONO;
     private static final int RECORDER_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
-    private static final int WINDOW_SIZE    = 3072;
-    private static final int WINDOW_OVERLAP = WINDOW_SIZE * 3/4;
+    private static final int WINDOW_SIZE_PITCH    = 4096;
+    private static final int WINDOW_SIZE_AMP    = 4096;
+    private static final int WINDOW_OVERLAP_PITCH = WINDOW_SIZE_PITCH * 3/4;
+    private static final int WINDOW_OVERLAP_AMP = WINDOW_SIZE_AMP * 3/4;
     private static final int FRAMERATE    = 60;
     private static final int UPDATE_DELAY = 1000/FRAMERATE;
     private AudioRecord recorder    = null;
@@ -185,55 +185,45 @@ public class MainActivity extends AppCompatActivity
         graphSettings();
 
         double yinThreshold = 0.3;
-        yin = new Yin(SAMPLERATE, WINDOW_SIZE, yinThreshold);
+        yin = new Yin(SAMPLERATE, WINDOW_SIZE_PITCH, yinThreshold);
 
         startRecording();
         //fromWavFile();
     }
 
-    private boolean checkDataBase() {
-        SQLiteDatabase checkDB = null;
-        String DB_FULL_PATH = "/data/data/com.example.colin.audioprocessing/databases";
-        try {
-            checkDB = SQLiteDatabase.openDatabase(DB_FULL_PATH, null,
-                    SQLiteDatabase.OPEN_READONLY);
-            checkDB.close();
-        } catch (SQLiteException e) {
-            System.out.println("DB doesn't exist");
-        }
-        return checkDB != null;
-    }
     String printNote;
     //The startRecording method is adapted from https://github.com/solarus/CTuner/blob/master/src/org/tunna/ctuner/MainActivity.java
-    private void startRecording() {
-        final int minBufferSize = AudioRecord.getMinBufferSize(SAMPLERATE, NUM_CHANNELS, RECORDER_ENCODING);
-        final int bufferSize = Math.max(minBufferSize, WINDOW_SIZE);
-
+    private void startRecording()
+    {
         recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,
                 SAMPLERATE,
                 NUM_CHANNELS,
                 RECORDER_ENCODING,
-                bufferSize);
+                WINDOW_SIZE_PITCH);
         recorder.startRecording();
         isRecording = true;
 
         new Thread() {
             public void run()
             {
-                final short[] sData = new short[WINDOW_SIZE];
-                final float[] fData = new float[WINDOW_SIZE];
+                final short[] sDataPitch = new short[WINDOW_SIZE_PITCH];
+                final float[] fData = new float[WINDOW_SIZE_PITCH];
+                final short[]sDataAmp = new short[WINDOW_SIZE_AMP];
 
-                final int diff = bufferSize - WINDOW_OVERLAP;
+                final int diffPitch = WINDOW_SIZE_PITCH - WINDOW_OVERLAP_PITCH;
+                final int diffAmp = WINDOW_SIZE_AMP - WINDOW_OVERLAP_AMP;
 
                 // This loop will be correct after 3 rounds because of
                 // the WINDOW_OVERLAP offset
                 while (isRecording)
                 {
-                    int readSize = recorder.read(sData, WINDOW_OVERLAP, diff);
+                    recorder.read(sDataPitch, WINDOW_OVERLAP_PITCH, diffPitch);
+                    int readSize = recorder.read(sDataAmp, WINDOW_OVERLAP_AMP, diffAmp);
 
-                    for (int i = WINDOW_OVERLAP; i < diff; ++i)
+                    //System.out.println("readsize is " + readSize);
+                    for (int i = WINDOW_OVERLAP_PITCH; i < diffPitch; ++i)
                     {
-                        fData[i] = (float) sData[i];
+                        fData[i] = (float) sDataPitch[i];
                         Log.v(String.valueOf(fData[i]), "fdata");
                         //System.out.println("fdata is" + fData[i]);
                     }//end for
@@ -246,10 +236,10 @@ public class MainActivity extends AppCompatActivity
                     if (currentPitch > 60) {
                         pitch = currentPitch;
                     }//end if
-                    /*else if (currentPitch == -1)
+                    else if (currentPitch == -1)
                     {
                         pitch = -1;
-                    }*/
+                    }
                     runOnUiThread(new Runnable() {
                         public void run()
                         {
@@ -257,15 +247,15 @@ public class MainActivity extends AppCompatActivity
                         }
                     });
 
-                    for (int i = 0; i < WINDOW_OVERLAP; ++i) {
-                        sData[i] = sData[i + diff];
-                        fData[i] = (float) sData[i + diff];
+                    for (int i = 0; i < WINDOW_OVERLAP_PITCH; ++i) {
+                        sDataPitch[i] = sDataPitch[i + diffPitch];
+                        fData[i] = (float) sDataPitch[i + diffPitch];
                     }//end for
 
                     double sum = 0;
                     for(int i = 0; i < readSize; i++)
                     {
-                        sum += sData [i] * sData [i];
+                        sum += sDataPitch [i] * sDataPitch [i];
                     }//end for
 
                     if (readSize >= 0)
@@ -292,171 +282,46 @@ public class MainActivity extends AppCompatActivity
         }.start();
     }
 
-    private void fromWavFile()
-    {
-        final int minBufferSize = AudioRecord.getMinBufferSize(SAMPLERATE, NUM_CHANNELS, RECORDER_ENCODING);
-        final int bufferSize = Math.max(minBufferSize, WINDOW_SIZE);
-
-        audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC,
-                SAMPLERATE,
-                AudioFormat.CHANNEL_OUT_MONO,
-                RECORDER_ENCODING,
-                bufferSize,
-                AudioTrack.MODE_STREAM);
-        isPlaying = true;
-
-        try
-        {
-            fin = new FileInputStream("data/data/com.example.colin.audioprocessing/files" + "/scale.wav");
-            dis = new DataInputStream(fin);
-        }
-        catch(FileNotFoundException e)
-        {
-            System.out.println("file not found");
-        }
-
-        audioTrack.play();
-
-        new Thread() {
-            public void run()
-            {
-                final short[] sData = new short[WINDOW_SIZE];
-                final float[] fData = new float[WINDOW_SIZE];
-
-                final int diff = bufferSize - WINDOW_OVERLAP;
-
-                // This loop will be correct after 3 rounds because of
-                // the WINDOW_OVERLAP offset
-                while (isPlaying)
-                {
-                    int readSize = audioTrack.write(sData, WINDOW_OVERLAP, diff);
-
-                    for (int i = WINDOW_OVERLAP; i < diff; ++i)
-                    {
-                        fData[i] = (float) sData[i];
-                        Log.v(String.valueOf(fData[i]), "fdata");
-                        //System.out.println("fdata is" + fData[i]);
-                    }//end for
-
-
-
-                    float currentPitch = yin.getPitch(fData).getPitch();
-                    //Set the minimum pitch value to be 60Hz. I do this to allow for alternate tunings such as drop D
-                    //This is when the low E string is tuned down 2 semitones to a D
-                    //Also, the default output when no pitch is detected is - 1. This causes the graph to look funny
-                    //when there's no input because it will shoot down to -1, so it's best to ignore these values.
-                    if (currentPitch > -1 && currentPitch < 4000) {
-                        pitch = currentPitch;
-                    }//end if
-
-                    runOnUiThread(new Runnable() {
-                        public void run()
-                        {
-                            printNote = updateNote(pitch);
-                        }
-                    });
-
-                    for (int i = 0; i < WINDOW_OVERLAP; ++i) {
-                        sData[i] = sData[i + diff];
-                        fData[i] = (float) sData[i + diff];
-                    }//end for
-
-                    double sum = 0;
-                    for (int i = 0; i < readSize; i++)
-                    {
-                        sum += sData [i] * sData [i];
-                    }//end for
-
-                    if (readSize >= 0)
-                    {
-                        final double amplitude = sum / readSize;
-
-                        try
-                        {
-                            out = new OutputStreamWriter(openFileOutput("save.txt", MODE_APPEND));
-                            out.write(Integer.toString((int) Math.sqrt(amplitude)) + " " + printNote);
-                            out.write("\r\n");
-                            out.close();
-                        }
-
-                        catch(IOException e)
-                        {
-                            System.out.println("this aint woikin");
-                        }
-
-                        System.out.println((int) Math.sqrt(amplitude));
-                    }//end if
-                }
-            }
-        }.start();
-    }
-    public String getPreviousPitch()
-    {
-
-        return previousNote;
-    }
-
     private synchronized String updateNote(final float pitch) {
 
         String note = convertToNote(pitch);
         //System.out.println("note is " + note);
-        currentTime = System.currentTimeMillis();
         currentNote = note;
-        if (lastUpdateTime < currentTime - UPDATE_DELAY)
+
+        //set the very first previous note to be the current note.
+        //there is no 'previous' note at this point but it can't be left empty.
+        if (adjacentNotes[1] == "0")
         {
+            currentTime = System.currentTimeMillis();
+            previousNote = currentNote;
+            adjacentNotes[0] = previousNote;
+            adjacentNotes[1] = previousNote;
 
-
-            lastUpdateTime = currentTime;
-
-            count++;
-
-            //limit to once every 10 readings, otherwise it fills memory too quickly and crashes.
-            //time = System.currentTimeMillis();
-            //System.out.println("current time is " + currentTime);
-
-
-
-            //set the very first previous note to be the current note.
-            //there is no 'previous' note at this point but it can't be left empty.
-            if (adjacentNotes[1] == "0")
-            {
-                previousNote = currentNote;
-                adjacentNotes[0] = previousNote;
-                adjacentNotes[1] = previousNote;
-
-                previousTime = currentTime;
-                adjacentTimes[0] = previousTime;
-                adjacentTimes[1] = previousTime;
-            }
-
-            //check if the two adjacent notes are the same.
-            //if they are the same, add the time difference to a counter.
-            if(currentNote == previousNote)
-            {
-                long diff = currentTime - previousTime;
-
-                counter += diff;
-            }//end if
-
-            else
-            {
-                //System.out.println("the note played was " + previousNote + " and it lasted for " + counter + "ms");
-                //db.insertNotes("1",previousNote,Long.toString(counter));
-                previousTime = currentTime;
-                previousNote = currentNote;
-                counter = 0;
-            }
-            if(active)
-            {
-                if(count%4 == 0)
-                {
-                    count = 0;
-
-
-                }//end if
-            }
+            previousTime = currentTime;
+            adjacentTimes[0] = previousTime;
+            adjacentTimes[1] = previousTime;
+        }
+        //if the two notes are the same, previous time will be set to current time
+        //when they change, we can subtract the previous time from current time
+        if(previousNote != currentNote)
+        {
+           previousTime = currentTime;
+           previousNote = currentNote;
+           currentTime = System.currentTimeMillis();
+           long diff = currentTime - previousTime;
+           System.out.println("the note played was " + previousNote + " and it lasted for " + diff + "ms");
 
         }
+        count++;
+
+        if(active)
+        {
+            if(count%4 == 0)
+            {
+                count = 0;
+            }//end if
+        }
+
         return note;
     }
 
