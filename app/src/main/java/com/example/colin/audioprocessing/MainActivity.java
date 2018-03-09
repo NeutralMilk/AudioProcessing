@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.graphics.Color;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.AudioTrack;
@@ -60,9 +61,6 @@ public class MainActivity extends AppCompatActivity
     long previousTime;
     String[] adjacentNotes = {"0", "0"};
     long[] adjacentTimes = {0,0};
-    long counter = 0;
-    FileInputStream fin;
-    DataInputStream dis = null;
 
 
     //graph variables
@@ -96,8 +94,6 @@ public class MainActivity extends AppCompatActivity
 
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
             //ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-
-
         }//end if
 
         super.onCreate(savedInstanceState);
@@ -113,9 +109,6 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-        //checkDataBase();
-
-
         try
         {
             out = new OutputStreamWriter(openFileOutput("save.txt", MODE_APPEND));
@@ -124,20 +117,6 @@ public class MainActivity extends AppCompatActivity
         {
 
         }
-        /*root = new File(Environment.getExternalStorageDirectory(), "Notes");
-        if (!root.exists()) {
-            root.mkdirs();
-        }
-
-        gpxfile = new File(root, "samples.txt");
-        try
-        {
-            writer = new FileWriter(gpxfile);
-        }
-        catch(IOException e)
-        {
-
-        }*/
 
         tvFreq = (TextView)findViewById(R.id.tvFreq);
         tvNote = (TextView)findViewById(R.id.tvNote);
@@ -188,7 +167,6 @@ public class MainActivity extends AppCompatActivity
         yin = new Yin(SAMPLERATE, WINDOW_SIZE_PITCH, yinThreshold);
 
         startRecording();
-        //fromWavFile();
     }
 
     String printNote;
@@ -208,7 +186,7 @@ public class MainActivity extends AppCompatActivity
             {
                 final short[] sDataPitch = new short[WINDOW_SIZE_PITCH];
                 final float[] fData = new float[WINDOW_SIZE_PITCH];
-                final short[]sDataAmp = new short[WINDOW_SIZE_AMP];
+                final short[] sDataAmp = new short[WINDOW_SIZE_AMP];
 
                 final int diffPitch = WINDOW_SIZE_PITCH - WINDOW_OVERLAP_PITCH;
                 final int diffAmp = WINDOW_SIZE_AMP - WINDOW_OVERLAP_AMP;
@@ -261,7 +239,6 @@ public class MainActivity extends AppCompatActivity
                     if (readSize >= 0)
                     {
                         final double amplitude = sum / readSize;
-
                         try
                         {
                             out = new OutputStreamWriter(openFileOutput("save.txt", MODE_APPEND));
@@ -269,7 +246,6 @@ public class MainActivity extends AppCompatActivity
                             out.write("\r\n");
                             out.close();
                         }
-
                         catch(IOException e)
                         {
                             System.out.println("not working");
@@ -282,8 +258,8 @@ public class MainActivity extends AppCompatActivity
         }.start();
     }
 
-    private synchronized String updateNote(final float pitch) {
-
+    private synchronized String updateNote(final float pitch)
+    {
         String note = convertToNote(pitch);
         //System.out.println("note is " + note);
         currentNote = note;
@@ -306,19 +282,19 @@ public class MainActivity extends AppCompatActivity
         if(previousNote != currentNote)
         {
            previousTime = currentTime;
-           previousNote = currentNote;
            currentTime = System.currentTimeMillis();
            long diff = currentTime - previousTime;
-           System.out.println("the note played was " + previousNote + " and it lasted for " + diff + "ms");
-
+           System.out.println("the note played was " + previousNote + " and it lasted for " + diff + "ms" );
         }
+        previousNote = currentNote;
         count++;
 
-        if(active)
+        if(active && pitch!= -1)
         {
             if(count%4 == 0)
             {
                 count = 0;
+                init();
             }//end if
         }
 
@@ -341,8 +317,55 @@ public class MainActivity extends AppCompatActivity
     {
         xySeries = new LineGraphSeries<>();
         float y = pitch;
-
-
+        String note[] = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
+        /*if(currentNote == note[0])
+        {
+            xySeries.setColor(Color.rgb(255,0,0));
+        }
+        if(currentNote == note[1])
+        {
+            xySeries.setColor(Color.rgb(255,0,179));
+        }
+        if(currentNote == note[2])
+        {
+            xySeries.setColor(Color.rgb(222,0,255));
+        }
+        if(currentNote == note[3])
+        {
+            xySeries.setColor(Color.rgb(111,0,255));
+        }
+        if(currentNote == note[4])
+        {
+            xySeries.setColor(Color.rgb(0,51,255));
+        }
+        if(currentNote == note[5])
+        {
+            xySeries.setColor(Color.rgb(0,205,255));
+        }
+        if(currentNote == note[6])
+        {
+            xySeries.setColor(Color.rgb(0,255,188));
+        }
+        if(currentNote == note[7])
+        {
+            xySeries.setColor(Color.rgb(0,255,51));
+        }
+        if(currentNote == note[8])
+        {
+            xySeries.setColor(Color.rgb(85,255,0));
+        }
+        if(currentNote == note[9])
+        {
+            xySeries.setColor(Color.rgb(222,255,0));
+        }
+        if(currentNote == note[10])
+        {
+            xySeries.setColor(Color.rgb(255,205,0));
+        }
+        if(currentNote == note[11])
+        {
+            xySeries.setColor(Color.rgb(255,94,0));
+        }*/
         xyArray.add(new XYValue(x,y));
         x = x+.1f;
 
@@ -502,6 +525,10 @@ public class MainActivity extends AppCompatActivity
             tvFreq.setText("" + f.format(pitch));
         }//end else
 
+        if (pitch == -1)
+        {
+            return null;
+        }
         return note[sRound];
     }
 }
