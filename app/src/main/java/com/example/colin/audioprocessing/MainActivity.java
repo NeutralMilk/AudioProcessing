@@ -225,7 +225,8 @@ public class MainActivity extends AppCompatActivity
                         }
                     });
 
-                    for (int i = 0; i < WINDOW_OVERLAP_PITCH; ++i) {
+                    for (int i = 0; i < WINDOW_OVERLAP_PITCH; ++i)
+                    {
                         sDataPitch[i] = sDataPitch[i + diffPitch];
                         fData[i] = (float) sDataPitch[i + diffPitch];
                     }//end for
