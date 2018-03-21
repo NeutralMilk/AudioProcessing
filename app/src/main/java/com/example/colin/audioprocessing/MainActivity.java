@@ -207,17 +207,9 @@ public class MainActivity extends AppCompatActivity
                     }//end for
 
                     float currentPitch = yin.getPitch(fData).getPitch();
-                    //Set the minimum pitch value to be 60Hz. I do this to allow for alternate tunings such as drop D
-                    //This is when the low E string is tuned down 2 semitones to a D
-                    //Also, the default output when no pitch is detected is - 1. This causes the graph to look funny
-                    //when there's no input because it will shoot down to -1, so it's best to ignore these values.
-                    if (currentPitch > 60) {
-                        pitch = currentPitch;
-                    }//end if
-                    else if (currentPitch == -1)
-                    {
-                        pitch = -1;
-                    }
+
+                    pitch = currentPitch;
+
                     runOnUiThread(new Runnable() {
                         public void run()
                         {
@@ -231,34 +223,67 @@ public class MainActivity extends AppCompatActivity
                         fData[i] = (float) sDataPitch[i + diffPitch];
                     }//end for
 
-                    double sum = 0;
-                    for(int i = 0; i < readSize; i++)
-                    {
-                        sum += sDataPitch [i] * sDataPitch [i];
-                    }//end for
+                    double amplitude[] = new double[4];
 
-                    if (readSize >= 0)
+                    for(int j = 0 ; j < 4; j++)
                     {
-                        final double amplitude = sum / readSize;
-                        try
+                        double sum = 0;
+                        for(int i = 0; i < readSize; i++)
                         {
-                            out = new OutputStreamWriter(openFileOutput("save.txt", MODE_APPEND));
-                            out.write(Integer.toString((int) Math.sqrt(amplitude)) + " | " + pitch + "Hz | " + printNote);
-                            out.write("\r\n");
-                            out.close();
-                        }
-                        catch(IOException e)
-                        {
-                            System.out.println("not working");
-                        }
+                            sum += sDataPitch [i*(j+1)] * sDataPitch [i*(j+1)];
+                        }//end for
 
-                        System.out.println(Integer.toString((int) Math.sqrt(amplitude)) + " | " + pitch + "Hz | " + printNote);
-                    }//end if
+                        boolean valid = false;
+                        if (readSize >= 0)
+                        {
+                            amplitude[j] = sum / readSize;
+                            try
+                            {
+                                out = new OutputStreamWriter(openFileOutput("save.txt", MODE_APPEND));
+                                out.write(Integer.toString((int) Math.sqrt(amplitude[j])) + " | " + pitch + "Hz | " + printNote);
+                                out.write("\r\n");
+                                out.close();
+                            }
+                            catch(IOException e)
+                            {
+                                System.out.println("not working");
+                            }
+
+                            if(j == 0)
+                            {
+                                System.out.println(Integer.toString((int) Math.sqrt(amplitude[j])) + " | " + pitch + "Hz | " + printNote);
+                            }
+                            else
+                            {
+                                System.out.println(Integer.toString((int) Math.sqrt(amplitude[j])));
+                            }
+                            amplitude[j] = Math.sqrt(amplitude[j]);
+                            valid = segmentation(amplitude[], pitch);
+                        }//end if
+                    }
+
+                    count++;
+
+                    if(active)
+                    {
+                        if(count%4 == 0)
+                        {
+                            count = 0;
+                            init();
+                        }//end if
+                    }
                 }
             }
         }.start();
     }
 
+    private boolean segmentation(double a[], float p)
+    {
+        boolean valid = true;
+        double amplitude[] = a;
+        float pitch = p;
+        return valid;
+    }
     private synchronized String updateNote(final float pitch)
     {
         String note = convertToNote(pitch);
@@ -288,16 +313,6 @@ public class MainActivity extends AppCompatActivity
            System.out.println("the note played was " + previousNote + " and it lasted for " + diff + "ms" );
         }
         previousNote = currentNote;
-        count++;
-
-        if(active && pitch!= -1)
-        {
-            if(count%4 == 0)
-            {
-                count = 0;
-                init();
-            }//end if
-        }
 
         return note;
     }
