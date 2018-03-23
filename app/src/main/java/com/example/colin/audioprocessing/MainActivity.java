@@ -25,10 +25,17 @@ import android.widget.TextView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -39,15 +46,16 @@ import static java.lang.Math.pow;
 public class MainActivity extends AppCompatActivity
 {
 
-    //pitch settings
+    //audio settings
     private static final int SAMPLERATE        = 44100;
     private static final int NUM_CHANNELS      = AudioFormat.CHANNEL_IN_MONO;
     private static final int RECORDER_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
     private static final int WINDOW_SIZE_PITCH    = 4096;
-    private static final int WINDOW_SIZE_AMP    = 4096;
+    private static final int WINDOW_SIZE_AMP    = 1024;
     private static final int WINDOW_OVERLAP_PITCH = WINDOW_SIZE_PITCH * 3/4;
     private static final int WINDOW_OVERLAP_AMP = WINDOW_SIZE_AMP * 3/4;
     private static final int FRAMERATE    = 60;
+    byte[] bytes;
     private static final int UPDATE_DELAY = 1000/FRAMERATE;
     private AudioRecord recorder    = null;
     private AudioTrack audioTrack = null;
@@ -61,6 +69,7 @@ public class MainActivity extends AppCompatActivity
     long previousTime;
     String[] adjacentNotes = {"0", "0"};
     long[] adjacentTimes = {0,0};
+    boolean successfulRead = false;
 
 
     //graph variables
@@ -101,21 +110,32 @@ public class MainActivity extends AppCompatActivity
 
         //open the database
         db= new DatabaseManager(this);
+
+        File file = new File("/data/data/com.example.colin.audioprocessing/files/scale.wav/");
+        int size = (int) file.length();
+        bytes = new byte[size];
+        try
+        {
+            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
+            buf.read(bytes, 0, bytes.length);
+            buf.close();
+        }
+        catch (FileNotFoundException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         try
         {
             db.open();
         } catch (SQLException e)
         {
             e.printStackTrace();
-        }
-
-        try
-        {
-            out = new OutputStreamWriter(openFileOutput("save.txt", MODE_APPEND));
-        }
-        catch(IOException e)
-        {
-
         }
 
         tvFreq = (TextView)findViewById(R.id.tvFreq);
@@ -161,12 +181,14 @@ public class MainActivity extends AppCompatActivity
                 displayGraphData();
             }
         });
+
         graphSettings();
 
         double yinThreshold = 0.3;
         yin = new Yin(SAMPLERATE, WINDOW_SIZE_PITCH, yinThreshold);
 
-        startRecording();
+        //startRecording();
+        readWav();
     }
 
     String printNote;
@@ -198,7 +220,7 @@ public class MainActivity extends AppCompatActivity
                     recorder.read(sDataPitch, WINDOW_OVERLAP_PITCH, diffPitch);
                     int readSize = recorder.read(sDataAmp, WINDOW_OVERLAP_AMP, diffAmp);
 
-                    //System.out.println("readsize is " + readSize);
+                    System.out.println("readsize is " + readSize);
                     for (int i = WINDOW_OVERLAP_PITCH; i < diffPitch; ++i)
                     {
                         fData[i] = (float) sDataPitch[i];
@@ -258,7 +280,7 @@ public class MainActivity extends AppCompatActivity
                                 System.out.println(Integer.toString((int) Math.sqrt(amplitude[j])));
                             }
                             amplitude[j] = Math.sqrt(amplitude[j]);
-                            valid = segmentation(amplitude[], pitch);
+                            valid = segmentation(amplitude, pitch);
                         }//end if
                     }
 
@@ -277,6 +299,96 @@ public class MainActivity extends AppCompatActivity
         }.start();
     }
 
+    private void readWav()
+    {
+        int size = bytes.length;
+        int read;
+        byte[] buff = new byte[4096];
+        short[] audioShort = new short[size];
+
+        for (int i = 0; i < size; i++)
+        {
+            audioShort[i] = (short) bytes[i];
+
+        }//end for
+
+        int i = 0;
+        int count = 1;
+
+        for(i = 0; i < size; i+=4096)
+        {
+            //similar to live recording
+            final short[] sDataPitch = new short[WINDOW_SIZE_PITCH];
+            final float[] fData = new float[WINDOW_SIZE_PITCH];
+            final short[] sDataAmp = new short[WINDOW_SIZE_AMP];
+            final int diffPitch = WINDOW_SIZE_PITCH - WINDOW_OVERLAP_PITCH;
+
+            for(int j = i ; j < WINDOW_SIZE_PITCH*count; j++)
+            {
+                sDataPitch[j] = audioShort[i];
+                i = j;
+            }
+
+            //System.out.println("readsize is " + readSize);
+            for (int j = WINDOW_OVERLAP_PITCH; j < diffPitch; ++j)
+            {
+                fData[j] = (float) sDataPitch[j];
+                Log.v(String.valueOf(fData[j]), "fdata");
+                //System.out.println("fdata is" + fData[j]);
+            }//end for
+
+            float currentPitch = yin.getPitch(fData).getPitch();
+
+            pitch = currentPitch;
+
+            printNote = updateNote(pitch);
+
+            for (int j = 0; j < WINDOW_OVERLAP_PITCH; ++j)
+            {
+                sDataPitch[j] = sDataPitch[j + diffPitch];
+                fData[j] = (float) sDataPitch[j + diffPitch];
+            }//end for
+
+            double amplitude[] = new double[4];
+
+            for(int j = 0 ; j < 4; j++)
+            {
+                double sum = 0;
+                for(int k = 0; k < 1024; k++)
+                {
+                    sum += sDataPitch [k*(j+1)] * sDataPitch [k*(j+1)];
+                }//end for
+
+                boolean valid = false;
+                if (1024 >= 0)
+                {
+                    amplitude[j] = sum / 1024;
+                    try
+                    {
+                        out = new OutputStreamWriter(openFileOutput("save.txt", MODE_APPEND));
+                        out.write(Integer.toString((int) Math.sqrt(amplitude[j])) + " | " + pitch + "Hz | " + printNote);
+                        out.write("\r\n");
+                        out.close();
+                    }
+                    catch(IOException e)
+                    {
+                        System.out.println("not working");
+                    }
+
+                    if(j == 0)
+                    {
+                        System.out.println(Integer.toString((int) Math.sqrt(amplitude[j])) + " | " + pitch + "Hz | " + printNote);
+                    }
+                    else
+                    {
+                        System.out.println(Integer.toString((int) Math.sqrt(amplitude[j])));
+                    }
+                    amplitude[j] = Math.sqrt(amplitude[j]);
+                    valid = segmentation(amplitude, pitch);
+                }//end if
+            }
+        }
+}
     private boolean segmentation(double a[], float p)
     {
         boolean valid = true;
