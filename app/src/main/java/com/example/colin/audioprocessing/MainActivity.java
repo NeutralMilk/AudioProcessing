@@ -12,6 +12,7 @@ import android.media.AudioRecord;
 import android.media.AudioTrack;
 import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -27,12 +28,17 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -70,6 +76,8 @@ public class MainActivity extends AppCompatActivity
     String[] adjacentNotes = {"0", "0"};
     long[] adjacentTimes = {0,0};
     boolean successfulRead = false;
+    InputStream wavFile;
+
 
 
     //graph variables
@@ -111,12 +119,64 @@ public class MainActivity extends AppCompatActivity
         //open the database
         db= new DatabaseManager(this);
 
-        File file = new File("/data/data/com.example.colin.audioprocessing/files/scale.wav/");
-        int size = (int) file.length();
+        System.out.println("works 4");
+
+        String wavPath = MainActivity.this.getFilesDir() + "/" + "scale.wav";
+        String testPath = MainActivity.this.getFilesDir() + "/" + "test.txt";
+
+        File wF = new File(wavPath);
+        File testFile = new File(testPath);
+        int size = wavPath.length();
         bytes = new byte[size];
+
         try
         {
-            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
+            //wavFile = WavFile.openWavFile(file);
+
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            InputStream in = new BufferedInputStream(new FileInputStream(wF));
+            String s = getStringFromInputStream(in);
+            System.out.println("works 1");
+            System.out.println(s);
+
+            int read;
+            byte[] buff = new byte[1024];
+            while ((read = in.read(buff)) > 0)
+            {
+                out.write(buff, 0, read);
+            }
+            out.flush();
+            byte[] audioBytes = out.toByteArray();
+
+            try
+            {
+                System.out.println("works 2");
+                File w = new File(testPath);
+                OutputStream output = new FileOutputStream(w);
+                try
+                {
+                    System.out.println("works 3");
+                    byte[] buffer = new byte[4096]; // or other buffer size
+                    int r;
+
+                    while ((r = wavFile.read(buffer)) != -1)
+                    {
+                        System.out.println("work 18");
+                        output.write(buffer, 0, r);
+                    }
+
+                    output.flush();
+                }
+                finally
+                {
+                    output.close();
+                }
+            } finally
+            {
+
+                wavFile.close();
+            }
+            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(wavPath));
             buf.read(bytes, 0, bytes.length);
             buf.close();
         }
@@ -130,6 +190,8 @@ public class MainActivity extends AppCompatActivity
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
+
         try
         {
             db.open();
@@ -187,10 +249,38 @@ public class MainActivity extends AppCompatActivity
         double yinThreshold = 0.3;
         yin = new Yin(SAMPLERATE, WINDOW_SIZE_PITCH, yinThreshold);
 
-        //startRecording();
-        readWav();
+        startRecording();
+        //readWav();
     }
 
+    private static String getStringFromInputStream(InputStream is) {
+
+        BufferedReader br = null;
+        StringBuilder sb = new StringBuilder();
+
+        String line;
+        try {
+
+            br = new BufferedReader(new InputStreamReader(is));
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return sb.toString();
+
+    }
     String printNote;
     //The startRecording method is adapted from https://github.com/solarus/CTuner/blob/master/src/org/tunna/ctuner/MainActivity.java
     private void startRecording()
