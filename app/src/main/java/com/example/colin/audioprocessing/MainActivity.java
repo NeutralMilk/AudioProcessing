@@ -8,11 +8,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
 import android.media.AudioFormat;
+import android.media.AudioManager;
 import android.media.AudioRecord;
 import android.media.AudioTrack;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -23,9 +25,13 @@ import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+
+import org.jtransforms.utils.IOUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -42,6 +48,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.ShortBuffer;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -76,7 +83,6 @@ public class MainActivity extends AppCompatActivity
     String[] adjacentNotes = {"0", "0"};
     long[] adjacentTimes = {0,0};
     boolean successfulRead = false;
-    InputStream wavFile;
 
 
 
@@ -108,9 +114,7 @@ public class MainActivity extends AppCompatActivity
     {
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
         {
-
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
-            //ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }//end if
 
         super.onCreate(savedInstanceState);
@@ -120,77 +124,6 @@ public class MainActivity extends AppCompatActivity
         db= new DatabaseManager(this);
 
         System.out.println("works 4");
-
-        String wavPath = MainActivity.this.getFilesDir() + "/" + "scale.wav";
-        String testPath = MainActivity.this.getFilesDir() + "/" + "test.txt";
-
-        File wF = new File(wavPath);
-        File testFile = new File(testPath);
-        int size = wavPath.length();
-        bytes = new byte[size];
-
-        try
-        {
-            //wavFile = WavFile.openWavFile(file);
-
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            InputStream in = new BufferedInputStream(new FileInputStream(wF));
-            String s = getStringFromInputStream(in);
-            System.out.println("works 1");
-            System.out.println(s);
-
-            int read;
-            byte[] buff = new byte[1024];
-            while ((read = in.read(buff)) > 0)
-            {
-                out.write(buff, 0, read);
-            }
-            out.flush();
-            byte[] audioBytes = out.toByteArray();
-
-            try
-            {
-                System.out.println("works 2");
-                File w = new File(testPath);
-                OutputStream output = new FileOutputStream(w);
-                try
-                {
-                    System.out.println("works 3");
-                    byte[] buffer = new byte[4096]; // or other buffer size
-                    int r;
-
-                    while ((r = wavFile.read(buffer)) != -1)
-                    {
-                        System.out.println("work 18");
-                        output.write(buffer, 0, r);
-                    }
-
-                    output.flush();
-                }
-                finally
-                {
-                    output.close();
-                }
-            } finally
-            {
-
-                wavFile.close();
-            }
-            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(wavPath));
-            buf.read(bytes, 0, bytes.length);
-            buf.close();
-        }
-        catch (FileNotFoundException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch (IOException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
 
         try
         {
@@ -249,38 +182,11 @@ public class MainActivity extends AppCompatActivity
         double yinThreshold = 0.3;
         yin = new Yin(SAMPLERATE, WINDOW_SIZE_PITCH, yinThreshold);
 
-        startRecording();
-        //readWav();
+        //startRecording();
+        readWav();
     }
 
-    private static String getStringFromInputStream(InputStream is) {
 
-        BufferedReader br = null;
-        StringBuilder sb = new StringBuilder();
-
-        String line;
-        try {
-
-            br = new BufferedReader(new InputStreamReader(is));
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        return sb.toString();
-
-    }
     String printNote;
     //The startRecording method is adapted from https://github.com/solarus/CTuner/blob/master/src/org/tunna/ctuner/MainActivity.java
     private void startRecording()
@@ -310,12 +216,17 @@ public class MainActivity extends AppCompatActivity
                     recorder.read(sDataPitch, WINDOW_OVERLAP_PITCH, diffPitch);
                     int readSize = recorder.read(sDataAmp, WINDOW_OVERLAP_AMP, diffAmp);
 
-                    System.out.println("readsize is " + readSize);
+                    //System.out.println("readsize is " + readSize);
                     for (int i = WINDOW_OVERLAP_PITCH; i < diffPitch; ++i)
                     {
                         fData[i] = (float) sDataPitch[i];
                         Log.v(String.valueOf(fData[i]), "fdata");
-                        //System.out.println("fdata is" + fData[i]);
+                        System.out.println("fdata is" + fData[i]);
+                    }//end for
+
+                    for (int i = 0; i < fData.length; ++i)
+                    {
+                        System.out.println("fdata is" + fData[i]);
                     }//end for
 
                     float currentPitch = yin.getPitch(fData).getPitch();
@@ -349,7 +260,7 @@ public class MainActivity extends AppCompatActivity
                         if (readSize >= 0)
                         {
                             amplitude[j] = sum / readSize;
-                            try
+                            /*try
                             {
                                 out = new OutputStreamWriter(openFileOutput("save.txt", MODE_APPEND));
                                 out.write(Integer.toString((int) Math.sqrt(amplitude[j])) + " | " + pitch + "Hz | " + printNote);
@@ -368,7 +279,7 @@ public class MainActivity extends AppCompatActivity
                             else
                             {
                                 System.out.println(Integer.toString((int) Math.sqrt(amplitude[j])));
-                            }
+                            }*/
                             amplitude[j] = Math.sqrt(amplitude[j]);
                             valid = segmentation(amplitude, pitch);
                         }//end if
@@ -391,40 +302,109 @@ public class MainActivity extends AppCompatActivity
 
     private void readWav()
     {
-        int size = bytes.length;
-        int read;
-        byte[] buff = new byte[4096];
-        short[] audioShort = new short[size];
+        String wavPath = MainActivity.this.getFilesDir() + "/" + "scale.wav";
+        String testPath = MainActivity.this.getFilesDir() + "/" + "test.txt";
+        File wF = new File(wavPath);
+        File testFile = new File(testPath);
+        int size = wavPath.length();
+        bytes = new byte[size];
 
-        for (int i = 0; i < size; i++)
+        byte[] audioBytes = null;
+
+        //Read the wav file into an input stream, and then copy this into a ByteArrayOutputStream.
+        //This will give me an array of bytes containing the raw data of the wav file
+        //This isn't much use until it's converted to a short array however.
+        try
         {
-            audioShort[i] = (short) bytes[i];
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            InputStream wavFile = new BufferedInputStream(new FileInputStream(wF));
+            System.out.println("works 1");
+            System.out.println(s);
 
-        }//end for
+            int read;
 
-        int i = 0;
-        int count = 1;
-
-        for(i = 0; i < size; i+=4096)
-        {
-            //similar to live recording
-            final short[] sDataPitch = new short[WINDOW_SIZE_PITCH];
-            final float[] fData = new float[WINDOW_SIZE_PITCH];
-            final short[] sDataAmp = new short[WINDOW_SIZE_AMP];
-            final int diffPitch = WINDOW_SIZE_PITCH - WINDOW_OVERLAP_PITCH;
-
-            for(int j = i ; j < WINDOW_SIZE_PITCH*count; j++)
+            //*2 everything because there are two bytes for every short.
+            final int diffPitch = WINDOW_SIZE_PITCH*2 - WINDOW_OVERLAP_PITCH*2;
+            byte[] buff = new byte[8192];
+            while ((read = wavFile.read(buff, WINDOW_OVERLAP_PITCH*2, diffPitch)) != -1)
             {
-                sDataPitch[j] = audioShort[i];
-                i = j;
+                //out.write(buff, 0, read);
+                Short[] audioShorts = new Short[4096];
+                ByteBuffer bb = ByteBuffer.wrap(buff);
+                bb.order( ByteOrder.LITTLE_ENDIAN);
+                int i  = 0;
+                while( bb.hasRemaining())
+                {
+                    short v = bb.getShort();
+                    audioShorts[i] = v;
+                    i++;
+                }
+                System.out.println("there are "+ audioShorts.length + "Shorts");
             }
+            out.flush();
+            audioBytes = out.toByteArray();
+            //print this out to check that there is the right number of bytes.
+            System.out.println("there are "+ audioBytes.length + "Bytes");
 
-            //System.out.println("readsize is " + readSize);
+        }
+        catch (FileNotFoundException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        //Here the byte array from above will be converted to an array of shorts.
+
+        /*ArrayList<Short> audioShorts = new ArrayList<Short>();
+        ByteBuffer bb = ByteBuffer.wrap(audioBytes);
+        bb.order( ByteOrder.LITTLE_ENDIAN);
+        while( bb.hasRemaining())
+        {
+            short v = bb.getShort();
+            audioShorts.add(v);
+        }
+        System.out.println("there are "+ audioShorts.size() + "Shorts");*/
+
+        //once the audio data is in a form I can use, I can begin to process it
+        //using a window size of 4096 as in the live recording method
+        //size = audioShorts.size();
+        /*for(int i = 0; i < audioBytes.length; i++)
+        {
+            System.out.println(i + ": " + audioBytes[i]);
+        }*/
+        /*for(int i = 0; i < audioShorts.size(); i++)
+        {
+            System.out.println(i + ": " + audioShorts.get(i));
+        }*/
+        /*int read;
+
+        //similar to live recording
+        final short[] sDataPitch = new short[WINDOW_SIZE_PITCH];
+        final float[] fData = new float[WINDOW_SIZE_PITCH];
+        final int diffPitch = WINDOW_SIZE_PITCH - WINDOW_OVERLAP_PITCH;
+
+        int count = 1;
+        for(int i = 0; i < size; i+=4096)
+        {
+            for(int j = i ; j < 4096*count; j++)
+            {
+                sDataPitch[j] = audioShorts.get(i);
+                fData[j] = (float) sDataPitch[j];
+                i = j;
+                System.out.println("fdata is" + fData[j]);
+            }
+            count++;
+
             for (int j = WINDOW_OVERLAP_PITCH; j < diffPitch; ++j)
             {
                 fData[j] = (float) sDataPitch[j];
                 Log.v(String.valueOf(fData[j]), "fdata");
-                //System.out.println("fdata is" + fData[j]);
+                System.out.println("fdata is" + fData[j]);
             }//end for
 
             float currentPitch = yin.getPitch(fData).getPitch();
@@ -477,8 +457,18 @@ public class MainActivity extends AppCompatActivity
                     valid = segmentation(amplitude, pitch);
                 }//end if
             }
+        }*/
+        //write(byte[] audioData, int offsetInBytes, int sizeInBytes)
+        try
+        {
+            AudioTrack audioTrack = new  AudioTrack(AudioManager.STREAM_VOICE_CALL, 44100, AudioFormat.CHANNEL_CONFIGURATION_MONO, AudioFormat.ENCODING_PCM_16BIT, 4096, AudioTrack.MODE_STATIC);
+            audioTrack.write(audioBytes, 0, 4096);
+            audioTrack.play();
+
+        } catch(Throwable t){
+            Log.d("Audio","Playback Failed");
         }
-}
+    }
     private boolean segmentation(double a[], float p)
     {
         boolean valid = true;
