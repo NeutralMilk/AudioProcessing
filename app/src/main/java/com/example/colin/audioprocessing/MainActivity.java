@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity
     private boolean isRecording = false;
     private boolean isPlaying = false;
     private Yin yin = null;
+    private LiveProcessing lp = null;
     private long lastUpdateTime = 0;
     String previousNote;
     String currentNote;
@@ -85,8 +86,8 @@ public class MainActivity extends AppCompatActivity
 
 
     //General variables
-    TextView tvFreq;
-    TextView tvNote;
+    public static TextView tvFreq;
+    public static TextView tvNote;
     public boolean active;
     public boolean begin;
     public long clickTime;
@@ -187,294 +188,21 @@ public class MainActivity extends AppCompatActivity
         graphSettings();
 
         double yinThreshold = 0.3;
+        System.out.println("is anything working");
         yin = new Yin(SAMPLERATE, WINDOW_SIZE_PITCH, yinThreshold);
-
-        startRecording();
+        lp = new LiveProcessing();
+        lp.startRecording();
+        //startRecording();
         //readWav();
     }
 
     String printNote;
-    //The startRecording method is adapted from https://github.com/solarus/CTuner/blob/master/src/org/tunna/ctuner/MainActivity.java
-    private void startRecording()
-    {
-        recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,
-                SAMPLERATE,
-                NUM_CHANNELS,
-                RECORDER_ENCODING,
-                WINDOW_SIZE_PITCH);
-        recorder.startRecording();
-        isRecording = true;
-
-        new Thread() {
-            public void run()
-            {
-                final short[] sDataPitch = new short[WINDOW_SIZE_PITCH];
-                final float[] fData = new float[WINDOW_SIZE_PITCH];
-                final short[] sDataAmp = new short[WINDOW_SIZE_AMP];
-
-                final int diffPitch = WINDOW_SIZE_PITCH - WINDOW_OVERLAP_PITCH;
-                final int diffAmp = WINDOW_SIZE_AMP - WINDOW_OVERLAP_AMP;
-
-                // This loop will be correct after 3 rounds because of
-                // the WINDOW_OVERLAP offset
-                while (isRecording)
-                {
-                    recorder.read(sDataPitch, WINDOW_OVERLAP_PITCH, diffPitch);
-                    int readSize = recorder.read(sDataAmp, WINDOW_OVERLAP_AMP, diffAmp);
-
-                    System.out.println("readsize is " + readSize);
-                    for (int i = WINDOW_OVERLAP_PITCH; i < diffPitch; ++i)
-                    {
-                        fData[i] = (float) sDataPitch[i];
-                        Log.v(String.valueOf(fData[i]), "fdata");
-                        //System.out.println("fdata is" + fData[i]);
-                    }//end for
-
-                    float currentPitch = yin.getPitch(fData).getPitch();
-
-                    pitch = currentPitch;
-
-                    runOnUiThread(new Runnable() {
-                        public void run()
-                        {
-                            printNote = updateNote(pitch);
-                        }
-                    });
-
-                    for (int i = 0; i < WINDOW_OVERLAP_PITCH; ++i)
-                    {
-                        sDataPitch[i] = sDataPitch[i + diffPitch];
-                        fData[i] = (float) sDataPitch[i + diffPitch];
-                    }//end for
-
-                    double amplitude[] = new double[4];
-
-                    for(int j = 0 ; j < 4; j++)
-                    {
-                        double sum = 0;
-                        for(int i = 0; i < readSize; i++)
-                        {
-                            sum += sDataPitch [i*(j+1)] * sDataPitch [i*(j+1)];
-                        }//end for
-
-                        boolean valid = false;
-                        if (readSize >= 0)
-                        {
-                            amplitude[j] = sum / readSize;
-                            try
-                            {
-                                out = new OutputStreamWriter(openFileOutput("save.txt", MODE_APPEND));
-                                out.write(Integer.toString((int) Math.sqrt(amplitude[j])) + " | " + pitch + "Hz | " + printNote);
-                                out.write("\r\n");
-                                out.close();
-                            }
-                            catch(IOException e)
-                            {
-                                System.out.println("not working");
-                            }
-
-                            if(j == 0)
-                            {
-                                System.out.println(Integer.toString((int) Math.sqrt(amplitude[j])) + " | " + pitch + "Hz | " + printNote);
-                            }
-                            else
-                            {
-                                System.out.println(Integer.toString((int) Math.sqrt(amplitude[j])));
-                            }
-                            amplitude[j] = Math.sqrt(amplitude[j]);
-                            valid = segmentation(amplitude, pitch);
-                        }//end if
-                    }
-
-                    count++;
-
-                    if(active)
-                    {
-                        if(count%4 == 0)
-                        {
-                            count = 0;
-                            init();
-                        }//end if
-                    }
-                }
-            }
-        }.start();
-    }
-
-    private void readWav()
-    {
-        String wavPath = MainActivity.this.getFilesDir() + "/" + "scale.wav";
-        File wF = new File(wavPath);
-        int size = wavPath.length();
-        bytes = new byte[size];
-
-        byte[] audioBytes = null;
-
-        //Read the wav file into an input stream, and then copy this into a ByteArrayOutputStream.
-        //This will give me an array of bytes containing the raw data of the wav file
-        //This isn't much use until it's converted to a short array however.
-        try
-        {
-            //ByteArrayOutputStream out = new ByteArrayOutputStream();
-            InputStream wavFile = new BufferedInputStream(new FileInputStream(wF));
-            System.out.println("works 1");
-            System.out.println(s);
-
-            int read;
-
-            //*2 everything because there are two bytes for every short.
-            final int byteDiffPitch = WINDOW_SIZE_PITCH*2 - WINDOW_OVERLAP_PITCH*2;
-            final int diffPitch = WINDOW_SIZE_PITCH - WINDOW_OVERLAP_PITCH;
-            byte[] buff = new byte[8192];
-            while ((read = wavFile.read(buff, WINDOW_OVERLAP_PITCH*2, byteDiffPitch)) != -1)
-            {
-                //out.write(buff, 0, read);
-                //get my bytes into a short array
-                final short[] sDataPitch = new short[WINDOW_SIZE_PITCH];
-                final float[] fData = new float[WINDOW_SIZE_PITCH];
-                final short[] sDataAmp = new short[WINDOW_SIZE_AMP];
-                ByteBuffer bb = ByteBuffer.wrap(buff);
-                bb.order( ByteOrder.LITTLE_ENDIAN);
-                int i  = 0;
-                while( bb.hasRemaining())
-                {
-                    short v = bb.getShort();
-                    sDataPitch[i] = v;
-                    i++;
-                }
-
-                for (int j = WINDOW_OVERLAP_PITCH; j < diffPitch; ++j)
-                {
-                    fData[j] = (float) sDataPitch[j];
-                    Log.v(String.valueOf(fData[j]), "fdata");
-                    System.out.println("fdata is" + fData[j]);
-                }//end for
-
-                float currentPitch = yin.getPitch(fData).getPitch();
-
-                pitch = currentPitch;
-
-                printNote = updateNote(pitch);
-
-                for (int j = 0; j < WINDOW_OVERLAP_PITCH; ++j)
-                {
-                    sDataPitch[j] = sDataPitch[j + diffPitch];
-                    fData[j] = (float) sDataPitch[j + diffPitch];
-                }//end for
-
-                double amplitude[] = new double[4];
-
-                for(int j = 0 ; j < 4; j++)
-                {
-                    double sum = 0;
-                    for(int k = 0; k < 1024; k++)
-                    {
-                        sum += sDataPitch [k*(j+1)] * sDataPitch [k*(j+1)];
-                    }//end for
-
-                    boolean valid = false;
-                    if (1024 >= 0)
-                    {
-                        amplitude[j] = sum / 1024;
-                        try
-                        {
-                            out = new OutputStreamWriter(openFileOutput("save.txt", MODE_APPEND));
-                            out.write(Integer.toString((int) Math.sqrt(amplitude[j])) + " | " + pitch + "Hz | " + printNote);
-                            out.write("\r\n");
-                            out.close();
-                        }
-                        catch(IOException e)
-                        {
-                            System.out.println("not working");
-                        }
-
-                        if(j == 0)
-                        {
-                            System.out.println(Integer.toString((int) Math.sqrt(amplitude[j])) + " | " + pitch + "Hz | " + printNote);
-                        }
-                        else
-                        {
-                            System.out.println(Integer.toString((int) Math.sqrt(amplitude[j])));
-                        }
-                        amplitude[j] = Math.sqrt(amplitude[j]);
-                        valid = segmentation(amplitude, pitch);
-                    }//end if
-                }
-
-                //System.out.println("there are "+ sDataPitch.length + "Shorts");
-            }
-            /*out.flush();
-            audioBytes = out.toByteArray();
-            //print this out to check that there is the right number of bytes.
-            System.out.println("there are "+ audioBytes.length + "Bytes");*/
-
-        }
-        catch (FileNotFoundException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch (IOException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
 
 
-        try
-        {
-            AudioTrack audioTrack = new  AudioTrack(AudioManager.STREAM_VOICE_CALL, 44100, AudioFormat.CHANNEL_CONFIGURATION_MONO, AudioFormat.ENCODING_PCM_16BIT, 4096, AudioTrack.MODE_STATIC);
-            audioTrack.write(audioBytes, 0, 4096);
-            audioTrack.play();
-
-        } catch(Throwable t){
-            Log.d("Audio","Playback Failed");
-        }
-    }
-    private boolean segmentation(double a[], float p)
-    {
-        boolean valid = true;
-        double amplitude[] = a;
-        float pitch = p;
-        return valid;
-    }
-    private synchronized String updateNote(final float pitch)
-    {
-        String note = convertToNote(pitch);
-        //System.out.println("note is " + note);
-        currentNote = note;
-
-        //set the very first previous note to be the current note.
-        //there is no 'previous' note at this point but it can't be left empty.
-        if (adjacentNotes[1] == "0")
-        {
-            currentTime = System.currentTimeMillis();
-            previousNote = currentNote;
-            adjacentNotes[0] = previousNote;
-            adjacentNotes[1] = previousNote;
-
-            previousTime = currentTime;
-            adjacentTimes[0] = previousTime;
-            adjacentTimes[1] = previousTime;
-        }
-        //if the two notes are the same, previous time will be set to current time
-        //when they change, we can subtract the previous time from current time
-        if(previousNote != currentNote)
-        {
-            previousTime = currentTime;
-            currentTime = System.currentTimeMillis();
-            long diff = currentTime - previousTime;
-            System.out.println("the note played was " + previousNote + " and it lasted for " + diff + "ms" );
-        }
-        previousNote = currentNote;
-
-        return note;
-    }
 
     public void graphSettings()
     {
         //graph settings
-        //fGraph.setBackgroundColor(getResources().getColor(android.R.color.white));
         fGraph.getViewport().setScalable(true);
         fGraph.getViewport().setScrollable(true);
         fGraph.getViewport().setYAxisBoundsManual(true);
@@ -487,55 +215,7 @@ public class MainActivity extends AppCompatActivity
     {
         xySeries = new LineGraphSeries<>();
         float y = pitch;
-        String note[] = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
-        /*if(currentNote == note[0])
-        {
-            xySeries.setColor(Color.rgb(255,0,0));
-        }
-        if(currentNote == note[1])
-        {
-            xySeries.setColor(Color.rgb(255,0,179));
-        }
-        if(currentNote == note[2])
-        {
-            xySeries.setColor(Color.rgb(222,0,255));
-        }
-        if(currentNote == note[3])
-        {
-            xySeries.setColor(Color.rgb(111,0,255));
-        }
-        if(currentNote == note[4])
-        {
-            xySeries.setColor(Color.rgb(0,51,255));
-        }
-        if(currentNote == note[5])
-        {
-            xySeries.setColor(Color.rgb(0,205,255));
-        }
-        if(currentNote == note[6])
-        {
-            xySeries.setColor(Color.rgb(0,255,188));
-        }
-        if(currentNote == note[7])
-        {
-            xySeries.setColor(Color.rgb(0,255,51));
-        }
-        if(currentNote == note[8])
-        {
-            xySeries.setColor(Color.rgb(85,255,0));
-        }
-        if(currentNote == note[9])
-        {
-            xySeries.setColor(Color.rgb(222,255,0));
-        }
-        if(currentNote == note[10])
-        {
-            xySeries.setColor(Color.rgb(255,205,0));
-        }
-        if(currentNote == note[11])
-        {
-            xySeries.setColor(Color.rgb(255,94,0));
-        }*/
+
         xyArray.add(new XYValue(x,y));
         x = x+.1f;
 
@@ -544,7 +224,6 @@ public class MainActivity extends AppCompatActivity
 
     private void createGraph()
     {
-
         xyArray = sortArray(xyArray);
 
         float x = 0;
@@ -562,7 +241,6 @@ public class MainActivity extends AppCompatActivity
 
             }
         }
-
 
         fGraph.scrollTo((int)x,0);
         fGraph.addSeries(xySeries);
@@ -636,69 +314,4 @@ public class MainActivity extends AppCompatActivity
 
     }//end displayGraphData()
 
-    public String convertToNote(float pitch)
-    {
-
-        //list of notes
-        String note[] = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
-
-        //Using the standard A4 = 440Hz, C4 is 261.6Hz. Using C makes calculations simpler since it's my first element.
-        double C4 = 261.626;
-
-        //octave grouping, this will tell me if a note is an E4, F6, C2 etc.
-        int octave = 4;
-        double o = 0;
-        //Java doesn't have built in subscript so I'll use an array of the unicode values
-        String subscript[] = {"\u2080", "\u2081", "\u2082", "\u2083", "\u2084", "\u2085", "\u2086", "\u2087", "\u2088", "\u2089"};
-
-        //find the amount of semitones between A and the pitch I want to find
-        double s = ((12)*Math.log(pitch/C4))/Math.log(2);
-
-        //calculate octave range
-        o = s/12;
-        s = s%12;
-        octave = octave + (int)o;
-        if(octave < 4)
-        {
-            octave-=1;
-        }
-        //System.out.println("o is" + (int)o);
-
-
-        //round to the nearest semitone
-        int sRound = (int)Math.round(s);
-
-        //add 12 if negative to get the right note value
-        if(s < 0)
-        {
-            sRound+=12;
-        }//end if
-        if(sRound == 12)
-        {
-            sRound-=12;
-        }//end if
-
-
-        DecimalFormat f = new DecimalFormat("##.000");
-        //display closest note within a 1/4 semitone
-        double x = s - Math.floor(s);
-        if(x >= .75 || x <= .25)
-        {
-            tvFreq.setText("" + f.format(pitch));
-            tvNote.setText("" + note[sRound] + subscript[octave]);
-            //System.out.println("pitch is " + pitch + " Note is " + note[sRound] + octave);
-        }//end if
-
-        //otherwise just display the frequency
-        else
-        {
-            tvFreq.setText("" + f.format(pitch));
-        }//end else
-
-        if (pitch == -1)
-        {
-            return null;
-        }
-        return note[sRound];
-    }
 }
