@@ -14,73 +14,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6623b691-3b84-45a5-9ff3-e6b4dfb07d3c" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/InputStreamToStringExample.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/WavFile.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/WavFileException.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-01-22-613.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-01-22-613.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-02-49-977.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-02-49-977.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-10-37-515.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-10-37-515.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-12-56-126.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-12-56-126.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-13-21-957.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-13-21-957.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-14-18-548.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-14-18-548.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-14-55-630.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-14-55-630.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-16-01-964.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-16-01-964.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-16-31-483.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-16-31-483.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-17-10-937.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-17-10-937.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-17-47-806.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-17-47-806.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-18-11-375.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-18-11-375.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-20-31-355.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-20-31-355.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-20-49-867.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-20-49-867.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-32-03-780.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-32-03-780.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-32-58-629.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-32-58-629.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-34-43-927.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-34-43-927.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-36-51-014.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-36-51-014.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-41-47-934.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-41-47-934.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-44-35-667.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-44-35-667.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-46-47-745.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-46-47-745.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-47-02-187.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-47-02-187.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-49-28-011.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-49-28-011.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-50-11-850.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-50-11-850.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-50-42-598.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-50-42-598.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-51-22-404.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-12-51-22-404.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-13-02-10-337.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-13-02-10-337.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-13-24-26-739.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-13-24-26-739.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-13-25-05-889.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-13-25-05-889.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-13-25-20-378.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-13-25-20-378.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-13-25-56-644.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-13-25-56-644.rawproto" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-13-26-25-337.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/android-profile/profile-2018-03-23-13-26-25-337.rawproto" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/classAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/classAnalysis.bin" />
@@ -90,7 +23,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/MainActivity.java" />
     </list>
     <ignored path="$PROJECT_DIR$/build/classes/" />
@@ -135,15 +67,21 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="361" column="0" lean-forward="true" selection-start-line="361" selection-start-column="0" selection-end-line="361" selection-end-column="0" />
+            <state relative-caret-position="736">
+              <caret line="328" column="48" lean-forward="false" selection-start-line="328" selection-start-column="48" selection-end-line="328" selection-end-column="48" />
               <folding>
+                <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+                <element signature="e#6042#6249#0" expanded="true" />
+                <element signature="e#6248#6249#0" expanded="true" />
                 <element signature="method#startRecording#0;class#MainActivity#0" expanded="false" />
-                <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
-                <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
-                <element signature="method#convertToNote#0;class#MainActivity#0" expanded="false" />
-                <marker date="1522075786375" expanded="true" signature="11183:12488" ph="{...}" />
-                <marker date="1522075786375" expanded="false" signature="12897:12904" ph="&lt;~&gt;" />
+                <element signature="e#6899#10744#0" expanded="true" />
+                <element signature="e#8204#8395#0" expanded="true" />
+                <element signature="e#8394#8395#0" expanded="true" />
+                <element signature="e#10743#10744#0" expanded="true" />
+                <element signature="method#segmentation#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#updateNote#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#init#0;class#MainActivity#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -2010,10 +1948,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-354" />
-    <option name="y" value="532" />
-    <option name="width" value="2578" />
-    <option name="height" value="1408" />
+    <option name="x" value="1272" />
+    <option name="width" value="1296" />
+    <option name="height" value="1398" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -2322,7 +2259,7 @@
     <property name="android.project.structure.last.selected" value="app" />
     <property name="android.project.structure.proportion" value="0.15" />
     <property name="settings.editor.selected.configurable" value="instant.run" />
-    <property name="device.picker.selection" value="test" />
+    <property name="device.picker.selection" value="f9d57caf" />
     <property name="android.profiler.active" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../New folder/AudioProcessing" />
   </component>
@@ -2396,7 +2333,7 @@
       <option name="ACTIVITY_CLASS" value="com.example.colin.audioprocessing.MainActivity" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1522075793309" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1522159195468" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
@@ -2469,7 +2406,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1522075793309" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1522159195468" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -2517,7 +2454,7 @@
       </Profilers>
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1522075793309" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1522159195468" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -2549,27 +2486,6 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <method />
-    </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
       <method />
     </configuration>
     <configuration default="true" type="JarApplication" factoryName="JAR Application">
@@ -2700,7 +2616,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1522075793310" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1522159195469" />
       </method>
     </configuration>
     <list size="2">
@@ -2757,7 +2673,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-354" y="532" width="2578" height="1408" extended-state="0" />
+    <frame x="1272" y="0" width="1296" height="1398" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6264501" sideWeight="0.49680257" order="7" side_tool="false" content_ui="tabs" />
@@ -2769,7 +2685,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.0747443" sideWeight="0.5347656" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980132" sideWeight="0.49680257" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.411487" sideWeight="0.46523437" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23076923" sideWeight="0.46523437" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.0" sideWeight="0.48979592" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21113689" sideWeight="0.49840128" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973205" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -2831,7 +2747,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="47" />
+      <option name="time" value="49" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -2860,12 +2776,18 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="e#6042#6249#0" expanded="true" />
+            <element signature="e#6248#6249#0" expanded="true" />
             <element signature="method#startRecording#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#convertToNote#0;class#MainActivity#0" expanded="false" />
-            <marker date="1522075786375" expanded="true" signature="11183:12488" ph="{...}" />
-            <marker date="1522075786375" expanded="false" signature="12897:12904" ph="&lt;~&gt;" />
+            <element signature="e#6899#10744#0" expanded="true" />
+            <element signature="e#8204#8395#0" expanded="true" />
+            <element signature="e#8394#8395#0" expanded="true" />
+            <element signature="e#10743#10744#0" expanded="true" />
+            <element signature="method#segmentation#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#updateNote#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#init#0;class#MainActivity#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2893,12 +2815,18 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="e#6042#6249#0" expanded="true" />
+            <element signature="e#6248#6249#0" expanded="true" />
             <element signature="method#startRecording#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#convertToNote#0;class#MainActivity#0" expanded="false" />
-            <marker date="1522075786375" expanded="true" signature="11183:12488" ph="{...}" />
-            <marker date="1522075786375" expanded="false" signature="12897:12904" ph="&lt;~&gt;" />
+            <element signature="e#6899#10744#0" expanded="true" />
+            <element signature="e#8204#8395#0" expanded="true" />
+            <element signature="e#8394#8395#0" expanded="true" />
+            <element signature="e#10743#10744#0" expanded="true" />
+            <element signature="method#segmentation#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#updateNote#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#init#0;class#MainActivity#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2926,12 +2854,18 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="e#6042#6249#0" expanded="true" />
+            <element signature="e#6248#6249#0" expanded="true" />
             <element signature="method#startRecording#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#convertToNote#0;class#MainActivity#0" expanded="false" />
-            <marker date="1522075786375" expanded="true" signature="11183:12488" ph="{...}" />
-            <marker date="1522075786375" expanded="false" signature="12897:12904" ph="&lt;~&gt;" />
+            <element signature="e#6899#10744#0" expanded="true" />
+            <element signature="e#8204#8395#0" expanded="true" />
+            <element signature="e#8394#8395#0" expanded="true" />
+            <element signature="e#10743#10744#0" expanded="true" />
+            <element signature="method#segmentation#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#updateNote#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#init#0;class#MainActivity#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2959,12 +2893,18 @@
         <state relative-caret-position="840">
           <caret line="57" column="126" lean-forward="false" selection-start-line="57" selection-start-column="126" selection-end-line="57" selection-end-column="126" />
           <folding>
+            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="e#6042#6249#0" expanded="true" />
+            <element signature="e#6248#6249#0" expanded="true" />
             <element signature="method#startRecording#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#convertToNote#0;class#MainActivity#0" expanded="false" />
-            <marker date="1522075786375" expanded="true" signature="11183:12488" ph="{...}" />
-            <marker date="1522075786375" expanded="false" signature="12897:12904" ph="&lt;~&gt;" />
+            <element signature="e#6899#10744#0" expanded="true" />
+            <element signature="e#8204#8395#0" expanded="true" />
+            <element signature="e#8394#8395#0" expanded="true" />
+            <element signature="e#10743#10744#0" expanded="true" />
+            <element signature="method#segmentation#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#updateNote#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#init#0;class#MainActivity#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2992,12 +2932,18 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="e#6042#6249#0" expanded="true" />
+            <element signature="e#6248#6249#0" expanded="true" />
             <element signature="method#startRecording#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#convertToNote#0;class#MainActivity#0" expanded="false" />
-            <marker date="1522075786375" expanded="true" signature="11183:12488" ph="{...}" />
-            <marker date="1522075786375" expanded="false" signature="12897:12904" ph="&lt;~&gt;" />
+            <element signature="e#6899#10744#0" expanded="true" />
+            <element signature="e#8204#8395#0" expanded="true" />
+            <element signature="e#8394#8395#0" expanded="true" />
+            <element signature="e#10743#10744#0" expanded="true" />
+            <element signature="method#segmentation#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#updateNote#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#init#0;class#MainActivity#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3025,12 +2971,18 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="e#6042#6249#0" expanded="true" />
+            <element signature="e#6248#6249#0" expanded="true" />
             <element signature="method#startRecording#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#convertToNote#0;class#MainActivity#0" expanded="false" />
-            <marker date="1522075786375" expanded="true" signature="11183:12488" ph="{...}" />
-            <marker date="1522075786375" expanded="false" signature="12897:12904" ph="&lt;~&gt;" />
+            <element signature="e#6899#10744#0" expanded="true" />
+            <element signature="e#8204#8395#0" expanded="true" />
+            <element signature="e#8394#8395#0" expanded="true" />
+            <element signature="e#10743#10744#0" expanded="true" />
+            <element signature="method#segmentation#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#updateNote#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#init#0;class#MainActivity#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3058,12 +3010,18 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="e#6042#6249#0" expanded="true" />
+            <element signature="e#6248#6249#0" expanded="true" />
             <element signature="method#startRecording#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#convertToNote#0;class#MainActivity#0" expanded="false" />
-            <marker date="1522075786375" expanded="true" signature="11183:12488" ph="{...}" />
-            <marker date="1522075786375" expanded="false" signature="12897:12904" ph="&lt;~&gt;" />
+            <element signature="e#6899#10744#0" expanded="true" />
+            <element signature="e#8204#8395#0" expanded="true" />
+            <element signature="e#8394#8395#0" expanded="true" />
+            <element signature="e#10743#10744#0" expanded="true" />
+            <element signature="method#segmentation#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#updateNote#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#init#0;class#MainActivity#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3083,12 +3041,18 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="e#6042#6249#0" expanded="true" />
+            <element signature="e#6248#6249#0" expanded="true" />
             <element signature="method#startRecording#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#convertToNote#0;class#MainActivity#0" expanded="false" />
-            <marker date="1522075786375" expanded="true" signature="11183:12488" ph="{...}" />
-            <marker date="1522075786375" expanded="false" signature="12897:12904" ph="&lt;~&gt;" />
+            <element signature="e#6899#10744#0" expanded="true" />
+            <element signature="e#8204#8395#0" expanded="true" />
+            <element signature="e#8394#8395#0" expanded="true" />
+            <element signature="e#10743#10744#0" expanded="true" />
+            <element signature="method#segmentation#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#updateNote#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#init#0;class#MainActivity#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3218,15 +3182,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="361" column="0" lean-forward="true" selection-start-line="361" selection-start-column="0" selection-end-line="361" selection-end-column="0" />
+        <state relative-caret-position="736">
+          <caret line="328" column="48" lean-forward="false" selection-start-line="328" selection-start-column="48" selection-end-line="328" selection-end-column="48" />
           <folding>
+            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="e#6042#6249#0" expanded="true" />
+            <element signature="e#6248#6249#0" expanded="true" />
             <element signature="method#startRecording#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#convertToNote#0;class#MainActivity#0" expanded="false" />
-            <marker date="1522075786375" expanded="true" signature="11183:12488" ph="{...}" />
-            <marker date="1522075786375" expanded="false" signature="12897:12904" ph="&lt;~&gt;" />
+            <element signature="e#6899#10744#0" expanded="true" />
+            <element signature="e#8204#8395#0" expanded="true" />
+            <element signature="e#8394#8395#0" expanded="true" />
+            <element signature="e#10743#10744#0" expanded="true" />
+            <element signature="method#segmentation#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#updateNote#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#init#0;class#MainActivity#0" expanded="false" />
           </folding>
         </state>
       </provider>
