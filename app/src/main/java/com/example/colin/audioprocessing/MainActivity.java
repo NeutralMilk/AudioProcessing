@@ -2,21 +2,13 @@ package com.example.colin.audioprocessing;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
-import android.graphics.Color;
-import android.media.AudioFormat;
-import android.media.AudioManager;
-import android.media.AudioRecord;
-import android.media.AudioTrack;
-import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -26,20 +18,7 @@ import android.widget.TextView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
@@ -47,33 +26,8 @@ import static java.lang.Math.pow;
 
 public class MainActivity extends AppCompatActivity
 {
-
-    //audio settings
-    private static final int SAMPLERATE        = 44100;
-    private static final int NUM_CHANNELS      = AudioFormat.CHANNEL_IN_MONO;
-    private static final int RECORDER_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
-    private static final int WINDOW_SIZE_PITCH    = 4096;
-    private static final int WINDOW_SIZE_AMP    = 1024;
-    private static final int WINDOW_OVERLAP_PITCH = WINDOW_SIZE_PITCH * 3/4;
-    private static final int WINDOW_OVERLAP_AMP = WINDOW_SIZE_AMP * 3/4;
-    private static final int FRAMERATE    = 60;
-    byte[] bytes;
-    private static final int UPDATE_DELAY = 1000/FRAMERATE;
-    private AudioRecord recorder    = null;
-    private AudioTrack audioTrack = null;
-    private boolean isRecording = false;
-    private boolean isPlaying = false;
-    private Yin yin = null;
     private LiveProcessing lp = null;
-    private long lastUpdateTime = 0;
-    String previousNote;
-    String currentNote;
-    long currentTime;
-    long previousTime;
-    String[] adjacentNotes = {"0", "0"};
-    long[] adjacentTimes = {0,0};
-    boolean successfulRead = false;
-
+    private WAVProcessing wp = null;
 
     //graph variables
     LineGraphSeries<DataPoint> xySeries;
@@ -82,18 +36,14 @@ public class MainActivity extends AppCompatActivity
     public float pitch;
     public float x;
     public int count;
-    private float maxF;
-
 
     //General variables
     public static TextView tvFreq;
     public static TextView tvNote;
     public boolean active;
     public boolean begin;
-    public long clickTime;
     Switch s;
-
-    OutputStreamWriter out;
+    static Context context;
 
     //database
     DatabaseManager db;
@@ -103,7 +53,6 @@ public class MainActivity extends AppCompatActivity
     {
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
         {
-
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
             //ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }//end if
@@ -111,28 +60,10 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        context = MainActivity.this;
         //open the database
         db= new DatabaseManager(this);
 
-        File file = new File("/data/data/com.example.colin.audioprocessing/files/scale.wav/");
-        int size = (int) file.length();
-        bytes = new byte[size];
-        try
-        {
-            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
-            buf.read(bytes, 0, bytes.length);
-            buf.close();
-        }
-        catch (FileNotFoundException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch (IOException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
         try
         {
             db.open();
@@ -187,18 +118,16 @@ public class MainActivity extends AppCompatActivity
 
         graphSettings();
 
-        double yinThreshold = 0.3;
         System.out.println("is anything working");
-        yin = new Yin(SAMPLERATE, WINDOW_SIZE_PITCH, yinThreshold);
+
+        //create an instance of the different processing methods
         lp = new LiveProcessing();
         lp.startRecording();
-        //startRecording();
-        //readWav();
+
+        wp = new WAVProcessing();
+        wp.readWav();
+
     }
-
-    String printNote;
-
-
 
     public void graphSettings()
     {

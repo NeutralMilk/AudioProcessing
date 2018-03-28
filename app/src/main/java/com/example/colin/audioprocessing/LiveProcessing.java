@@ -2,23 +2,10 @@ package com.example.colin.audioprocessing;
 
 import android.media.AudioFormat;
 import android.media.AudioRecord;
-import android.media.AudioTrack;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Switch;
-import android.widget.TextView;
-
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
-
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-
-import static android.content.Context.MODE_APPEND;
 
 /**
  * Created by Colin on 27/03/2018.
