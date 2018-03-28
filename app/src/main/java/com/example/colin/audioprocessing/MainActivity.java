@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity
 
         //create an instance of the different processing methods
         lp = new LiveProcessing();
-        lp.startRecording();
+        //lp.startRecording();
 
         wp = new WAVProcessing();
         wp.readWav();

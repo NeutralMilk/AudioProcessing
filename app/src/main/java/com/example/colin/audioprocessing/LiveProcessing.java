@@ -31,14 +31,6 @@ public class LiveProcessing extends AppCompatActivity
     ProcessNote pn;
     String note;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        System.out.println("this works 134");
-        startRecording();
-    }
-
     //The startRecording method is adapted from https://github.com/solarus/CTuner/blob/master/src/org/tunna/ctuner/MainActivity.java
     public void startRecording()
     {
@@ -97,14 +89,6 @@ public class LiveProcessing extends AppCompatActivity
 
                     count++;
 
-                    /*if(active)
-                    {
-                        if(count%4 == 0)
-                        {
-                            count = 0;
-                            init();
-                        }//end if
-                    }*/
                 }
             }
         }.start();
