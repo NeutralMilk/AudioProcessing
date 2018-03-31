@@ -12,8 +12,11 @@ public class Segmentation
     long currentTime;
     long previousTime;
     Short[] audioShorts;
-    int[] amplitudes = new int[4];
+    double[] amplitude = new double[4];
     String note;
+    boolean valid = false;
+    int count = 1;
+
 
     /*
     * A sample rate of 44.1kHz and a window size of 4096 will give 10.766 readings per second
@@ -24,6 +27,50 @@ public class Segmentation
     * this is more reliable than using a timer as it very easily produces incorrect readings, form my testing.
     */
 
-    float pitchTime = 0.09287981859f;
+    float noteTime = 0.09287981859f;
     float ampTime = 0.02321995464f;
+
+    public boolean segmentation(String note, double[] amplitude)
+    {
+        this.note = note;
+        this.amplitude = amplitude;
+        boolean validNote = validNote(note);
+        count ++;
+        validAmplitude(amplitude);
+        /*if(validNote)
+        {
+            MainActivity.acceptNote();
+        }*/
+        return valid;
+    }
+
+    private boolean validNote(String n)
+    {
+        boolean validNote = false;
+
+        //if there is no note, it's immediately ignored
+        if(n == "-")
+        {
+             return validNote;
+        }
+        //if a note lasts two readings or less, it can be ignored.
+        //however we need to have 3 readings to determine if only two were the same
+        //to do this I'll make a note when there is two of the same readings
+        //then, if the third is the same it will be valid, but if it's different then it is invalid.
+        else if(count * noteTime <= noteTime*2)
+        {
+            if(previousNote == currentNote)
+            {
+
+                return true;
+            }
+            previousNote = currentNote;
+        }
+        return validNote;
+    }
+    private boolean validAmplitude(double[] a)
+    {
+        boolean validAmplitude = false;
+        return validAmplitude;
+    }
 }

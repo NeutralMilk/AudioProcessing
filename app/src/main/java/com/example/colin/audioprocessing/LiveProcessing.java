@@ -19,8 +19,6 @@ public class LiveProcessing extends AppCompatActivity
     private static final int NUM_CHANNELS      = AudioFormat.CHANNEL_IN_MONO;
     private static final int RECORDER_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
     private static final int WINDOW_SIZE_PITCH    = 4096;
-    private static final int WINDOW_SIZE_AMP    = 1024;
-    private static final int WINDOW_OVERLAP_PITCH = WINDOW_SIZE_PITCH * 3/4;
     private AudioRecord recorder    = null;
     private boolean isRecording = false;
     public int count;
@@ -29,9 +27,9 @@ public class LiveProcessing extends AppCompatActivity
     public boolean active;
     ProcessAmplitude pa;
     ProcessNote pn;
+    Segmentation segment;
     String note;
 
-    //The startRecording method is adapted from https://github.com/solarus/CTuner/blob/master/src/org/tunna/ctuner/MainActivity.java
     public void startRecording()
     {
         recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,
@@ -42,51 +40,44 @@ public class LiveProcessing extends AppCompatActivity
         recorder.startRecording();
         isRecording = true;
 
+        pa = new ProcessAmplitude();
+        pn = new ProcessNote();
+
         new Thread() {
             public void run()
             {
-                final short[] sData = new short[WINDOW_SIZE_PITCH];
+                final short[] sData = new short[1024];
                 final float[] fData = new float[WINDOW_SIZE_PITCH];
 
-                final int diffPitch = WINDOW_SIZE_PITCH - WINDOW_OVERLAP_PITCH;
+                final int diffPitch = 2048;
 
                 // This loop will be correct after 3 rounds because of
                 // the WINDOW_OVERLAP offset
                 while (isRecording)
                 {
-                    recorder.read(sData, WINDOW_OVERLAP_PITCH, diffPitch);
+                    recorder.read(sData, 0, 1024);
 
-                    for (int j = WINDOW_OVERLAP_PITCH; j < diffPitch; ++j)
+                    for (int j = 0; j < 1024; j++)
                     {
                         fData[j] = (float) sData[j];
-                        Log.v(String.valueOf(fData[j]), "fdata");
-                        System.out.println("fdata is" + fData[j]);
+                        //ystem.out.println("fdata is" + fData[j]);
                     }//end for
 
                     runOnUiThread(new Runnable() {
                         public void run()
                         {
-                            pn = new ProcessNote();
                             note = pn.processNote(fData);
                         }
                     });
 
-                    pa = new ProcessAmplitude();
-                    double[] amplitude = pa.processAmplitude(sData);
 
-                    //System.out.println("Note is " + note);
+                    double amplitude = pa.processAmplitude(sData);
 
-                    for(int i  = 0; i < 4; i ++)
-                    {
-                        System.out.println("A" + i + " is " + amplitude[i]);
+                    System.out.println("Note is " + note);
+                    System.out.println("A" + " is " + amplitude);
 
-                    }
-                    for (int i = 0; i < WINDOW_OVERLAP_PITCH; ++i)
-                    {
-                        sData[i] = sData[i + diffPitch];
-                        fData[i] = (float) sData[i + diffPitch];
-                    }//end for*/
-
+                    segment = new Segmentation();
+                    //boolean valid = segment.segmentation(note, amplitude);
                     count++;
 
                 }

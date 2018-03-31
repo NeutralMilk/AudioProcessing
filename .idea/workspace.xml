@@ -16,11 +16,19 @@
     <list default="true" id="6623b691-3b84-45a5-9ff3-e6b4dfb07d3c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/classAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/classAnalysis.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/javaCompile.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/javaCompile.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/taskHistory.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/LiveProcessing.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/LiveProcessing.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/ProcessAmplitude.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/ProcessAmplitude.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/ProcessNote.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/ProcessNote.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/Segmentation.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/Segmentation.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/WAVProcessing.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/WAVProcessing.java" />
     </list>
     <ignored path="$PROJECT_DIR$/build/classes/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -64,13 +72,12 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="630">
-              <caret line="59" column="43" lean-forward="true" selection-start-line="59" selection-start-column="43" selection-end-line="59" selection-end-column="43" />
+            <state relative-caret-position="379">
+              <caret line="126" column="0" lean-forward="false" selection-start-line="126" selection-start-column="0" selection-end-line="127" selection-end-column="23" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="class#2821:3726" expanded="false" />
-                <element signature="e#3767#3974#0" expanded="true" />
-                <element signature="e#3973#3974#0" expanded="true" />
+                <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#createGraph#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
@@ -79,32 +86,38 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WAVProcessing.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/WAVProcessing.java">
+      <file leaf-file-name="LiveProcessing.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/LiveProcessing.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="857">
-              <caret line="67" column="58" lean-forward="false" selection-start-line="67" selection-start-column="58" selection-end-line="67" selection-end-column="58" />
+            <state relative-caret-position="566">
+              <caret line="76" column="20" lean-forward="false" selection-start-line="76" selection-start-column="20" selection-end-line="76" selection-end-column="20" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1138#4549#0" expanded="true" />
-                <element signature="e#3225#3515#0" expanded="true" />
-                <element signature="e#3514#3515#0" expanded="true" />
-                <element signature="e#4548#4549#0" expanded="true" />
+                <element signature="e#1268#2565#0" expanded="true" />
+                <element signature="e#2564#2565#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LiveProcessing.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/LiveProcessing.java">
+      <file leaf-file-name="WAVProcessing.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/WAVProcessing.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="861">
-              <caret line="46" column="13" lean-forward="false" selection-start-line="46" selection-start-column="13" selection-end-line="46" selection-end-column="13" />
+            <state relative-caret-position="588">
+              <caret line="85" column="29" lean-forward="false" selection-start-line="85" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1438#3224#0" expanded="true" />
-                <element signature="e#3223#3224#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Yin.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/Yin.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4032">
+              <caret line="213" column="0" lean-forward="false" selection-start-line="213" selection-start-column="0" selection-end-line="213" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -112,28 +125,30 @@
       <file leaf-file-name="ProcessNote.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/ProcessNote.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="42">
-              <caret line="2" column="48" lean-forward="false" selection-start-line="2" selection-start-column="48" selection-end-line="2" selection-end-column="48" />
-              <folding />
+            <state relative-caret-position="504">
+              <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ProcessAmplitude.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/ProcessAmplitude.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="147">
-              <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Segmentation.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Segmentation.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/Segmentation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="42" lean-forward="true" selection-start-line="0" selection-start-column="42" selection-end-line="2" selection-end-column="3" />
+            <state relative-caret-position="819">
+              <caret line="39" column="10" lean-forward="false" selection-start-line="39" selection-start-column="8" selection-end-line="42" selection-end-column="11" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProcessAmplitude.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/ProcessAmplitude.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="588">
+              <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -189,6 +204,7 @@
       <find>is anything</find>
       <find>print</find>
       <find>36.9006796177252</find>
+      <find>WINDOW_SIZE_PITCH</find>
     </findStrings>
     <replaceStrings>
       <replace>LineGraphSeries</replace>
@@ -1934,20 +1950,20 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/content_main.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/Graph.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/Segmentation.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/ProcessNote.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/ProcessAmplitude.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/WAVProcessing.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/LiveProcessing.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/MainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/Segmentation.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/ProcessAmplitude.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="490" />
-    <option name="y" value="141" />
-    <option name="width" value="2578" />
-    <option name="height" value="1408" />
+    <option name="x" value="-7" />
+    <option name="y" value="210" />
+    <option name="width" value="2574" />
+    <option name="height" value="1187" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -2260,7 +2276,7 @@
     <property name="android.project.structure.last.selected" value="app" />
     <property name="android.project.structure.proportion" value="0.15" />
     <property name="settings.editor.selected.configurable" value="instant.run" />
-    <property name="device.picker.selection" value="f9d57caf" />
+    <property name="device.picker.selection" value="test" />
     <property name="android.profiler.active" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../New folder/AudioProcessing" />
   </component>
@@ -2332,7 +2348,10 @@
       </Profilers>
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="com.example.colin.audioprocessing.MainActivity" />
-      <method />
+      <method>
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1522506897122" />
+      </method>
     </configuration>
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
@@ -2403,7 +2422,8 @@
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
       <method>
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1522255093185" />
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1522506897122" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -2450,7 +2470,8 @@
         <option name="ADVANCED_PROFILING_ENABLED" value="false" />
       </Profilers>
       <method>
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1522255093185" />
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1522506897122" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -2482,6 +2503,27 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
+      <method />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
       <method />
     </configuration>
     <configuration default="true" type="JarApplication" factoryName="JAR Application">
@@ -2611,7 +2653,8 @@
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
       <method>
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1522255093186" />
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1522506897124" />
       </method>
     </configuration>
     <list size="2">
@@ -2668,10 +2711,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="490" y="141" width="2578" height="1408" extended-state="0" />
+    <frame x="-7" y="210" width="2574" height="1187" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.6264501" sideWeight="0.49680257" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6264501" sideWeight="0.49680257" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32714617" sideWeight="0.49840128" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.10208817" sideWeight="0.49016392" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17792068" sideWeight="0.50431967" order="2" side_tool="true" content_ui="tabs" />
@@ -2679,7 +2722,7 @@
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.0747443" sideWeight="0.5347656" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.055861525" sideWeight="0.46523437" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22380953" sideWeight="0.46523437" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980132" sideWeight="0.49680257" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.0" sideWeight="0.48979592" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21113689" sideWeight="0.49840128" order="9" side_tool="false" content_ui="tabs" />
@@ -2703,13 +2746,46 @@
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29130724" sideWeight="0.47704083" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.10936271" sideWeight="0.4984375" order="1" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6264501" sideWeight="0.49680257" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17792068" sideWeight="0.50431967" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.0747443" sideWeight="0.5347656" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21113689" sideWeight="0.49840128" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973205" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3404941" sideWeight="0.5229592" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32714617" sideWeight="0.49840128" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.10208817" sideWeight="0.49016392" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29130724" sideWeight="0.47704083" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.44531864" sideWeight="0.46523437" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980132" sideWeight="0.49680257" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.0" sideWeight="0.48979592" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973205" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1671875" sideWeight="0.49568033" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.10936271" sideWeight="0.4984375" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3011111" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17792068" sideWeight="0.50431967" order="6" side_tool="true" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="55" />
+      <option name="time" value="56" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -2729,8 +2805,7 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="class#2821:3726" expanded="false" />
-            <element signature="e#3767#3974#0" expanded="true" />
-            <element signature="e#3973#3974#0" expanded="true" />
+            <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
             <element signature="method#createGraph#0;class#MainActivity#0" expanded="false" />
             <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
             <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
@@ -2763,8 +2838,7 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="class#2821:3726" expanded="false" />
-            <element signature="e#3767#3974#0" expanded="true" />
-            <element signature="e#3973#3974#0" expanded="true" />
+            <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
             <element signature="method#createGraph#0;class#MainActivity#0" expanded="false" />
             <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
             <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
@@ -2797,8 +2871,7 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="class#2821:3726" expanded="false" />
-            <element signature="e#3767#3974#0" expanded="true" />
-            <element signature="e#3973#3974#0" expanded="true" />
+            <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
             <element signature="method#createGraph#0;class#MainActivity#0" expanded="false" />
             <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
             <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
@@ -2831,8 +2904,7 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="class#2821:3726" expanded="false" />
-            <element signature="e#3767#3974#0" expanded="true" />
-            <element signature="e#3973#3974#0" expanded="true" />
+            <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
             <element signature="method#createGraph#0;class#MainActivity#0" expanded="false" />
             <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
             <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
@@ -2865,8 +2937,7 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="class#2821:3726" expanded="false" />
-            <element signature="e#3767#3974#0" expanded="true" />
-            <element signature="e#3973#3974#0" expanded="true" />
+            <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
             <element signature="method#createGraph#0;class#MainActivity#0" expanded="false" />
             <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
             <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
@@ -2891,8 +2962,7 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="class#2821:3726" expanded="false" />
-            <element signature="e#3767#3974#0" expanded="true" />
-            <element signature="e#3973#3974#0" expanded="true" />
+            <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
             <element signature="method#createGraph#0;class#MainActivity#0" expanded="false" />
             <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
             <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
@@ -2976,19 +3046,10 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/WavFileException.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/WavFile.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/InputStreamToStringExample.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/Yin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5502">
-          <caret line="283" column="31" lean-forward="false" selection-start-line="283" selection-start-column="30" selection-end-line="283" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/OnSwipeTouchListener.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1386">
           <caret line="73" column="16" lean-forward="false" selection-start-line="73" selection-start-column="16" selection-end-line="73" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3036,31 +3097,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/ProcessNote.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/Yin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42">
-          <caret line="2" column="48" lean-forward="false" selection-start-line="2" selection-start-column="48" selection-end-line="2" selection-end-column="48" />
+        <state relative-caret-position="4032">
+          <caret line="213" column="0" lean-forward="false" selection-start-line="213" selection-start-column="0" selection-end-line="213" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/ProcessAmplitude.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/ProcessNote.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="504">
+          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
-          <caret line="59" column="43" lean-forward="true" selection-start-line="59" selection-start-column="43" selection-end-line="59" selection-end-column="43" />
+        <state relative-caret-position="379">
+          <caret line="126" column="0" lean-forward="false" selection-start-line="126" selection-start-column="0" selection-end-line="127" selection-end-column="23" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="class#2821:3726" expanded="false" />
-            <element signature="e#3767#3974#0" expanded="true" />
-            <element signature="e#3973#3974#0" expanded="true" />
+            <element signature="method#graphSettings#0;class#MainActivity#0" expanded="false" />
             <element signature="method#createGraph#0;class#MainActivity#0" expanded="false" />
             <element signature="method#sortArray#0;class#MainActivity#0" expanded="false" />
             <element signature="method#displayGraphData#0;class#MainActivity#0" expanded="false" />
@@ -3068,36 +3130,40 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/Segmentation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="819">
+          <caret line="39" column="10" lean-forward="false" selection-start-line="39" selection-start-column="8" selection-end-line="42" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/WAVProcessing.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="857">
-          <caret line="67" column="58" lean-forward="false" selection-start-line="67" selection-start-column="58" selection-end-line="67" selection-end-column="58" />
+        <state relative-caret-position="588">
+          <caret line="85" column="29" lean-forward="false" selection-start-line="85" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1138#4549#0" expanded="true" />
-            <element signature="e#3225#3515#0" expanded="true" />
-            <element signature="e#3514#3515#0" expanded="true" />
-            <element signature="e#4548#4549#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/LiveProcessing.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="861">
-          <caret line="46" column="13" lean-forward="false" selection-start-line="46" selection-start-column="13" selection-end-line="46" selection-end-column="13" />
+        <state relative-caret-position="566">
+          <caret line="76" column="20" lean-forward="false" selection-start-line="76" selection-start-column="20" selection-end-line="76" selection-end-column="20" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1438#3224#0" expanded="true" />
-            <element signature="e#3223#3224#0" expanded="true" />
+            <element signature="e#1268#2565#0" expanded="true" />
+            <element signature="e#2564#2565#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/Segmentation.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/colin/audioprocessing/ProcessAmplitude.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="42" lean-forward="true" selection-start-line="0" selection-start-column="42" selection-end-line="2" selection-end-column="3" />
+        <state relative-caret-position="588">
+          <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
           <folding />
         </state>
       </provider>

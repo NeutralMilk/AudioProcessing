@@ -122,10 +122,10 @@ public class MainActivity extends AppCompatActivity
 
         //create an instance of the different processing methods
         lp = new LiveProcessing();
-        //lp.startRecording();
+        lp.startRecording();
 
-        wp = new WAVProcessing();
-        wp.readWav();
+//        wp = new WAVProcessing();
+//        wp.readWav();
 
     }
 
@@ -140,6 +140,10 @@ public class MainActivity extends AppCompatActivity
         fGraph.getViewport().setMinX(0);
     }
 
+    public static void acceptNote(String note)
+    {
+
+    }
     private void init()
     {
         xySeries = new LineGraphSeries<>();

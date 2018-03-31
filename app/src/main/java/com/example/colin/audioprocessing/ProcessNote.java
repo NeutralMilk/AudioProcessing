@@ -13,12 +13,7 @@ public class ProcessNote extends AppCompatActivity
 
     private static final int WINDOW_SIZE_PITCH    = 4096;
     private static final int WINDOW_OVERLAP_PITCH = WINDOW_SIZE_PITCH * 3/4;
-    final int diffPitch = WINDOW_SIZE_PITCH - WINDOW_OVERLAP_PITCH;
     private Yin yin = null;
-    String previousNote;
-    String currentNote;
-    long currentTime;
-    long previousTime;
     float[] fData;
     String note;;
 
@@ -36,25 +31,17 @@ public class ProcessNote extends AppCompatActivity
     private synchronized String updateNote(final float pitch)
     {
         String note = convertToNote(pitch);
-        //System.out.println("note is " + note);
-        currentNote = note;
-
-        //if the two notes are the same, previous time will be set to current time
-        //when they change, we can subtract the previous time from current time
-        if(previousNote != currentNote)
-        {
-            previousTime = currentTime;
-            currentTime = System.currentTimeMillis();
-            long diff = currentTime - previousTime;
-            System.out.println("the note played was " + previousNote + " and it lasted for " + diff + "ms" );
-        }
-        previousNote = currentNote;
-
         return note;
     }
 
     public String convertToNote(float pitch)
     {
+
+        if(pitch == -1)
+        {
+            MainActivity.tvFreq.setText("-");
+            return("-");
+        }
 
         //list of notes
         String note[] = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};

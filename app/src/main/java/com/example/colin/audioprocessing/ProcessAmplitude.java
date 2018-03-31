@@ -9,22 +9,20 @@ public class ProcessAmplitude
 
     short[] audioShorts;
 
-    public double[] processAmplitude(short[] audioShorts)
+    public double processAmplitude(short[] audioShorts)
     {
         this.audioShorts = audioShorts;
-        double[] amplitude = new double[4];
+        double amplitude;
 
-        for(int j = 0 ; j < 4; j++)
+        double sum = 0;
+        for(int i = 0; i < audioShorts.length; i++)
         {
-            double sum = 0;
-            for(int i = 0; i < 1024; i++)
-            {
-                sum += audioShorts [i*(j+1)] * audioShorts [i*(j+1)];
-            }//end for
+            sum += audioShorts [i] * audioShorts [i];
+        }//end for
 
-            amplitude[j] = sum / 1024;
-            amplitude[j] = Math.sqrt(amplitude[j]);
-        }
+        amplitude = sum / 1024;
+        amplitude = Math.sqrt(amplitude);
+
         return amplitude;
     }
 }
