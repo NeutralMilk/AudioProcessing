@@ -14,8 +14,11 @@ import java.nio.ByteOrder;
 public class WAVProcessing extends AppCompatActivity
 {
     byte[] bytes;
-    static final int WINDOW_SIZE_PITCH    = 4096;
-    private static final int WINDOW_OVERLAP_PITCH = WINDOW_SIZE_PITCH * 3/4;
+    static final int WINDOW_SIZE_SHORTS    = 4096;
+    static final int WINDOW_SIZE_BYTES = 8192;
+    private static final int WINDOW_OVERLAP_BYTES = WINDOW_SIZE_BYTES * 3/4;
+    private static final int WINDOW_OVERLAP_SHORTS = WINDOW_SIZE_SHORTS * 3/4;
+
     ProcessAmplitude pa;
     ProcessNote pn;
     String note;
@@ -31,8 +34,8 @@ public class WAVProcessing extends AppCompatActivity
         //Read the wav file into an input stream.
         //This will give me an array of bytes containing the raw data of the wav file
         //This isn't much use until it's converted to a short array however.
-        final short[] sData = new short[WINDOW_SIZE_PITCH];
-        final float[] fData = new float[WINDOW_SIZE_PITCH];
+        final short[] sData = new short[WINDOW_SIZE_SHORTS];
+        final float[] fData = new float[WINDOW_SIZE_SHORTS];
         try
         {
             InputStream wavFile = new BufferedInputStream(new FileInputStream(wF));
@@ -42,27 +45,20 @@ public class WAVProcessing extends AppCompatActivity
 
             //2 everything because there are two bytes for every short.
             //final int byteDiffPitch = WINDOW_SIZE_PITCH * 2 - WINDOW_OVERLAP_PITCH * 2;
-            byte[] buff = new byte[2048];
+            byte[] buff = new byte[WINDOW_SIZE_BYTES];
+            int diffByte = WINDOW_SIZE_BYTES - WINDOW_OVERLAP_BYTES;
+            int diffShort = WINDOW_OVERLAP_SHORTS - WINDOW_OVERLAP_SHORTS;
 
-            int streamRelOffset = 0;
-            int streamAbsOffset = 0; //THIS IS JUST FOR TESTING PURPOSES
-            //int overlap = WINDOW_OVERLAP_PITCH;
-            while ((read = wavFile.read(buff, 0, 2048)) != -1)
+
+            //first write diffByte amount of bytes into the WINDOW_OVERLAP_BYTES position of the buffer
+            //this will fill the last 1/4 of the buffer
+            //this will then each '1/4' segment of the buffer will be moved back 1/4
+            //this allows me to fill a buffer of size 4096 but make readings 4 times faster
+            while ((read = wavFile.read(buff, WINDOW_OVERLAP_BYTES, diffByte)) != -1)
             {
-                streamAbsOffset += read;//THIS  HOLDS THE RELATIVE OFFSET INTO THE STREAM
-                streamRelOffset += read; //THIS HOLDS THE RELATIVE OFFSET INTO THE STREAM
-                count++;
-
-                //THE OFFSET INTO THE BUFFER SHOULD NOT BE GREATER THAN  streamOffset,
-                //OTHERWISE, WE'RE GOING TO SKIP SOME STREAM BYTES, WHICH WE DON'T WANT
-                /*if(overlap*2*count>streamRelOffset)
-                {
-                    overlap = overlap*2*count-streamRelOffset;
-                }*/
 
                 //create a byte buffer to hold the bytes
                 ByteBuffer bb = ByteBuffer.wrap(buff);
-
                 //wav files use a little endian byte order
                 bb.order(ByteOrder.LITTLE_ENDIAN);
                 int i = 0;
@@ -83,18 +79,15 @@ public class WAVProcessing extends AppCompatActivity
 
                 //print out to see my results
                 System.out.println("Note is " + note);
-                System.out.println("A" + " is " + amplitude);
+                //System.out.println("A" + " is " + amplitude);
 
-                //MAKE SURE THAT WE DON'T CAUSE AN (ARRAY)INDEXOUTOFBOUNDSEXCEPTION
-               /* if(byteDiffPitch > buff.length - overlap*2*count)
+
+                //this will move each quarter back one quarter
+                for (i = 0; i < WINDOW_OVERLAP_BYTES; ++i)
                 {
-                    //RESET THE COUNTER AND THE STREAM OFFSET
-                    count = 0;
-                    streamRelOffset = 0;
-                }*/
-
+                    buff[i] = buff[i + diffByte];
+                }//end for*/
             }
-            System.out.println("ABSOLUTE OFFSET: "+streamAbsOffset);
         }
 
         catch (FileNotFoundException e)

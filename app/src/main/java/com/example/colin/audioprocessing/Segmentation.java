@@ -6,71 +6,71 @@ package com.example.colin.audioprocessing;
 
 public class Segmentation
 {
-
     String previousNote;
     String currentNote;
-    long currentTime;
-    long previousTime;
-    Short[] audioShorts;
-    double[] amplitude = new double[4];
-    String note;
-    boolean valid = false;
-    int count = 1;
+    double amplitude;
+    int count;
+
+    /*
+    * validity will be determined by using an int between 0 and 2
+    * 0 for invalid
+    * 1 for valid
+    * 2 for 'to be determined'
+    */
 
 
     /*
-    * A sample rate of 44.1kHz and a window size of 4096 will give 10.766 readings per second
+    * A sample rate of 44.1kHz and a window size of 1024 will give 43.0664 readings per second
     * Counting the number of readings taken can then be used to determine the time taken
-    * 1 reading would take 1/10.766 or 0.09288 seconds
-    * For amplitude readings there are 4 times as many readings because the window size is 1024
-    * one amplitude reading will take 0.02322 seconds
-    * this is more reliable than using a timer as it very easily produces incorrect readings, form my testing.
+    * 1 reading would take 1/43.0664 or 0.02322 seconds
+    * this is more reliable than using a timer as it very easily produces incorrect readings, from my testing.
     */
 
-    float noteTime = 0.09287981859f;
-    float ampTime = 0.02321995464f;
+    float time = 0.02321995464f;
 
-    public boolean segmentation(String note, double[] amplitude)
+    public float segmentation(String currentNote, double amplitude, String previousNote, int count)
     {
-        this.note = note;
+        this.previousNote = previousNote;
+        this.currentNote = currentNote;
         this.amplitude = amplitude;
-        boolean validNote = validNote(note);
-        count ++;
+        this.count = count;
+        float validNote = validNote();
         validAmplitude(amplitude);
         /*if(validNote)
         {
             MainActivity.acceptNote();
         }*/
-        return valid;
+
+        return validNote;
     }
 
-    private boolean validNote(String n)
+    private float validNote()
     {
-        boolean validNote = false;
 
+        float returnVal = 0;
         //if there is no note, it's immediately ignored
-        if(n == "-")
+        if(currentNote != null && currentNote.equals("-") == true)
         {
-             return validNote;
+             returnVal = 0;
         }
         //if a note lasts two readings or less, it can be ignored.
         //however we need to have 3 readings to determine if only two were the same
         //to do this I'll make a note when there is two of the same readings
         //then, if the third is the same it will be valid, but if it's different then it is invalid.
-        else if(count * noteTime <= noteTime*2)
+        //if the previous note is not the same as the current note, then this is a new note and we can return the count*time
+        if(previousNote != null && previousNote.equals(currentNote) == false)
         {
-            if(previousNote == currentNote)
-            {
-
-                return true;
-            }
-            previousNote = currentNote;
+            returnVal = count*time;
         }
-        return validNote;
+        else
+        {
+            returnVal = 0;
+        }
+
+        return returnVal;
     }
-    private boolean validAmplitude(double[] a)
+    private int validAmplitude(double a)
     {
-        boolean validAmplitude = false;
-        return validAmplitude;
+        return 2;
     }
 }
