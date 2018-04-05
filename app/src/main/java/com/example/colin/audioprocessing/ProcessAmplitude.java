@@ -26,3 +26,4 @@ public class ProcessAmplitude
         return amplitude;
     }
 }
+ 

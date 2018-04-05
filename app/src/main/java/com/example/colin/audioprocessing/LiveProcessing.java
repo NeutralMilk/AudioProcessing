@@ -29,8 +29,7 @@ public class LiveProcessing extends AppCompatActivity
     ProcessAmplitude pa;
     ProcessNote pn;
     Segmentation segment;
-    String previousNote;
-    String currentNote;
+    String note;
 
     public void startRecording()
     {
@@ -44,6 +43,8 @@ public class LiveProcessing extends AppCompatActivity
 
         pa = new ProcessAmplitude();
         pn = new ProcessNote();
+        segment = new Segmentation();
+
 
         new Thread() {
             public void run()
@@ -71,14 +72,15 @@ public class LiveProcessing extends AppCompatActivity
                     runOnUiThread(new Runnable() {
                         public void run()
                         {
-                            currentNote = pn.processNote(fData);
+                            note = pn.processNote(fData);
                         }
                     });
 
 
-                    //double amplitude = pa.processAmplitude(sData);
+                    double amp = pa.processAmplitude(sData);
 
-                    System.out.println("Note is " + currentNote);
+                    //System.out.println("Note is " + currentNote);
+                    float valid = segment.segmentation(note, amp);
 
                     //this will move each quarter back one quarter
                     for (int i = 0; i < WINDOW_OVERLAP_PITCH; ++i)
