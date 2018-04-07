@@ -28,9 +28,13 @@ public class WAVProcessing extends AppCompatActivity
 
     public void readWav()
     {
+
+        pn = new ProcessNote();
+        pa = new ProcessAmplitude();
+        segment = new Segmentation();
+
         String wavPath = MainActivity.context.getFilesDir() + "/" + "scale.wav";
         final File wF = new File(wavPath);
-        segment = new Segmentation();
         //Read the wav file into an input stream.
         //This will give me an array of bytes containing the raw data of the wav file
         //This isn't much use until it's converted to a short array however.
@@ -40,9 +44,6 @@ public class WAVProcessing extends AppCompatActivity
         byte[] buff = new byte[WINDOW_SIZE_BYTES];
         int diffByte = WINDOW_SIZE_BYTES - WINDOW_OVERLAP_BYTES;
 
-        pn = new ProcessNote();
-        pa = new ProcessAmplitude();
-
         try
         {
             InputStream wavFile = new BufferedInputStream(new FileInputStream(wF));
@@ -51,8 +52,7 @@ public class WAVProcessing extends AppCompatActivity
             //this will fill the last 1/4 of the buffer
             //this will then each '1/4' segment of the buffer will be moved back 1/4
             //this allows me to fill a buffer of size 4096 but make readings 4 times faster
-            while ((wavFile.read(buff, WINDOW_OVERLAP_BYTES, diffByte)) != -1)
-            {
+            while ((wavFile.read(buff, WINDOW_OVERLAP_BYTES, diffByte)) != -1) {
 
                 //create a byte buffer to hold the bytes
                 ByteBuffer bb = ByteBuffer.wrap(buff);
@@ -60,12 +60,10 @@ public class WAVProcessing extends AppCompatActivity
                 bb.order(ByteOrder.LITTLE_ENDIAN);
                 int i = 0;
                 //get the shorts from the byte buffer
-                while (bb.hasRemaining())
-                {
+                while (bb.hasRemaining()) {
                     short v = bb.getShort();
-                    if(i >= WINDOW_OVERLAP_SHORTS)
-                    {
-                        amplitudeData[i-WINDOW_OVERLAP_SHORTS] = sData[i];
+                    if (i >= WINDOW_OVERLAP_SHORTS) {
+                        amplitudeData[i - WINDOW_OVERLAP_SHORTS] = sData[i];
                     }
 
                     sData[i] = v;
@@ -73,7 +71,12 @@ public class WAVProcessing extends AppCompatActivity
                     i++;
                 }
 
-                note = pn.processNote(fData);
+                runOnUiThread(new Runnable() {
+                    public void run()
+                    {
+                        note = pn.processNote(fData);
+                    }
+                });
                 amp = pa.processAmplitude(amplitudeData);
 
                 //print out to see my results
@@ -81,31 +84,27 @@ public class WAVProcessing extends AppCompatActivity
                 System.out.println("A" + " is " + amplitude);*/
 
                 //this will move each quarter back one quarter
-                for (i = 0; i < WINDOW_OVERLAP_BYTES; ++i)
-                {
+                for (i = 0; i < WINDOW_OVERLAP_BYTES; ++i) {
                     buff[i] = buff[i + diffByte];
                 }//end for*/
 
                 float valid = segment.segmentation(note, amp);
 
-                if(valid > 0)
+                if (valid > 0)
                 {
                     System.out.println("Note is " + note + " and it lasted for " + valid + " seconds");
                     noteCount = 0;
                 }
-                
+
             }
         }
-        catch (FileNotFoundException e)
-        {
+        catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
-
 }

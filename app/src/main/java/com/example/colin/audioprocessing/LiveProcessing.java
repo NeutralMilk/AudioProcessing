@@ -3,7 +3,6 @@ package com.example.colin.audioprocessing;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 

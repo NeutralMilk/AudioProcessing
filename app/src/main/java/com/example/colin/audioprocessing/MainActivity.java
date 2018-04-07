@@ -3,6 +3,7 @@ package com.example.colin.audioprocessing;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -10,18 +11,17 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
-import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.RelativeLayout;
-import android.widget.Switch;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import processing.android.CompatUtils;
+import processing.android.PFragment;
+import processing.core.PApplet;
 import static java.lang.Math.pow;
 
 public class MainActivity extends AppCompatActivity
@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity
     public static TextView tvNote;
     public boolean active;
     public boolean begin;
-    Switch s;
     static Context context;
+    private PApplet sketch;
 
     //database
     DatabaseManager db;
@@ -72,20 +72,29 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
+
+
         tvFreq = (TextView)findViewById(R.id.tvFreq);
         tvNote = (TextView)findViewById(R.id.tvNote);
-        s = (Switch)findViewById(R.id.record);
 
         count = 0;
         xyArray = new ArrayList<>();
-        fGraph = (GraphView) findViewById(R.id.fGraph);
+        //fGraph = (GraphView) findViewById(R.id.fGraph);
         x = 0;
         active = false;
         begin = true;
 
+        FrameLayout frame = new FrameLayout(this);
+        frame.setId(CompatUtils.getUniqueViewId());
+        setContentView(frame, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+
+        sketch = new Sketch();
+        PFragment fragment = new PFragment(sketch);
+        fragment.setView(frame, this);
         Resources r = getResources();
         final int h = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 439,r.getDisplayMetrics()));
-        fGraph.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this)
+        /*fGraph.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this)
         {
             public void onSwipeTop()
             {
@@ -116,13 +125,13 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        graphSettings();
+        graphSettings();*/
 
         System.out.println("is anything working");
 
         //create an instance of the different processing methods
-        lp = new LiveProcessing();
-        lp.startRecording();
+        /*lp = new LiveProcessing();
+        lp.startRecording();*/
 
         /*wp = new WAVProcessing();
         wp.readWav();*/
@@ -247,4 +256,19 @@ public class MainActivity extends AppCompatActivity
 
     }//end displayGraphData()
 
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        if (sketch != null) {
+            sketch.onRequestPermissionsResult(
+                    requestCode, permissions, grantResults);
+        }
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        if (sketch != null) {
+            sketch.onNewIntent(intent);
+        }
+    }
 }

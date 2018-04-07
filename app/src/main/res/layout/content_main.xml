@@ -10,6 +10,11 @@
 
 
 
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="439dp"
+        android:layout_alignParentStart="true" />
 
     <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,33 +22,14 @@
     android:layout_height="fill_parent"
     android:id="@+id/RelativeLayout01">
 
-        <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:elevation="4dp"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-            <Switch
-                android:id="@+id/record"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:text="Record"
-                tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="15dp" />
-        </android.support.v7.widget.Toolbar>
-
         <TextView
             android:id="@+id/tvFreq"
             android:layout_width="98dp"
             android:layout_height="33dp"
-            android:layout_alignBaseline="@+id/tvNote"
-            android:layout_alignBottom="@+id/tvNote"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="43dp"
+            android:layout_alignTop="@+id/tvNote"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="21dp"
             android:gravity="center"
             android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -57,8 +43,8 @@
             android:layout_height="89dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginBottom="12dp"
-            android:layout_marginEnd="29dp"
+            android:layout_marginBottom="25dp"
+            android:layout_marginEnd="16dp"
             android:gravity="top"
             android:textSize="60dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -66,12 +52,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.99" />
 
-        <com.jjoe64.graphview.GraphView
+       <!-- <com.jjoe64.graphview.GraphView
             android:id="@+id/fGraph"
             android:layout_width="match_parent"
             android:layout_height="439dp"
             android:layout_alignParentStart="true"
-            android:layout_below="@id/toolbar" />
+            android:layout_below="@id/toolbar" />-->
+
+
 
     </RelativeLayout>
 
