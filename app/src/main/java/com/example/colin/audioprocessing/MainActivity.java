@@ -11,9 +11,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.support.v7.widget.Toolbar;
+
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -22,6 +26,8 @@ import java.util.ArrayList;
 import processing.android.CompatUtils;
 import processing.android.PFragment;
 import processing.core.PApplet;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static java.lang.Math.pow;
 
 public class MainActivity extends AppCompatActivity
@@ -43,7 +49,7 @@ public class MainActivity extends AppCompatActivity
     public boolean active;
     public boolean begin;
     static Context context;
-    private PApplet sketch;
+    Toolbar toolbar;
 
     //database
     DatabaseManager db;
@@ -79,24 +85,27 @@ public class MainActivity extends AppCompatActivity
 
         count = 0;
         xyArray = new ArrayList<>();
-        //fGraph = (GraphView) findViewById(R.id.fGraph);
+        fGraph = (GraphView) findViewById(R.id.fGraph);
         x = 0;
         active = false;
         begin = true;
 
-        FrameLayout frame = new FrameLayout(this);
-        frame.setId(CompatUtils.getUniqueViewId());
-        setContentView(frame, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Intent myIntent = new Intent(MainActivity.this, PianoRoll.class);
+                //myIntent.putExtra("key", value); //Optional parameters
+                MainActivity.this.startActivity(myIntent);
+            }
+        });
 
-        sketch = new Sketch();
-        PFragment fragment = new PFragment(sketch);
-        fragment.setView(frame, this);
         Resources r = getResources();
         final int h = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 439,r.getDisplayMetrics()));
-        /*fGraph.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this)
+        fGraph.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this)
         {
-            public void onSwipeTop()
+            /*public void onSwipeTop()
             {
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) fGraph.getLayoutParams();
                 params.height = h;
@@ -105,29 +114,17 @@ public class MainActivity extends AppCompatActivity
                 tvFreq.setVisibility(View.VISIBLE);
                 tvNote.setVisibility(View.VISIBLE);
 
-            }
+            }*/
             public void onSwipeBottom()
             {
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) fGraph.getLayoutParams();
-                params.height = MATCH_PARENT;
-                fGraph.setLayoutParams(params);
-                fGraph.getViewport().setMaxY(3000);
-                tvFreq.setVisibility(View.INVISIBLE);
-                tvNote.setVisibility(View.INVISIBLE);
+
             }
 
         });
 
-        s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-            {
-                displayGraphData();
-            }
-        });
 
-        graphSettings();*/
-
-        System.out.println("is anything working");
+        displayGraphData();
+        graphSettings();
 
         //create an instance of the different processing methods
         /*lp = new LiveProcessing();
@@ -153,7 +150,9 @@ public class MainActivity extends AppCompatActivity
     {
 
     }
-    private void init()
+    public static void run()
+    {}
+    public void init()
     {
         xySeries = new LineGraphSeries<>();
         float y = pitch;
@@ -257,18 +256,5 @@ public class MainActivity extends AppCompatActivity
     }//end displayGraphData()
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        if (sketch != null) {
-            sketch.onRequestPermissionsResult(
-                    requestCode, permissions, grantResults);
-        }
-    }
 
-    @Override
-    public void onNewIntent(Intent intent) {
-        if (sketch != null) {
-            sketch.onNewIntent(intent);
-        }
-    }
 }

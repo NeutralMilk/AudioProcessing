@@ -9,13 +9,6 @@
     tools:showIn="@layout/activity_main">
 
 
-
-    <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="439dp"
-        android:layout_alignParentStart="true" />
-
     <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
@@ -28,8 +21,8 @@
             android:layout_height="33dp"
             android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/tvNote"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="21dp"
+            android:layout_marginStart="41dp"
+            android:layout_marginTop="28dp"
             android:gravity="center"
             android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -41,10 +34,10 @@
             android:id="@+id/tvNote"
             android:layout_width="115dp"
             android:layout_height="89dp"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginBottom="25dp"
+            android:layout_below="@+id/fGraph"
             android:layout_marginEnd="16dp"
+            android:layout_marginTop="13dp"
             android:gravity="top"
             android:textSize="60dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -52,13 +45,22 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.99" />
 
-       <!-- <com.jjoe64.graphview.GraphView
+        <com.jjoe64.graphview.GraphView
             android:id="@+id/fGraph"
             android:layout_width="match_parent"
             android:layout_height="439dp"
             android:layout_alignParentStart="true"
-            android:layout_below="@id/toolbar" />-->
+            android:layout_below="@+id/toolbar" />
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme" />
 
 
     </RelativeLayout>

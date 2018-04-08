@@ -40,6 +40,7 @@ public class ProcessNote extends AppCompatActivity
         if(pitch == -1)
         {
             MainActivity.tvFreq.setText("-");
+
             return("-");
         }
 
