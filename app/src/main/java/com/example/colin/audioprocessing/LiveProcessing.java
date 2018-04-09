@@ -20,7 +20,7 @@ public class LiveProcessing extends AppCompatActivity
     private static final int WINDOW_SIZE_PITCH    = 4096;
     private static final int WINDOW_OVERLAP_PITCH = WINDOW_SIZE_PITCH * 3/4;
     private AudioRecord recorder    = null;
-    private boolean isRecording = false;
+    public boolean isRecording = false;
     public int count;
 
     //General variables
@@ -32,6 +32,7 @@ public class LiveProcessing extends AppCompatActivity
 
     public void startRecording()
     {
+
         recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,
                 SAMPLERATE,
                 NUM_CHANNELS,
@@ -48,6 +49,7 @@ public class LiveProcessing extends AppCompatActivity
         new Thread() {
             public void run()
             {
+
                 final short[] sData = new short[WINDOW_SIZE_PITCH];
                 final float[] fData = new float[WINDOW_SIZE_PITCH];
 
@@ -94,5 +96,12 @@ public class LiveProcessing extends AppCompatActivity
 
             }
         }.start();
+    }
+    public void stopRecording()
+    {
+        isRecording = false;
+        recorder.stop();
+        recorder.release();
+        recorder = null;
     }
 }

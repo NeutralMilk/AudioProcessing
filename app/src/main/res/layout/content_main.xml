@@ -16,28 +16,12 @@
     android:id="@+id/RelativeLayout01">
 
         <TextView
-            android:id="@+id/tvFreq"
-            android:layout_width="98dp"
-            android:layout_height="33dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignTop="@+id/tvNote"
-            android:layout_marginStart="41dp"
-            android:layout_marginTop="28dp"
-            android:gravity="center"
-            android:textSize="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.953" />
-
-        <TextView
             android:id="@+id/tvNote"
             android:layout_width="115dp"
             android:layout_height="89dp"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/fGraph"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="13dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="18dp"
             android:gravity="top"
             android:textSize="60dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -61,6 +45,16 @@
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tvNote"
+            android:layout_alignBottom="@+id/tvNote"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="36dp"
+            android:text="ToggleButton" />
 
 
     </RelativeLayout>

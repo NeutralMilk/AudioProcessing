@@ -18,6 +18,7 @@ public class PianoRoll extends AppCompatActivity
 {
     private PApplet sketch;
 
+    static int test;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

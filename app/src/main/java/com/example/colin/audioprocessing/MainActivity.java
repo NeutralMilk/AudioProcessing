@@ -12,22 +12,16 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
+import android.widget.ToggleButton;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import processing.android.CompatUtils;
-import processing.android.PFragment;
-import processing.core.PApplet;
 
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static java.lang.Math.pow;
 
 public class MainActivity extends AppCompatActivity
@@ -49,7 +43,9 @@ public class MainActivity extends AppCompatActivity
     public boolean active;
     public boolean begin;
     static Context context;
-    Toolbar toolbar;
+    public static Toolbar toolbar;
+    public static ToggleButton tb;
+    ArrayList<String> noteList = new ArrayList<String>();
 
     //database
     DatabaseManager db;
@@ -60,7 +56,6 @@ public class MainActivity extends AppCompatActivity
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
         {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
-            //ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }//end if
 
         super.onCreate(savedInstanceState);
@@ -80,8 +75,9 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        tvFreq = (TextView)findViewById(R.id.tvFreq);
+        //tvFreq = (TextView)findViewById(R.id.tvFreq);
         tvNote = (TextView)findViewById(R.id.tvNote);
+        tb = (ToggleButton)findViewById(R.id.toggleButton);
 
         count = 0;
         xyArray = new ArrayList<>();
@@ -100,6 +96,8 @@ public class MainActivity extends AppCompatActivity
                 MainActivity.this.startActivity(myIntent);
             }
         });
+
+
 
         Resources r = getResources();
         final int h = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 439,r.getDisplayMetrics()));
@@ -126,9 +124,30 @@ public class MainActivity extends AppCompatActivity
         displayGraphData();
         graphSettings();
 
-        //create an instance of the different processing methods
-        /*lp = new LiveProcessing();
-        lp.startRecording();*/
+
+        //set up toggle button for recording
+        //Start recording when it's pressed, stop when released
+        tb.setText("Record");
+        tb.setTextOff("Record");
+        tb.setTextOn("Stop");
+
+        lp = new LiveProcessing();
+
+
+        tb.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View arg0)
+            {
+                if (tb.isChecked()==(true))
+                {
+                    //create an instance of the different processing methods
+                    lp.startRecording();
+                }
+                else
+                {
+                    lp.stopRecording();
+                }
+
+            }});
 
         /*wp = new WAVProcessing();
         wp.readWav();*/

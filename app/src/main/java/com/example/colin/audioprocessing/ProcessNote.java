@@ -39,7 +39,7 @@ public class ProcessNote extends AppCompatActivity
 
         if(pitch == -1)
         {
-            MainActivity.tvFreq.setText("-");
+            //MainActivity.tvFreq.setText("-");
 
             return("-");
         }
@@ -88,7 +88,7 @@ public class ProcessNote extends AppCompatActivity
         double x = s - Math.floor(s);
         if(x >= .75 || x <= .25)
         {
-            MainActivity.tvFreq.setText("" + f.format(pitch));
+            //MainActivity.tvFreq.setText("" + f.format(pitch));
             MainActivity.tvNote.setText("" + note[sRound] + subscript[octave]);
             //System.out.println("pitch is " + pitch + " Note is " + note[sRound] + octave);
         }//end if
@@ -96,7 +96,7 @@ public class ProcessNote extends AppCompatActivity
         //otherwise just display the frequency
         else
         {
-            MainActivity.tvFreq.setText("" + f.format(pitch));
+            MainActivity.tvNote.setText("-");
         }//end else
 
         if (pitch == -1)
