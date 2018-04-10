@@ -18,6 +18,7 @@ public class PianoRoll extends AppCompatActivity
 {
     private PApplet sketch;
     public static ArrayList<String> notes = new ArrayList<String>();
+    public static float[] noteLength;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -28,7 +29,12 @@ public class PianoRoll extends AppCompatActivity
         Intent intent = getIntent();
 
         notes = intent.getStringArrayListExtra("notes");
+        noteLength = intent.getFloatArrayExtra("noteLength");
         System.out.println(notes);
+        for(int i = 0; i < MainActivity.noteLengthArraylist.size();i ++)
+        {
+            System.out.println(MainActivity.noteLengthArraylist.get(i));
+        }
         FrameLayout frame = new FrameLayout(this);
         frame.setId(CompatUtils.getUniqueViewId());
         setContentView(frame, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,

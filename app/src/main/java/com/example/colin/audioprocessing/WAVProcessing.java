@@ -24,15 +24,12 @@ public class WAVProcessing extends AppCompatActivity
     String note;
     int count = 0;
     Segmentation segment;
+    static File wF;
 
-    public void readWav()
+    public void readWav(File wF)
     {
-        String wavPath = MainActivity.context.getFilesDir() + "/" + "scale.wav";
-        final File wF = new File(wavPath);
-        int size = wavPath.length();
-        bytes = new byte[size];
+        this.wF = wF;
         segment = new Segmentation();
-
 
         //Read the wav file into an input stream.
         //This will give me an array of bytes containing the raw data of the wav file

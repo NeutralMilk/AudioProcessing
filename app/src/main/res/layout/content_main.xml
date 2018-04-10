@@ -56,6 +56,23 @@
             android:layout_marginEnd="36dp"
             android:text="ToggleButton" />
 
+        <ImageView
+            android:id="@+id/piano"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/fGraph"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            app:srcCompat="@drawable/piano" />
+
+        <ImageView
+            android:id="@+id/file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/fGraph"
+            android:layout_toStartOf="@+id/piano"
+            app:srcCompat="@drawable/wav" />
+
 
     </RelativeLayout>
 

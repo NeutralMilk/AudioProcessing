@@ -52,6 +52,7 @@ public class Segmentation
             if(previousNote != "-")
             {
                 MainActivity.noteList.add(previousNote);
+                MainActivity.noteLengthArraylist.add(validNote);
             }
         }
         else
@@ -84,7 +85,9 @@ public class Segmentation
             if(returnVal < time*2)
             {
                 returnVal = 0;
+
             }
+            noteCount = 0;
         }
         else
         {
