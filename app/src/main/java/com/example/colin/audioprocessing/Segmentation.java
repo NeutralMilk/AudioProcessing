@@ -46,14 +46,18 @@ public class Segmentation
         previousNote = currentNote;
         previousAmp = currentAmp;
 
-        if (validNote > 0 && validAmp > 0)
+        if (validNote > 0 )
         {
-            System.out.println("this was a valid note");
+            //System.out.println("this was a valid note");
+            if(previousNote != "-")
+            {
+                MainActivity.noteList.add(previousNote);
+            }
         }
         else
         {
 
-            System.out.println(currentNote + "|" + validAmp + "|" + currentAmp);
+            //System.out.println(currentNote + "|" + validAmp + "|" + currentAmp);
         }
         return validNote;
     }

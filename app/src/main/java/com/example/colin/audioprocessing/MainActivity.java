@@ -30,12 +30,11 @@ public class MainActivity extends AppCompatActivity
     private WAVProcessing wp = null;
 
     //graph variables
-    LineGraphSeries<DataPoint> xySeries;
-    private ArrayList<XYValue> xyArray;
-    GraphView fGraph;
-    public float pitch;
-    public float x;
-    public int count;
+    static LineGraphSeries<DataPoint> xySeries;
+    private static ArrayList<XYValue> xyArray;
+    static GraphView fGraph;
+    public static float x;
+    public static int count;
 
     //General variables
     public static TextView tvFreq;
@@ -45,7 +44,7 @@ public class MainActivity extends AppCompatActivity
     static Context context;
     public static Toolbar toolbar;
     public static ToggleButton tb;
-    ArrayList<String> noteList = new ArrayList<String>();
+    public static ArrayList<String> noteList = new ArrayList<String>();
 
     //database
     DatabaseManager db;
@@ -92,7 +91,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 Intent myIntent = new Intent(MainActivity.this, PianoRoll.class);
-                //myIntent.putExtra("key", value); //Optional parameters
+                myIntent.putExtra("notes", noteList); //Optional parameters
                 MainActivity.this.startActivity(myIntent);
             }
         });
@@ -101,25 +100,6 @@ public class MainActivity extends AppCompatActivity
 
         Resources r = getResources();
         final int h = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 439,r.getDisplayMetrics()));
-        fGraph.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this)
-        {
-            /*public void onSwipeTop()
-            {
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) fGraph.getLayoutParams();
-                params.height = h;
-                fGraph.setLayoutParams(params);
-                fGraph.getViewport().setMaxY(2500);
-                tvFreq.setVisibility(View.VISIBLE);
-                tvNote.setVisibility(View.VISIBLE);
-
-            }*/
-            public void onSwipeBottom()
-            {
-
-            }
-
-        });
-
 
         displayGraphData();
         graphSettings();
@@ -134,12 +114,14 @@ public class MainActivity extends AppCompatActivity
         lp = new LiveProcessing();
 
 
-        tb.setOnClickListener(new View.OnClickListener(){
+        tb.setOnClickListener(new View.OnClickListener()
+        {
             public void onClick(View arg0)
             {
                 if (tb.isChecked()==(true))
                 {
                     //create an instance of the different processing methods
+                    noteList.clear();
                     lp.startRecording();
                 }
                 else
@@ -147,10 +129,10 @@ public class MainActivity extends AppCompatActivity
                     lp.stopRecording();
                 }
 
-            }});
+            }
+        });
 
-        /*wp = new WAVProcessing();
-        wp.readWav();*/
+
 
     }
 
@@ -165,13 +147,8 @@ public class MainActivity extends AppCompatActivity
         fGraph.getViewport().setMinX(0);
     }
 
-    public static void acceptNote(String note)
-    {
 
-    }
-    public static void run()
-    {}
-    public void init()
+    static public void init(float pitch)
     {
         xySeries = new LineGraphSeries<>();
         float y = pitch;
@@ -182,7 +159,7 @@ public class MainActivity extends AppCompatActivity
         createGraph();
     }
 
-    private void createGraph()
+    private static void createGraph()
     {
         xyArray = sortArray(xyArray);
 
@@ -207,7 +184,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     //the array needs to be sorted with the x values ascending, otherwise it will crash.
-    private ArrayList<XYValue> sortArray(ArrayList<XYValue> array){
+    private static ArrayList<XYValue> sortArray(ArrayList<XYValue> array){
 
         int factor = Integer.parseInt(String.valueOf(Math.round(pow(array.size(),2))));
         int m = array.size() - 1;

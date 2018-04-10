@@ -24,6 +24,7 @@ public class ProcessNote extends AppCompatActivity
         double yinThreshold = 0.3;
         yin = new Yin(SAMPLERATE, WINDOW_SIZE_PITCH, yinThreshold);
         float currentPitch = yin.getPitch(fData).getPitch();
+        //MainActivity.init(currentPitch);
         note = updateNote(currentPitch);
         return note;
     }
@@ -90,6 +91,7 @@ public class ProcessNote extends AppCompatActivity
         {
             //MainActivity.tvFreq.setText("" + f.format(pitch));
             MainActivity.tvNote.setText("" + note[sRound] + subscript[octave]);
+
             //System.out.println("pitch is " + pitch + " Note is " + note[sRound] + octave);
         }//end if
 
@@ -103,6 +105,6 @@ public class ProcessNote extends AppCompatActivity
         {
             return null;
         }
-        return note[sRound];
+        return note[sRound]+octave;
     }
 }

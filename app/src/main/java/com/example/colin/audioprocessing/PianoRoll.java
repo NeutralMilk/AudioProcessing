@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-
+import java.util.ArrayList;
 import processing.android.CompatUtils;
 import processing.android.PFragment;
 import processing.core.PApplet;
@@ -17,14 +17,18 @@ import processing.core.PApplet;
 public class PianoRoll extends AppCompatActivity
 {
     private PApplet sketch;
+    public static ArrayList<String> notes = new ArrayList<String>();
 
-    static int test;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.piano_roll);
 
+        Intent intent = getIntent();
+
+        notes = intent.getStringArrayListExtra("notes");
+        System.out.println(notes);
         FrameLayout frame = new FrameLayout(this);
         frame.setId(CompatUtils.getUniqueViewId());
         setContentView(frame, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,

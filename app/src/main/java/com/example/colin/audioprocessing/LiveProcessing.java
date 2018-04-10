@@ -76,7 +76,7 @@ public class LiveProcessing extends AppCompatActivity
                             note = pn.processNote(fData);
                         }
                     });
-
+                    System.out.println("note is " + note);
 
                     double amp = pa.processAmplitude(sData);
 
