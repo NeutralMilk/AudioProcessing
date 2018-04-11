@@ -8,8 +8,12 @@ public class Segmentation
 {
     String previousNote;
     String currentNote;
-    double amplitude;
-    int count;
+    double currentAmp;
+    double previousAmp;
+    int noteCount =0;
+    int ampCount = 0;
+    float currentAmplitude;
+    float previousAmplitude;
 
     /*
     * validity will be determined by using an int between 0 and 2
@@ -28,19 +32,36 @@ public class Segmentation
 
     float time = 0.02321995464f;
 
-    public float segmentation(String currentNote, double amplitude, String previousNote, int count)
+    public float segmentation(String currentNote, double currentAmp)
     {
         this.previousNote = previousNote;
         this.currentNote = currentNote;
-        this.amplitude = amplitude;
-        this.count = count;
+        this.currentAmp = currentAmp;
+        this.previousAmp = previousAmp;
         float validNote = validNote();
-        validAmplitude(amplitude);
-        /*if(validNote)
-        {
-            MainActivity.acceptNote();
-        }*/
+        boolean validAmp = validAmplitude(currentAmp);
 
+
+        noteCount ++;
+        previousNote = currentNote;
+        previousAmp = currentAmp;
+
+        //System.out.println("valid note | valid amp" +validNote + " " + validAmp);
+
+        if (validNote > 0 && validAmp)
+        {
+            //System.out.println("this was a valid note");
+            if(previousNote != "-")
+            {
+                MainActivity.noteList.add(previousNote);
+                MainActivity.noteLengthArraylist.add(validNote);
+            }
+        }
+        else
+        {
+
+            //System.out.println(currentNote + "|" + validAmp + "|" + currentAmp);
+        }
         return validNote;
     }
 
@@ -49,18 +70,19 @@ public class Segmentation
 
         float returnVal = 0;
         //if there is no note, it's immediately ignored
-        if(currentNote != null && currentNote.equals("-") == true)
-        {
-             returnVal = 0;
-        }
         //if a note lasts two readings or less, it can be ignored.
-        //however we need to have 3 readings to determine if only two were the same
-        //to do this I'll make a note when there is two of the same readings
-        //then, if the third is the same it will be valid, but if it's different then it is invalid.
         //if the previous note is not the same as the current note, then this is a new note and we can return the count*time
         if(previousNote != null && previousNote.equals(currentNote) == false)
         {
-            returnVal = count*time;
+            returnVal = noteCount*time;
+
+            //ignore notes that fall below the time threshold
+            if(returnVal <= time*2)
+            {
+                returnVal = 0;
+
+            }
+            noteCount = 0;
         }
         else
         {
@@ -69,8 +91,34 @@ public class Segmentation
 
         return returnVal;
     }
-    private int validAmplitude(double a)
+    private boolean validAmplitude(double ca)
     {
-        return 2;
+        int lowerThreshold = 500;
+        int higherThreshold = 1000;
+        boolean returnVal = true;
+
+        /*
+        * There are three problems with amplitude segmentation
+        * 1. Extraneous background noise or from a crackling microphone
+        * 2. The signal may increase and decrease several times before reaching it's peak amplitude
+        * 3. A fixed threshold might not work for all microphones and devices
+        * I will address these in this method
+        */
+
+        // 1. To fix problem one, we need to ignore spikes in amplitude
+        // this requires measuring a few readings before and after each current reading
+        // if the spike only lasts for one or two readings then it can be ignored.
+        if(ca > higherThreshold)
+        {
+            returnVal = true;
+        }
+        if(ca < lowerThreshold)
+        {
+
+            returnVal = false;
+            System.out.println("ca is " + ca + " return value is " + returnVal);
+        }
+
+        return returnVal;
     }
 }

@@ -21,6 +21,7 @@ public class WAVProcessing extends AppCompatActivity
 
     ProcessAmplitude pa;
     ProcessNote pn;
+    Segmentation segment;
     String note;
     int count = 0;
 
@@ -30,7 +31,9 @@ public class WAVProcessing extends AppCompatActivity
         final File wF = new File(wavPath);
         int size = wavPath.length();
         bytes = new byte[size];
-
+        pn = new ProcessNote();
+        pa = new ProcessAmplitude();
+        segment = new Segmentation();
         //Read the wav file into an input stream.
         //This will give me an array of bytes containing the raw data of the wav file
         //This isn't much use until it's converted to a short array however.
@@ -71,17 +74,16 @@ public class WAVProcessing extends AppCompatActivity
                     i++;
                 }
 
-                pn = new ProcessNote();
+
                 note = pn.processNote(fData);
 
-                pa = new ProcessAmplitude();
                 double amplitude = pa.processAmplitude(sData);
 
                 //print out to see my results
-                System.out.println("Note is " + note);
+                System.out.println("Note & amplitude " + note + " | " + amplitude);
                 //System.out.println("A" + " is " + amplitude);
 
-
+                float valid = segment.segmentation(note, amplitude);
                 //this will move each quarter back one quarter
                 for (i = 0; i < WINDOW_OVERLAP_BYTES; ++i)
                 {

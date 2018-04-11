@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity
     public boolean begin;
     Switch s;
     static Context context;
+    public static ArrayList<String> noteList = new ArrayList<String>();
+    public static ArrayList<Float> noteLengthArraylist = new ArrayList<Float>();
 
     //database
     DatabaseManager db;
@@ -126,7 +128,8 @@ public class MainActivity extends AppCompatActivity
 
         wp = new WAVProcessing();
         wp.readWav();
-
+        System.out.println("List of notes is" + noteList);
+        System.out.println("Length of notes is " + noteLengthArraylist);
     }
 
     public void graphSettings()
