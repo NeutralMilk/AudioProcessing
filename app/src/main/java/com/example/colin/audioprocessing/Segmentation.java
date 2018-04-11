@@ -73,9 +73,6 @@ public class Segmentation
              returnVal = 0;
         }
         //if a note lasts two readings or less, it can be ignored.
-        //however we need to have 3 readings to determine if only two were the same
-        //to do this I'll make a note when there is two of the same readings
-        //then, if the third is the same it will be valid, but if it's different then it is invalid.
         //if the previous note is not the same as the current note, then this is a new note and we can return the count*time
         if(previousNote != null && previousNote.equals(currentNote) == false)
         {

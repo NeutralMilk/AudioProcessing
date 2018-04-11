@@ -138,6 +138,9 @@ public class MainActivity extends AppCompatActivity
                 final File wF = new File(wavPath);
                 wp = new WAVProcessing();
                 wp.readWav(wF);
+                System.out.println("List of notes is" + noteList);
+                System.out.println("Length of notes is " + noteLengthArraylist);
+
                 /*// ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file
                 // browser.
                 Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
@@ -152,7 +155,6 @@ public class MainActivity extends AppCompatActivity
 
 
         Resources r = getResources();
-        final int h = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 439,r.getDisplayMetrics()));
 
         displayGraphData();
         graphSettings();
@@ -184,6 +186,9 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+
+        /*wp = new WAVProcessing();
+        wp.readWav();*/
 
     }
 

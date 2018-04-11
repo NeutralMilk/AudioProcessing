@@ -44,6 +44,7 @@ public class Sketch extends PApplet
     public static ArrayList<Float> totalNoteOffset = new ArrayList<Float>();
 
     int total;
+    float totalOffset;
     int offset;
 
     //settings is used for things that need to just be ran once
@@ -83,6 +84,7 @@ public class Sketch extends PApplet
         {
             String currentNote = PianoRoll.notes.get(i);
             Float noteSize = 0.f;
+
             //if it's a black note
             if (currentNote.contains("#"))
             {
@@ -97,7 +99,6 @@ public class Sketch extends PApplet
                     if(black[j].contains(currentNote))
                     {
                         System.out.println("b");
-
                         inputBn.add(j);
                         inputBp.add(i);
                         noteSize = MainActivity.noteLengthArraylist.get(i);
@@ -123,31 +124,39 @@ public class Sketch extends PApplet
                 //cycle through all the white notes and find a match
                 for(int j = 0; j < white.length; j++)
                 {
-                    System.out.println("d");
+                   // System.out.println("d");
 
                     //when there's a match, take note of the index
                     //this will let me know when to draw the note
                     if(currentNote.equals(white[j]))
                     {
-                        System.out.println("e");
+                        //System.out.println("e");
 
                         inputWn.add(j);
                         inputWp.add(i);
                         noteSize = MainActivity.noteLengthArraylist.get(i);
-                        noteSize = offset/noteSize;
+                        float t = noteSize;
+                        noteSize = offset*noteSize;
+                        System.out.println("notesize is " + t + "offset is " +  offset + "note size is" + noteSize);
 
+                        float temp = 0;
                         if(i == 0)
                         {
-                            float temp  = noteSize;
+                            temp  = noteSize;
                             totalNoteOffset.add(temp);
-                            System.out.println("f");
+                            //System.out.println("f");
                         }
                         else
                         {
-                            float temp  = totalNoteOffset.get(i-1) + noteSize;
+                            temp  = totalNoteOffset.get(i-1) + noteSize;
+                            System.out.println("temp is " + temp + "i is " +  i + " notesize is" + noteSize);
                             totalNoteOffset.add(temp);
-                            System.out.println("g");
+                            //System.out.println("g");
                         }
+                        totalOffset +=temp;
+                        System.out.println("total offset is " + totalOffset);
+                        System.out.println(totalNoteOffset);
+
                     }
                 }
             }
@@ -219,7 +228,7 @@ public class Sketch extends PApplet
                         if(i == inputBn.get(j))
                         {
                             fill(100,130,250);
-                            rect(160*totalNoteOffset.get(i-2) + globalX + offset,(50*(i + 1) + 80 ) + 30*i + globalY + gap,160,60);
+                            rect(160*inputBp.get(j) + globalX,(50*(i + 1) + 80 ) + 30*i + globalY + gap,160,60);
                         }
                     }
                     /*fill(0);
@@ -245,7 +254,7 @@ public class Sketch extends PApplet
                         if(i == inputBn.get(j))
                         {
                             fill(100,130,250);
-                            rect(160*totalNoteOffset.get(i) + globalX + offset,(50*(i + 1) + 80 ) + 30*i + globalY,160,60);
+                            rect(160*inputBp.get(j) + globalX,(50*(i + 1) + 80 ) + 30*i + globalY,160,60);
                         }
                     }
                     count++;
@@ -268,7 +277,7 @@ public class Sketch extends PApplet
                 if(i == inputBn.get(j))
                 {
                     fill(100,130,250);
-                    rect(160*totalNoteOffset.get(i) + globalX,(50*(i + 1) + 80 ) + 30*i + globalY,160,60);
+                    rect(160*inputBp.get(j) + globalX,(50*(i + 1) + 80 ) + 30*i + globalY,160,60);
                 }
             }
         }
