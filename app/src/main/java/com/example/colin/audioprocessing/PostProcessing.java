@@ -27,6 +27,8 @@ public class PostProcessing extends AppCompatActivity
     Segmentation segment;
     static File wF;
     public static ArrayList<String> noteList = new ArrayList<String>();
+    public static ArrayList<Double> amplitudes = new ArrayList<Double>();
+
 
     public ArrayList<String> readWav(File wF)
     {
@@ -78,8 +80,10 @@ public class PostProcessing extends AppCompatActivity
                 noteList.add(note);
 
                 pa = new ProcessAmplitude();
-                //double amplitude = pa.processAmplitude(sData);
+                double amp = pa.processAmplitude(sData);
+                amplitudes.add(amp);
 
+                System.out.println(note + " | " + amp);
                 //float valid = segment.segmentation(note, amplitude);
                 //this will move each quarter back one quarter
                 for (i = 0; i < WINDOW_OVERLAP_BYTES; ++i)
@@ -99,6 +103,12 @@ public class PostProcessing extends AppCompatActivity
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
+        Segmentation segment = new Segmentation();
+        String[] notes = new String[noteList.size()];
+        Double[] amps = new Double[amplitudes.size()];
+        Object[][] note_amp= new Object[noteList.size()][2];
+        note_amp = segment.segmentation(notes, amps);
         return noteList;
     }
 }

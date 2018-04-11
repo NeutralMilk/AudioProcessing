@@ -121,6 +121,8 @@ public class LiveSketch extends PApplet
         for(int i = 0; i < 52; i++)
         {
 
+
+            //draw current note
             if (n != null && n.equals(white[i]) )
             {
                 strokeWeight(1);
@@ -132,6 +134,7 @@ public class LiveSketch extends PApplet
             strokeWeight(5);
             stroke(0);
             fill(255);
+            strokeWeight(5);
             rect(0,80*i+ globalY,160,80);
         }
 
@@ -161,12 +164,12 @@ public class LiveSketch extends PApplet
         //only 36 black keys
         for(int i = 0; i < 36; i++)
         {
+            //draw current note
             if (n != null && n.equals(black[i]) )
             {
                 stroke(0);
                 fill(255,0,0);
                 rect(160,80*i+ globalY,width-160,80);
-
             }
             if(flipFlop)
             {

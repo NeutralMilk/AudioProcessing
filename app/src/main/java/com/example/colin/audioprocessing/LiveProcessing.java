@@ -82,7 +82,7 @@ public class LiveProcessing extends AppCompatActivity
 
                     //System.out.println("Note is " + note);
                     LivePianoRoll.note = note;
-                    float valid = segment.segmentation(note, amp);
+                    //float valid = segment.segmentation(note, amp);
 
                     //this will move each quarter back one quarter
                     for (int i = 0; i < WINDOW_OVERLAP_PITCH; ++i)

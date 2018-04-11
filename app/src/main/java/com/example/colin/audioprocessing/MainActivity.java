@@ -12,11 +12,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 import android.widget.ToggleButton;
-
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import java.io.File;
@@ -27,7 +28,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
 {
-    private LiveProcessing lp = null;
     private PostProcessing wp = null;
 
     //graph variables
@@ -37,15 +37,12 @@ public class MainActivity extends AppCompatActivity
     public static int count;
 
     //General variables
-    public static TextView tvNote;
     public static ImageView piano;
     public static ImageView fileExplorer;
     public boolean active;
     public boolean begin;
     static Context context;
-    public static Toolbar toolbar;
-    public static ToggleButton tb;
-    public static ArrayList<String> noteListLive = new ArrayList<String>();
+    public static ImageButton b;
     public static ArrayList<String> noteListPost = new ArrayList<String>();
     public static ArrayList<Float> noteLengthArraylist = new ArrayList<Float>();
     private static final int READ_REQUEST_CODE = 42;
@@ -135,10 +132,30 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        b = (ImageButton) findViewById(R.id.imageButton);
+        b.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Float[] noteLength = new Float[noteLengthArraylist.size()];
+                for(int i = 0; i < noteLengthArraylist.size(); i ++)
+                {
+                    noteLength[i] = noteLengthArraylist.get(i);
+                }
+                for(int i = 0; i < noteLength.length;i ++)
+                {
+                    System.out.println(noteLength[i]);
+                }
+                Intent myIntent = new Intent(MainActivity.this, PostPianoRoll.class);
+                myIntent.putExtra("notes", noteListPost); //Optional parameters
+                myIntent.putExtra("noteTimes", noteLength);
+                MainActivity.this.startActivity(myIntent);
+            }
+        });
         //set up toggle button for recording
         //Start recording when it's pressed, stop when released
 
-        lp = new LiveProcessing();
 
 
         /*wp = new PostProcessing();
