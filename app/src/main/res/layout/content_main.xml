@@ -15,47 +15,6 @@
     android:layout_height="fill_parent"
     android:id="@+id/RelativeLayout01">
 
-        <TextView
-            android:id="@+id/tvNote"
-            android:layout_width="115dp"
-            android:layout_height="89dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="18dp"
-            android:gravity="top"
-            android:textSize="60dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.99" />
-
-        <com.jjoe64.graphview.GraphView
-            android:id="@+id/fGraph"
-            android:layout_width="match_parent"
-            android:layout_height="439dp"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/toolbar" />
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme" />
-
-        <ToggleButton
-            android:id="@+id/toggleButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/tvNote"
-            android:layout_alignBottom="@+id/tvNote"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="36dp"
-            android:text="ToggleButton" />
-
         <ImageView
             android:id="@+id/piano"
             android:layout_width="wrap_content"
@@ -69,7 +28,7 @@
             android:id="@+id/file"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/fGraph"
+            android:layout_alignParentTop="true"
             android:layout_toStartOf="@+id/piano"
             app:srcCompat="@drawable/wav" />
 

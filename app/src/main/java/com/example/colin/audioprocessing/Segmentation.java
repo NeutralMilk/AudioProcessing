@@ -51,7 +51,7 @@ public class Segmentation
             //System.out.println("this was a valid note");
             if(previousNote != "-")
             {
-                MainActivity.noteList.add(previousNote);
+                //MainActivity.noteList.add(previousNote);
                 MainActivity.noteLengthArraylist.add(validNote);
             }
         }

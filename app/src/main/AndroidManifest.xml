@@ -32,7 +32,11 @@
         </activity>
 
         <activity
-            android:name=".PianoRoll"
+        android:name=".PianoRoll"
+        android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".LivePianoRoll"
             android:screenOrientation="portrait" />
 
     </application>

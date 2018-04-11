@@ -15,7 +15,7 @@ public class ProcessNote extends AppCompatActivity
     private static final int WINDOW_OVERLAP_PITCH = WINDOW_SIZE_PITCH * 3/4;
     private Yin yin = null;
     float[] fData;
-    String note;;
+    String note;
 
     String[] notes =
             {
@@ -104,7 +104,7 @@ public class ProcessNote extends AppCompatActivity
         if(x >= .75 || x <= .25)
         {
             //MainActivity.tvFreq.setText("" + f.format(pitch));
-            MainActivity.tvNote.setText("" + note[sRound] + subscript[octave]);
+            //MainActivity.tvNote.setText("" + note[sRound] + subscript[octave]);
 
             //System.out.println("pitch is " + pitch + " Note is " + note[sRound] + octave);
         }//end if
@@ -112,7 +112,7 @@ public class ProcessNote extends AppCompatActivity
         //otherwise just display the frequency
         else
         {
-            MainActivity.tvNote.setText("-");
+            //MainActivity.tvNote.setText("-");
         }//end else
 
         if (pitch == -1)

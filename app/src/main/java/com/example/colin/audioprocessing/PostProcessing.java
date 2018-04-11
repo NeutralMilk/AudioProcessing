@@ -9,9 +9,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.ArrayList;
 
 
-public class WAVProcessing extends AppCompatActivity
+public class PostProcessing extends AppCompatActivity
 {
     byte[] bytes;
     static final int WINDOW_SIZE_SHORTS    = 4096;
@@ -25,8 +26,9 @@ public class WAVProcessing extends AppCompatActivity
     int count = 0;
     Segmentation segment;
     static File wF;
+    public static ArrayList<String> noteList = new ArrayList<String>();
 
-    public void readWav(File wF)
+    public ArrayList<String> readWav(File wF)
     {
         this.wF = wF;
         segment = new Segmentation();
@@ -73,15 +75,12 @@ public class WAVProcessing extends AppCompatActivity
 
                 pn = new ProcessNote();
                 note = pn.processNote(fData);
+                noteList.add(note);
 
                 pa = new ProcessAmplitude();
-                double amplitude = pa.processAmplitude(sData);
+                //double amplitude = pa.processAmplitude(sData);
 
-                //print out to see my results
-                //System.out.println("Note is " + note);
-                //System.out.println("A" + " is " + amplitude);
-
-                float valid = segment.segmentation(note, amplitude);
+                //float valid = segment.segmentation(note, amplitude);
                 //this will move each quarter back one quarter
                 for (i = 0; i < WINDOW_OVERLAP_BYTES; ++i)
                 {
@@ -100,6 +99,6 @@ public class WAVProcessing extends AppCompatActivity
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        return noteList;
     }
-
 }

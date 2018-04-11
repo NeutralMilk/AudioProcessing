@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import java.util.ArrayList;
+
 import processing.android.CompatUtils;
 import processing.android.PFragment;
 import processing.core.PApplet;
@@ -19,6 +20,7 @@ public class PianoRoll extends AppCompatActivity
     private PApplet sketch;
     public static ArrayList<String> notes = new ArrayList<String>();
     public static float[] noteLength;
+    private LiveProcessing lp = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -28,6 +30,8 @@ public class PianoRoll extends AppCompatActivity
 
         Intent intent = getIntent();
 
+        lp = new LiveProcessing();
+        lp.startRecording();
         notes = intent.getStringArrayListExtra("notes");
         noteLength = intent.getFloatArrayExtra("noteLength");
         System.out.println(notes);
@@ -37,8 +41,7 @@ public class PianoRoll extends AppCompatActivity
         }
         FrameLayout frame = new FrameLayout(this);
         frame.setId(CompatUtils.getUniqueViewId());
-        setContentView(frame, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
+        setContentView(frame, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         sketch = new Sketch();
         PFragment fragment = new PFragment(sketch);

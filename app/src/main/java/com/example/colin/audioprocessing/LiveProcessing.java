@@ -76,11 +76,12 @@ public class LiveProcessing extends AppCompatActivity
                             note = pn.processNote(fData);
                         }
                     });
-                    System.out.println("note is " + note);
+                    //System.out.println("note is " + note);
 
                     double amp = pa.processAmplitude(sData);
 
-                    //System.out.println("Note is " + currentNote);
+                    //System.out.println("Note is " + note);
+                    LivePianoRoll.note = note;
                     float valid = segment.segmentation(note, amp);
 
                     //this will move each quarter back one quarter
