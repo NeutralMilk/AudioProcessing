@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity
     public static ArrayList<String> noteListPost = new ArrayList<String>();
     public static ArrayList<Float> noteLengthArraylist = new ArrayList<Float>();
     private static final int READ_REQUEST_CODE = 42;
+    public static Object[][] note_time;
+
 
 
     //database
@@ -116,10 +118,11 @@ public class MainActivity extends AppCompatActivity
                 String wavPath = MainActivity.context.getFilesDir() + "/" + "scale.wav";
                 final File wF = new File(wavPath);
                 wp = new PostProcessing();
-                noteListPost = wp.readWav(wF);
-                System.out.println("List of notes is" + noteListPost);
-                System.out.println("Length of notes is " + noteLengthArraylist);
+                note_time = wp.readWav(wF);
 
+
+                Intent myIntent = new Intent(MainActivity.this, PostPianoRoll.class);
+                MainActivity.this.startActivity(myIntent);
                 /*// ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file
                 // browser.
                 Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);

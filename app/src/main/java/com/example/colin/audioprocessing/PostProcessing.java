@@ -1,5 +1,7 @@
 package com.example.colin.audioprocessing;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -30,7 +32,7 @@ public class PostProcessing extends AppCompatActivity
     public static ArrayList<Double> amplitudes = new ArrayList<Double>();
 
 
-    public ArrayList<String> readWav(File wF)
+    public Object[][] readWav(File wF)
     {
         this.wF = wF;
         segment = new Segmentation();
@@ -83,7 +85,7 @@ public class PostProcessing extends AppCompatActivity
                 double amp = pa.processAmplitude(sData);
                 amplitudes.add(amp);
 
-                System.out.println(note + " | " + amp);
+//                System.out.println(note + " | " + amp);
                 //float valid = segment.segmentation(note, amplitude);
                 //this will move each quarter back one quarter
                 for (i = 0; i < WINDOW_OVERLAP_BYTES; ++i)
@@ -107,8 +109,17 @@ public class PostProcessing extends AppCompatActivity
         Segmentation segment = new Segmentation();
         String[] notes = new String[noteList.size()];
         Double[] amps = new Double[amplitudes.size()];
-        Object[][] note_amp= new Object[noteList.size()][2];
-        note_amp = segment.segmentation(notes, amps);
-        return noteList;
+
+        for(int i = 0; i < noteList.size(); i++)
+        {
+            notes[i] = noteList.get(i);
+            amps[i] = amplitudes.get(i);
+        }
+        Object[][] note_time= new Object[noteList.size()][2];
+        System.out.println(notes.length + " n| " + amps.length);
+
+        note_time = segment.segmentation(notes, amps);
+
+        return note_time;
     }
 }

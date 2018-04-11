@@ -11,6 +11,7 @@ public class PostSketch extends PApplet
 {
     float globalX = 0;
     float globalY = 0;
+    float time = 0.02321995464f;
 
     //an array of all the notes from lowest to highest
     //will read the notes form the array of segmented notes
@@ -33,19 +34,24 @@ public class PostSketch extends PApplet
             };
     String[] black = new String[36];
     String[] white = new String[52];
+    String[] inputNotes;
+    Integer[] inputTimes;
 
     //arraylist of black notes and they're position in the whole input
-    public static ArrayList<Integer> inputBn = new ArrayList<Integer>();
-    public static ArrayList<Integer> inputBp = new ArrayList<Integer>();
+    public static ArrayList<String> blackNotes = new ArrayList<String>();
+    public static ArrayList<Float> blackNoteTimes = new ArrayList<Float>();
 
-    public static ArrayList<Integer> inputWn = new ArrayList<Integer>();
-    public static ArrayList<Integer> inputWp = new ArrayList<Integer>();
+    public static ArrayList<String> whiteNotes = new ArrayList<String>();
+    public static ArrayList<Float> whiteNoteTimes = new ArrayList<Float>();
+
+    public static ArrayList<String> allNotes = new ArrayList<String>();
+    public static ArrayList<Float> allNotetimes = new ArrayList<Float>();
+
 
     public static ArrayList<Float> totalNoteOffset = new ArrayList<Float>();
 
     int total;
-    float totalOffset;
-    int offset;
+    float totalOffset = 160;
 
     //settings is used for things that need to just be ran once
     public void settings()
@@ -55,8 +61,36 @@ public class PostSketch extends PApplet
 
     public void setup()
     {
-        offset = 160;
         System.out.println(PostPianoRoll.notes);
+
+
+        int count =0;
+        for(int i  = 0; i < MainActivity.note_time.length; i++)
+        {
+            if(MainActivity.note_time[i][0] != null)
+            {
+                allNotes.add(MainActivity.note_time[i][0].toString());
+                allNotetimes.add((int)MainActivity.note_time[i][1] * time);
+                System.out.println("Z " + allNotes.get(count) + " | " + allNotetimes.get(count));
+                count++;
+            }
+        }
+
+        //fill the black and white key array
+        for(int i = 0; i < allNotes.size(); i++)
+        {
+            if(allNotes.get(i).contains("#"))
+            {
+                blackNotes.add(allNotes.get(i));
+                blackNoteTimes.add(allNotetimes.get(i));
+
+            }
+            else
+            {
+                whiteNotes.add(allNotes.get(i));
+                whiteNoteTimes.add(allNotetimes.get(i));
+            }
+        }
 
         int whiteCount = 0;
         int blackCount = 0;
@@ -67,6 +101,7 @@ public class PostSketch extends PApplet
             if(notes[i].contains("#"))
             {
                 black[blackCount] = notes[i];
+ 
                 //System.out.println("black note: " + black[blackCount]);
                 blackCount ++;
             }
@@ -79,92 +114,8 @@ public class PostSketch extends PApplet
             }
         }
 
-        //get the current note that needs displaying and copy it to an array
-        for(int i = 0; i < PostPianoRoll.notes.size(); i++)
-        {
-            String currentNote = PostPianoRoll.notes.get(i);
-            Float noteSize = 0.f;
-
-            //if it's a black note
-            if (currentNote.contains("#"))
-            {
-                System.out.println("current note: " + currentNote);
-                //cycle through all the black notes and find a match
-                for(int j = 0; j < black.length; j++)
-                {
-                    System.out.println("a");
-
-                    //when there's a match, take note of the index
-                    //this will let me know when to draw the note
-                    if(black[j].contains(currentNote))
-                    {
-                        System.out.println("b");
-                        inputBn.add(j);
-                        inputBp.add(i);
-                        noteSize = MainActivity.noteLengthArraylist.get(i);
-                        noteSize = offset/noteSize;
-                        if(i == 0)
-                        {
-                            float temp  = noteSize;
-                            totalNoteOffset.add(temp);
-                            System.out.println("c");
-                        }
-                        else
-                        {
-                            float temp  = totalNoteOffset.get(i-1) + noteSize;
-                            totalNoteOffset.add(temp);
-                            System.out.println("h");
-                        }
-
-                    }
-                }
-            }
-            else
-            {
-                //cycle through all the white notes and find a match
-                for(int j = 0; j < white.length; j++)
-                {
-                   // System.out.println("d");
-
-                    //when there's a match, take note of the index
-                    //this will let me know when to draw the note
-                    if(currentNote.equals(white[j]))
-                    {
-                        //System.out.println("e");
-
-                        inputWn.add(j);
-                        inputWp.add(i);
-                        noteSize = MainActivity.noteLengthArraylist.get(i);
-                        float t = noteSize;
-                        noteSize = offset*noteSize;
-                        System.out.println("notesize is " + t + "offset is " +  offset + "note size is" + noteSize);
-
-                        float temp = 0;
-                        if(i == 0)
-                        {
-                            temp  = noteSize;
-                            totalNoteOffset.add(temp);
-                            //System.out.println("f");
-                        }
-                        else
-                        {
-                            temp  = totalNoteOffset.get(i-1) + noteSize;
-                            System.out.println("temp is " + temp + "i is " +  i + " notesize is" + noteSize);
-                            totalNoteOffset.add(temp);
-                            //System.out.println("g");
-                        }
-                        totalOffset +=temp;
-                        System.out.println("total offset is " + totalOffset);
-                        System.out.println(totalNoteOffset);
-
-                    }
-                }
-            }
-
-        }
-
-        total = inputBn.size() + inputWn.size();
-        System.out.println("black white total " + inputBn.size() + " " +inputWn.size() + " " + total);
+        total = blackNotes.size() + whiteNotes.size();
+        System.out.println("black white total " + blackNotes.size() + " " +whiteNotes.size() + " " + total);
 
     }
 
@@ -186,7 +137,8 @@ public class PostSketch extends PApplet
         }
 
 
-        drawNotes();
+        drawWhiteNotes();
+        drawBlackNotes();
         drawWhiteKeys();
         drawBlackKeys();
         mouseMoved();
@@ -208,96 +160,30 @@ public class PostSketch extends PApplet
 
     }
 
-    public void drawNotes()
+    public void drawWhiteNotes()
     {
-        int count = 0;
-        int gap = 0;
-        boolean flipFlop = true;
-        //only 36 black keys
-        for(int i = 0; i < 36; i++)
-        {
-            if(flipFlop)
-            {
-                if(count < 3)
-                {
-                    //System.out.println("inputB is " + inputB.size());
-                    for(int j = 0; j < inputBn.size(); j ++)
-                    {
-//                      System.out.println("j is " + inputB.get(j));
-//                      System.out.println("countKey is " + countKey);
-                        if(i == inputBn.get(j))
-                        {
-                            fill(100,130,250);
-                            rect(160*inputBp.get(j) + globalX,(50*(i + 1) + 80 ) + 30*i + globalY + gap,160,60);
-                        }
-                    }
-                    /*fill(0);
-                    rect(0,(50*(i + 1) + 80) + 30*i + globalY + gap,120,60);*/
-                    count++;
-                }
-                if(count == 3)
-                {
-                    gap += 50 + 30;
-                    count = 0;
-                    flipFlop = false;
-                }
-            }
-            else
-            {
-                if(count < 2)
-                {
-                    //System.out.println("inputB is " + inputB.size());
-                    for(int j = 0; j < inputBn.size(); j ++)
-                    {
-//                      System.out.println("j is " + inputB.get(j));
-//                      System.out.println("countKey is " + countKey);
-                        if(i == inputBn.get(j))
-                        {
-                            fill(100,130,250);
-                            rect(160*inputBp.get(j) + globalX,(50*(i + 1) + 80 ) + 30*i + globalY,160,60);
-                        }
-                    }
-                    count++;
-                }
-                if(count == 2)
-                {
-                    gap += 50 + 30;
-                    count = 0;
-                    flipFlop = true;
-                }
-            }
-        }
-        for(int i = 0; i < 36; i++)
-        {
-            //System.out.println("inputB is " + inputB.size());
-            for(int j = 0; j < inputBn.size(); j ++)
-            {
-//                System.out.println("j is " + inputB.get(j));
-//                System.out.println("countKey is " + countKey);
-                if(i == inputBn.get(j))
-                {
-                    fill(100,130,250);
-                    rect(160*inputBp.get(j) + globalX,(50*(i + 1) + 80 ) + 30*i + globalY,160,60);
-                }
-            }
-        }
-        //white keys
-
+        totalOffset = 0;
         for(int i = 0; i < 52; i++)
         {
-            //System.out.println("inputB is " + inputB.size());
-            for(int j = 0; j < inputWn.size(); j ++)
+            for(int j = 0; j < allNotes.size(); j++)
             {
-//                System.out.println("j is " + inputB.get(j));
-//                System.out.println("countKey is " + countKey);
-                if(i == inputWn.get(j))
+                if(white[i].equals(allNotes.get(j)))
                 {
-                    //stroke(0);
-                    fill(100,130,250);
-                    rect(160*inputWp.get(j) + globalX,(80*i + globalY),160,80);
+                    strokeWeight(5);
+                    stroke(0);
+                    fill(255);
+                    rect(totalOffset,80*i+ globalY,160,80);
+                    totalOffset += 160*allNotetimes.get(j);
                 }
+
             }
+
         }
+    }
+
+    public void drawBlackNotes()
+    {
+
     }
 
     public void drawWhiteKeys()

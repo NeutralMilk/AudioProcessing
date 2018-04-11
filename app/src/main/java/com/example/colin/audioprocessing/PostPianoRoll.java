@@ -21,6 +21,8 @@ public class PostPianoRoll extends AppCompatActivity
     public static ArrayList<String> notes = new ArrayList<String>();
     public static float[] noteLength;
     private LiveProcessing lp = null;
+    Object[][] note_time;
+    float time = 0.02321995464f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -28,17 +30,10 @@ public class PostPianoRoll extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.piano_roll);
 
-        Intent intent = getIntent();
-
         lp = new LiveProcessing();
         lp.startRecording();
-        notes = intent.getStringArrayListExtra("notes");
-        noteLength = intent.getFloatArrayExtra("noteLength");
         System.out.println(notes);
-        for(int i = 0; i < MainActivity.noteLengthArraylist.size();i ++)
-        {
-            System.out.println(MainActivity.noteLengthArraylist.get(i));
-        }
+
         FrameLayout frame = new FrameLayout(this);
         frame.setId(CompatUtils.getUniqueViewId());
         setContentView(frame, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
