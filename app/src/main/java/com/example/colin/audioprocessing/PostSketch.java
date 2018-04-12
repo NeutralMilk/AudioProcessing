@@ -50,8 +50,8 @@ public class PostSketch extends PApplet
 
     public static ArrayList<Float> totalNoteOffset = new ArrayList<Float>();
 
-    int total;
-    float totalOffset = 500;
+    int offset = 200;
+    float totalOffset = 200;
 
     //settings is used for things that need to just be ran once
     public void settings()
@@ -103,20 +103,16 @@ public class PostSketch extends PApplet
             {
                 black[blackCount] = notes[i];
  
-                //System.out.println("black note: " + black[blackCount]);
                 blackCount ++;
             }
             else
             {
 
                 white[whiteCount] = notes[i];
-                //System.out.println("white note: " + white[whiteCount]);
                 whiteCount++;
             }
         }
 
-        total = blackNotes.size() + whiteNotes.size();
-        System.out.println("black white total " + blackNotes.size() + " " +whiteNotes.size() + " " + total);
 
     }
 
@@ -134,7 +130,7 @@ public class PostSketch extends PApplet
         {
             strokeWeight(1);
             stroke(0);
-            line(160 + 500*i + globalX, 0, 160 + 500*i + globalX , height);
+            line(160 + offset*i + globalX, 0, 160 + offset*i + globalX , height);
         }
 
 
@@ -162,7 +158,7 @@ public class PostSketch extends PApplet
 
     public void drawNotes()
     {
-        totalOffset = 0;
+        totalOffset = 300;
         strokeWeight(2);
         stroke(0);
         fill(120,100,255);
@@ -190,6 +186,7 @@ public class PostSketch extends PApplet
                 {
                     if(count < 3)
                     {
+                        System.out.println(currentNote);
                         rect(totalOffset + globalX,(50*(count2 + 1) ) + 30*count2 + globalY + gap,totalNoteOffset.get(i),60);
                         count++;
                     }
@@ -204,6 +201,8 @@ public class PostSketch extends PApplet
                 {
                     if(count < 2)
                     {
+                        System.out.println(currentNote);
+
                         rect(totalOffset + globalX,(50*(count2 + 1) ) + 30*count2 + globalY + gap,totalNoteOffset.get(i),60);
                         count++;
                     }

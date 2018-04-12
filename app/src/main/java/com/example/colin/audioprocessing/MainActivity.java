@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                String wavPath = MainActivity.context.getFilesDir() + "/" + "scale.wav";
+                String wavPath = MainActivity.context.getFilesDir() + "/" + "scale2.wav";
                 final File wF = new File(wavPath);
                 wp = new PostProcessing();
                 note_time = wp.readWav(wF);

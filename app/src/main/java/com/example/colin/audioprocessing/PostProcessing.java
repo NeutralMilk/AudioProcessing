@@ -53,8 +53,6 @@ public class PostProcessing extends AppCompatActivity
             //final int byteDiffPitch = WINDOW_SIZE_PITCH * 2 - WINDOW_OVERLAP_PITCH * 2;
             byte[] buff = new byte[WINDOW_SIZE_BYTES];
             int diffByte = WINDOW_SIZE_BYTES - WINDOW_OVERLAP_BYTES;
-            int diffShort = WINDOW_OVERLAP_SHORTS - WINDOW_OVERLAP_SHORTS;
-
 
             //first write diffByte amount of bytes into the WINDOW_OVERLAP_BYTES position of the buffer
             //this will fill the last 1/4 of the buffer
