@@ -139,8 +139,6 @@ public class PostSketch extends PApplet
 
 
         drawNotes();
-        //drawWhiteNotes();
-        //drawBlackNotes();
         drawWhiteKeys();
         drawBlackKeys();
         mouseMoved();
@@ -165,6 +163,9 @@ public class PostSketch extends PApplet
     public void drawNotes()
     {
         totalOffset = 0;
+        strokeWeight(2);
+        stroke(0);
+        fill(120,100,255);
         for(int i = 0; i < allNotes.size(); i++)
         {
             String currentNote = allNotes.get(i);
@@ -175,6 +176,45 @@ public class PostSketch extends PApplet
             }
             else if(currentNote.contains("#"))
             {
+                //black keys
+                int count = 0;
+                int count2 = 0;
+                int gap = 0;
+                boolean flipFlop = true;
+
+                while(currentNote.equals(black[count2]) == false)
+                {
+                    count2++;
+                }
+                if(flipFlop)
+                {
+                    if(count < 3)
+                    {
+                        rect(totalOffset + globalX,(50*(count2 + 1) ) + 30*count2 + globalY + gap,totalNoteOffset.get(i),60);
+                        count++;
+                    }
+                    if(count == 3)
+                    {
+                        gap += 50 + 30;
+                        count = 0;
+                        flipFlop = false;
+                    }
+                }
+                else
+                {
+                    if(count < 2)
+                    {
+                        rect(totalOffset + globalX,(50*(count2 + 1) ) + 30*count2 + globalY + gap,totalNoteOffset.get(i),60);
+                        count++;
+                    }
+                    if(count == 2)
+                    {
+                        gap += 50 + 30;
+                        count = 0;
+                        flipFlop = true;
+                    }
+                }
+
                 totalOffset += totalNoteOffset.get(i);
             }
             else
@@ -184,147 +224,13 @@ public class PostSketch extends PApplet
                 {
                     count++;
                 }
-                //System.out.println("made it this far");
-                strokeWeight(5);
-                stroke(0);
-                fill(255,100,0);
+
                 rect(totalOffset + globalX,80*count+ globalY,totalNoteOffset.get(i),80);
                 totalOffset += totalNoteOffset.get(i);
 
-                //when the while loop breaks, we have the location that the note needs to be placed
             }
         }
     }
-    public void drawWhiteNotes()
-    {
-        totalOffset = 0;
-        int change = 0;
-        for(int i = 0; i < 52; i++)
-        {
-            for(int j = 0; j < allNotes.size(); j++)
-            {
-
-                strokeWeight(5);
-                stroke(0);
-                fill(255,change,0);
-                if(allNotes.get(j).equals("-")!= true)
-                {
-
-                    if(white[i].equals(allNotes.get(j)))
-                    {
-                        System.out.println(allNotes.get(j));
-                        rect(totalOffset + globalX,80*i+ globalY,totalNoteOffset.get(j),80);
-                        try
-                        {
-                            if(allNotes.get(j-1).equals("-"))
-                            {
-                                totalOffset+=totalNoteOffset.get(j-1);
-                            }
-                        }
-                        catch(Exception e)
-                        {
-                            if(j == 0)
-                            {
-                                totalOffset+=totalNoteOffset.get(j-1);
-                            }
-                        }
-
-                        totalOffset += totalNoteOffset.get(j);
-                        change += 20;
-                    }
-
-                }
-
-            }
-
-        }
-
-    }
-
-    public void drawBlackNotes()
-    {
-        //black keys
-        int count = 0;
-        int gap = 0;
-        boolean flipFlop = true;
-
-        //only 36 black keys
-        for(int i = 0; i < 36; i++)
-        {
-            for(int j = 0; j < allNotes.size(); j++)
-            {
-                if(black[i].equals(allNotes.get(j)))
-                {
-                    if(flipFlop)
-                    {
-                        if(count < 3)
-                        {
-                            if(black[i].equals(allNotes.get(j)))
-                            {
-                                System.out.println(allNotes.get(j));
-                                //rect(0,(50*(i + 1) + 80) + 30*i + globalY + gap,120,60);
-                                rect(totalOffset + globalX,(50*(i + 1) ) + 30*i + globalY + gap,totalNoteOffset.get(j),60);
-                                try
-                                {
-                                    if(allNotes.get(j-1).equals("-"))
-                                    {
-                                        totalOffset+=totalNoteOffset.get(j-1);
-                                    }
-                                }
-                                catch(Exception e)
-                                {
-                                    if(j == 0)
-                                    {
-                                        totalOffset+=totalNoteOffset.get(j-1);
-                                    }
-                                }
-                                totalOffset += totalNoteOffset.get(j);
-                            }
-                            if(count == 3)
-                            {
-                                gap += 50 + 30;
-                                count = 0;
-                                flipFlop = false;
-                            }
-                            count++;
-                        }
-                    }
-                    else
-                    {
-                        if(count < 2)
-                        {
-                                System.out.println(allNotes.get(j));
-                                rect(totalOffset + globalX,80*i+ globalY,totalNoteOffset.get(j),60);
-                                try
-                                {
-                                    if(allNotes.get(j-1).equals("-"))
-                                    {
-                                        totalOffset+=totalNoteOffset.get(j-1);
-                                    }
-                                }
-                                catch(Exception e)
-                                {
-                                    if(j == 0)
-                                    {
-                                        totalOffset+=totalNoteOffset.get(j-1);
-                                    }
-                                }
-
-                                totalOffset += totalNoteOffset.get(j);
-                        }
-                        if(count == 2)
-                        {
-                            gap += 50 + 30;
-                            count = 0;
-                            flipFlop = true;
-                        }
-                        count++;
-                    }
-                }
-            }
-        }
-    }
-
 
     public void drawWhiteKeys()
     {
