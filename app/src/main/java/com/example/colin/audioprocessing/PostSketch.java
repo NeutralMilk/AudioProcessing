@@ -51,7 +51,7 @@ public class PostSketch extends PApplet
     public static ArrayList<Float> totalNoteOffset = new ArrayList<Float>();
 
     int total;
-    float totalOffset = 160;
+    float totalOffset = 500;
 
     //settings is used for things that need to just be ran once
     public void settings()
@@ -71,7 +71,8 @@ public class PostSketch extends PApplet
             {
                 allNotes.add(MainActivity.note_time[i][0].toString());
                 allNotetimes.add((int)MainActivity.note_time[i][1] * time);
-                System.out.println("Z " + allNotes.get(count) + " | " + allNotetimes.get(count));
+                totalNoteOffset.add(totalOffset*allNotetimes.get(count));
+                System.out.println("Z " + allNotes.get(count) + " | " + allNotetimes.get(count) + " | " + totalNoteOffset.get(count));
                 count++;
             }
         }
@@ -133,12 +134,13 @@ public class PostSketch extends PApplet
         {
             strokeWeight(1);
             stroke(0);
-            line(160*i + globalX, 0, 160*i + globalX , height);
+            line(160 + 500*i + globalX, 0, 160 + 500*i + globalX , height);
         }
 
 
-        drawWhiteNotes();
-        drawBlackNotes();
+        drawNotes();
+        //drawWhiteNotes();
+        //drawBlackNotes();
         drawWhiteKeys();
         drawBlackKeys();
         mouseMoved();
@@ -160,31 +162,169 @@ public class PostSketch extends PApplet
 
     }
 
+    public void drawNotes()
+    {
+        totalOffset = 0;
+        for(int i = 0; i < allNotes.size(); i++)
+        {
+            String currentNote = allNotes.get(i);
+            //deal with black notes first
+            if(currentNote.equals("-"))
+            {
+                totalOffset += totalNoteOffset.get(i);
+            }
+            else if(currentNote.contains("#"))
+            {
+                totalOffset += totalNoteOffset.get(i);
+            }
+            else
+            {
+                int count = 0;
+                while(currentNote.equals(white[count]) == false)
+                {
+                    count++;
+                }
+                //System.out.println("made it this far");
+                strokeWeight(5);
+                stroke(0);
+                fill(255,100,0);
+                rect(totalOffset + globalX,80*count+ globalY,totalNoteOffset.get(i),80);
+                totalOffset += totalNoteOffset.get(i);
+
+                //when the while loop breaks, we have the location that the note needs to be placed
+            }
+        }
+    }
     public void drawWhiteNotes()
     {
         totalOffset = 0;
+        int change = 0;
         for(int i = 0; i < 52; i++)
         {
             for(int j = 0; j < allNotes.size(); j++)
             {
-                if(white[i].equals(allNotes.get(j)))
+
+                strokeWeight(5);
+                stroke(0);
+                fill(255,change,0);
+                if(allNotes.get(j).equals("-")!= true)
                 {
-                    strokeWeight(5);
-                    stroke(0);
-                    fill(255);
-                    rect(totalOffset,80*i+ globalY,160,80);
-                    totalOffset += 160*allNotetimes.get(j);
+
+                    if(white[i].equals(allNotes.get(j)))
+                    {
+                        System.out.println(allNotes.get(j));
+                        rect(totalOffset + globalX,80*i+ globalY,totalNoteOffset.get(j),80);
+                        try
+                        {
+                            if(allNotes.get(j-1).equals("-"))
+                            {
+                                totalOffset+=totalNoteOffset.get(j-1);
+                            }
+                        }
+                        catch(Exception e)
+                        {
+                            if(j == 0)
+                            {
+                                totalOffset+=totalNoteOffset.get(j-1);
+                            }
+                        }
+
+                        totalOffset += totalNoteOffset.get(j);
+                        change += 20;
+                    }
+
                 }
 
             }
 
         }
+
     }
 
     public void drawBlackNotes()
     {
+        //black keys
+        int count = 0;
+        int gap = 0;
+        boolean flipFlop = true;
 
+        //only 36 black keys
+        for(int i = 0; i < 36; i++)
+        {
+            for(int j = 0; j < allNotes.size(); j++)
+            {
+                if(black[i].equals(allNotes.get(j)))
+                {
+                    if(flipFlop)
+                    {
+                        if(count < 3)
+                        {
+                            if(black[i].equals(allNotes.get(j)))
+                            {
+                                System.out.println(allNotes.get(j));
+                                //rect(0,(50*(i + 1) + 80) + 30*i + globalY + gap,120,60);
+                                rect(totalOffset + globalX,(50*(i + 1) ) + 30*i + globalY + gap,totalNoteOffset.get(j),60);
+                                try
+                                {
+                                    if(allNotes.get(j-1).equals("-"))
+                                    {
+                                        totalOffset+=totalNoteOffset.get(j-1);
+                                    }
+                                }
+                                catch(Exception e)
+                                {
+                                    if(j == 0)
+                                    {
+                                        totalOffset+=totalNoteOffset.get(j-1);
+                                    }
+                                }
+                                totalOffset += totalNoteOffset.get(j);
+                            }
+                            if(count == 3)
+                            {
+                                gap += 50 + 30;
+                                count = 0;
+                                flipFlop = false;
+                            }
+                            count++;
+                        }
+                    }
+                    else
+                    {
+                        if(count < 2)
+                        {
+                                System.out.println(allNotes.get(j));
+                                rect(totalOffset + globalX,80*i+ globalY,totalNoteOffset.get(j),60);
+                                try
+                                {
+                                    if(allNotes.get(j-1).equals("-"))
+                                    {
+                                        totalOffset+=totalNoteOffset.get(j-1);
+                                    }
+                                }
+                                catch(Exception e)
+                                {
+                                    if(j == 0)
+                                    {
+                                        totalOffset+=totalNoteOffset.get(j-1);
+                                    }
+                                }
+
+                                totalOffset += totalNoteOffset.get(j);
+                        }
+                        if(count == 2)
+                        {
+                            gap += 50 + 30;
+                            count = 0;
+                            flipFlop = true;
+                        }
+                        count++;
+                    }
+                }
+            }
+        }
     }
+
 
     public void drawWhiteKeys()
     {
