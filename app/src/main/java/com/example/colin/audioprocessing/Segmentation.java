@@ -33,11 +33,15 @@ public class Segmentation
                 //if there is a 'break' in the stream of notes while a note is being detected
                 if(n[i-1].equals(notes[i+1]) && n[i].equals("-"))
                 {
-                    //if the amplitude is big enough to be considered a note
-                    if(amplitudes[i] > upperThreshold)
+                    //if the notes surrounding that break are different
+                    if(!n[i-2].equals(notes[i-1]) || !n[i+2].equals(n[i-1]))
                     {
-                        //fill in that blank with the correct note.
-                        n[i] = n[i+1];
+                        //if that amplitude is big enough to be considered a note
+                        if(amplitudes[i] > upperThreshold)
+                        {
+                            //fill in that blank with the correct note.
+                            n[i] = n[i+1];
+                        }
                     }
                 }
             }
@@ -62,12 +66,47 @@ public class Segmentation
                 }
             }
 
+            if(i > 1 && i < n.length-1)
+            {
+                if(!n[i].equals("-"))
+                {
+                    if(!n[i-1].equals("-"))
+                    {
+                        if(!n[i].equals(n[i-1]))
+                        {
+                            if(n[i-2].equals("-"))
+                            {
+                                n[i - 1] = n[i];
+                            }
+                        }
+                    }
+                }
+            }
+
+            //if there is a single note, it's too short
+            if(i > 1 && i < n.length-1)
+            {
+                if(!n[i].equals("-"))
+                {
+                    if(n[i-1].equals("-"))
+                    {
+                        if(n[i+1].equals("-"))
+                        {
+
+                            n[i] = "-";
+
+                        }
+                    }
+                }
+            }
+
+
             if(!n[i].equals("-"))
             {
                 char fl = n[i].charAt(0);
                 char sl;
                 String note = new StringBuilder().append(fl).toString();
-                if(Character.isLetter(n[i].charAt(1)))
+                if(!Character.isDigit(n[i].charAt(1)))
                 {
                     sl = n[i].charAt(1);
                     note = new StringBuilder().append(fl).append(sl).toString();

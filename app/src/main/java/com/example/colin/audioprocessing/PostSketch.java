@@ -50,8 +50,8 @@ public class PostSketch extends PApplet
 
     public static ArrayList<Float> totalNoteOffset = new ArrayList<Float>();
 
-    int offset = 200;
-    float totalOffset = 200;
+    int offset = 300;
+    float totalOffset = 300;
 
     //settings is used for things that need to just be ran once
     public void settings()
@@ -61,7 +61,6 @@ public class PostSketch extends PApplet
 
     public void setup()
     {
-        System.out.println(PostPianoRoll.notes);
 
 
         int count =0;
@@ -72,7 +71,6 @@ public class PostSketch extends PApplet
                 allNotes.add(MainActivity.note_time[i][0].toString());
                 allNotetimes.add((int)MainActivity.note_time[i][1] * time);
                 totalNoteOffset.add(totalOffset*allNotetimes.get(count));
-                System.out.println("Z " + allNotes.get(count) + " | " + allNotetimes.get(count) + " | " + totalNoteOffset.get(count));
                 count++;
             }
         }
@@ -186,7 +184,6 @@ public class PostSketch extends PApplet
                 {
                     if(count < 3)
                     {
-                        System.out.println(currentNote);
                         rect(totalOffset + globalX,(50*(count2 + 1) ) + 30*count2 + globalY + gap,totalNoteOffset.get(i),60);
                         count++;
                     }
@@ -201,7 +198,6 @@ public class PostSketch extends PApplet
                 {
                     if(count < 2)
                     {
-                        System.out.println(currentNote);
 
                         rect(totalOffset + globalX,(50*(count2 + 1) ) + 30*count2 + globalY + gap,totalNoteOffset.get(i),60);
                         count++;

@@ -45,7 +45,6 @@ public class PostProcessing extends AppCompatActivity
         try
         {
             InputStream wavFile = new BufferedInputStream(new FileInputStream(wF));
-            System.out.println("works 1");
 
             int read;
 
@@ -58,7 +57,7 @@ public class PostProcessing extends AppCompatActivity
             //this will fill the last 1/4 of the buffer
             //this will then each '1/4' segment of the buffer will be moved back 1/4
             //this allows me to fill a buffer of size 4096 but make readings 4 times faster
-            while ((read = wavFile.read(buff, WINDOW_OVERLAP_BYTES, diffByte)) != -1)
+            while ((wavFile.read(buff, WINDOW_OVERLAP_BYTES, diffByte)) != -1)
             {
 
                 //create a byte buffer to hold the bytes
@@ -83,8 +82,6 @@ public class PostProcessing extends AppCompatActivity
                 double amp = pa.processAmplitude(sData);
                 amplitudes.add(amp);
 
-//                System.out.println(note + " | " + amp);
-                //float valid = segment.segmentation(note, amplitude);
                 //this will move each quarter back one quarter
                 for (i = 0; i < WINDOW_OVERLAP_BYTES; ++i)
                 {
@@ -114,7 +111,6 @@ public class PostProcessing extends AppCompatActivity
             amps[i] = amplitudes.get(i);
         }
         Object[][] note_time= new Object[noteList.size()][2];
-        System.out.println(notes.length + " n| " + amps.length);
 
         note_time = segment.segmentation(notes, amps);
 

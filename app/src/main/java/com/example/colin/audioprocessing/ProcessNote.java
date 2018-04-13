@@ -68,10 +68,8 @@ public class ProcessNote extends AppCompatActivity
         //octave grouping, this will tell me if a note is an E4, F6, C2 etc.
         int octave = 4;
         double o = 0;
-        //Java doesn't have built in subscript so I'll use an array of the unicode values
-        String subscript[] = {"\u2080", "\u2081", "\u2082", "\u2083", "\u2084", "\u2085", "\u2086", "\u2087", "\u2088", "\u2089"};
 
-        //find the amount of semitones between A and the pitch I want to find
+        //find the amount of semitones between C4 and the pitch I want to find
         double s = ((12)*Math.log(pitch/C4))/Math.log(2);
 
         //calculate octave range
@@ -82,7 +80,6 @@ public class ProcessNote extends AppCompatActivity
         {
             octave-=1;
         }
-        //System.out.println("o is" + (int)o);
 
 
         //round to the nearest semitone
@@ -98,22 +95,6 @@ public class ProcessNote extends AppCompatActivity
             sRound-=12;
         }//end if
 
-        DecimalFormat f = new DecimalFormat("##.000");
-        //display closest note within a 1/4 semitone
-        double x = s - Math.floor(s);
-        if(x >= .75 || x <= .25)
-        {
-            //MainActivity.tvFreq.setText("" + f.format(pitch));
-            //MainActivity.tvNote.setText("" + note[sRound] + subscript[octave]);
-
-            //System.out.println("pitch is " + pitch + " Note is " + note[sRound] + octave);
-        }//end if
-
-        //otherwise just display the frequency
-        else
-        {
-            //MainActivity.tvNote.setText("-");
-        }//end else
 
         if (pitch == -1)
         {

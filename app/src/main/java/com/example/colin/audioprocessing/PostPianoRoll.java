@@ -32,7 +32,6 @@ public class PostPianoRoll extends AppCompatActivity
 
         lp = new LiveProcessing();
         lp.startRecording();
-        System.out.println(notes);
 
         FrameLayout frame = new FrameLayout(this);
         frame.setId(CompatUtils.getUniqueViewId());

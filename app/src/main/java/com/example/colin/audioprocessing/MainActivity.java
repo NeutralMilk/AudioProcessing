@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity
 
     //graph variables
     static LineGraphSeries<DataPoint> xySeries;
-    private static ArrayList<XYValue> xyArray;
     public static float x;
     public static int count;
 
@@ -82,7 +81,6 @@ public class MainActivity extends AppCompatActivity
 
 
         count = 0;
-        xyArray = new ArrayList<>();
         x = 0;
         active = false;
         begin = true;
@@ -98,10 +96,7 @@ public class MainActivity extends AppCompatActivity
                 {
                     noteLength[i] = noteLengthArraylist.get(i);
                 }
-                for(int i = 0; i < noteLength.length;i ++)
-                {
-                    System.out.println(noteLength[i]);
-                }
+
                 Intent myIntent = new Intent(MainActivity.this, LivePianoRoll.class);
                 myIntent.putExtra("notes", noteListPost); //Optional parameters
                 myIntent.putExtra("noteTimes", noteLength);
@@ -115,7 +110,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                String wavPath = MainActivity.context.getFilesDir() + "/" + "scale2.wav";
+                String wavPath = MainActivity.context.getFilesDir() + "/" + "scale4.wav";
                 final File wF = new File(wavPath);
                 wp = new PostProcessing();
                 note_time = wp.readWav(wF);
@@ -148,7 +143,6 @@ public class MainActivity extends AppCompatActivity
                 }
                 for(int i = 0; i < noteLength.length;i ++)
                 {
-                    System.out.println(noteLength[i]);
                 }
                 Intent myIntent = new Intent(MainActivity.this, PostPianoRoll.class);
                 myIntent.putExtra("notes", noteListPost); //Optional parameters
@@ -156,14 +150,6 @@ public class MainActivity extends AppCompatActivity
                 MainActivity.this.startActivity(myIntent);
             }
         });
-        //set up toggle button for recording
-        //Start recording when it's pressed, stop when released
-
-
-
-        /*wp = new PostProcessing();
-        wp.readWav();*/
-
     }
 
     @Override
@@ -179,29 +165,18 @@ public class MainActivity extends AppCompatActivity
                 if (resultData != null)
                 {
                     uri = resultData.getData();
-                    System.out.println(uri);
-                    //uri is null
-                    //will always fail the try
-                    /*try
-                    {*/
-                        getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                        //System.out.println("uri is " + uri.toString());
-                        String path = uri.getPath();
-                        try
-                        {
-                            File wavFile = new File(new URI(path));
-
-                        }
-                        catch(URISyntaxException e)
-                        {
-
-                        }
-                    /*}
-                    catch(Exception e)
+                    getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                    String path = uri.getPath();
+                    try
                     {
-                        System.out.println("didn't work ");
+                        File wavFile = new File(new URI(path));
+
                     }
-*/
+                    catch(URISyntaxException e)
+                    {
+
+                    }
+
                 }
             }
         }

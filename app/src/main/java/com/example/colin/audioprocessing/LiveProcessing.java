@@ -21,7 +21,6 @@ public class LiveProcessing extends AppCompatActivity
     private static final int WINDOW_OVERLAP_PITCH = WINDOW_SIZE_PITCH * 3/4;
     private AudioRecord recorder    = null;
     public boolean isRecording = false;
-    public int count;
 
     //General variables
     public boolean active;
@@ -63,26 +62,16 @@ public class LiveProcessing extends AppCompatActivity
                 {
                     recorder.read(sData, WINDOW_OVERLAP_PITCH, diffPitch);
 
-                    for (int j = WINDOW_OVERLAP_PITCH; j < diffPitch; ++j)
-                    {
-                        fData[j] = (float) sData[j];
-                        Log.v(String.valueOf(fData[j]), "fdata");
-                        System.out.println("fdata is" + fData[j]);
-                    }//end for
-
                     runOnUiThread(new Runnable() {
                         public void run()
                         {
                             note = pn.processNote(fData);
                         }
                     });
-                    //System.out.println("note is " + note);
 
                     double amp = pa.processAmplitude(sData);
 
-                    //System.out.println("Note is " + note);
                     LivePianoRoll.note = note;
-                    //float valid = segment.segmentation(note, amp);
 
                     //this will move each quarter back one quarter
                     for (int i = 0; i < WINDOW_OVERLAP_PITCH; ++i)
@@ -91,10 +80,7 @@ public class LiveProcessing extends AppCompatActivity
                         fData[i] = (float) sData[i + diffPitch];
                     }//end for*/
 
-                    count++;
-
                 }
-
             }
         }.start();
     }

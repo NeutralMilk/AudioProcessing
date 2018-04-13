@@ -20,8 +20,8 @@ public class DatabaseManager
     public static final String KEY_RECORDINGID 	= "recordingID";
     public static final String KEY_NOTE	= "note";
     public static final String KEY_DURATION 	= "duration";
+    public static final String KEY_KEYVALUE 	= "key";
     private static final String DATABASE_TABLE 	= "Note_Details";
-
     private static final String DATABASE_NAME 	= "Transcriptions";
     private static final int DATABASE_VERSION 	= 1;
 
@@ -31,7 +31,8 @@ public class DatabaseManager
             "_id integer primary key autoincrement" +
             ",recordingID integer not null" +
             ",note text not null" +
-            ",duration text not null unique" +
+            ",duration text not null" +
+            ",key text not null" +
             ");";
 
     private final Context context;
@@ -85,13 +86,14 @@ public class DatabaseManager
         DBHelper.close();
     }
     //adds notes to the database
-    public long insertNotes(String recordingID, String note, String duration)
+    public long insertNotes(String recordingID, String note, String duration, String key)
     {
         db = DBHelper.getWritableDatabase();
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_RECORDINGID, recordingID);
         initialValues.put(KEY_NOTE, note);
         initialValues.put(KEY_DURATION, duration);
+        initialValues.put(KEY_KEYVALUE, key);
         return db.insert(DATABASE_TABLE, null, initialValues);
     }
 

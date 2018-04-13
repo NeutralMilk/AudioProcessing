@@ -63,14 +63,12 @@ public class LiveSketch extends PApplet
             if(notes[i].contains("#"))
             {
                 black[blackCount] = notes[i];
-                //System.out.println("black note: " + black[blackCount]);
                 blackCount ++;
             }
             else
             {
 
                 white[whiteCount] = notes[i];
-                //System.out.println("white note: " + white[whiteCount]);
                 whiteCount++;
             }
         }
@@ -85,14 +83,13 @@ public class LiveSketch extends PApplet
 
         String note = LivePianoRoll.note;
 
-        System.out.println("note is this: " + note);
-        //dividing lines
+        /*//dividing lines
         for(int i = 0; i < width; i ++)
         {
             strokeWeight(1);
             stroke(0);
             line(160*i + globalX, 0, 160*i + globalX , height);
-        }
+        }*/
 
         drawWhiteKeys(note);
         drawBlackKeys(note);
