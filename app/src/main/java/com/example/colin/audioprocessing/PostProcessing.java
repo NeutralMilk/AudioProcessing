@@ -1,7 +1,6 @@
 package com.example.colin.audioprocessing;
 
-import android.content.Intent;
-import android.os.Bundle;
+
 import android.support.v7.app.AppCompatActivity;
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -27,12 +26,12 @@ public class PostProcessing extends AppCompatActivity
     String note;
     int count = 0;
     Segmentation segment;
-    static File wF;
+    static InputStream wF;
     public static ArrayList<String> noteList = new ArrayList<String>();
     public static ArrayList<Double> amplitudes = new ArrayList<Double>();
 
 
-    public Object[][] readWav(File wF)
+    public Object[][] readWav(InputStream wF)
     {
         this.wF = wF;
         segment = new Segmentation();
@@ -44,7 +43,7 @@ public class PostProcessing extends AppCompatActivity
         final float[] fData = new float[WINDOW_SIZE_SHORTS];
         try
         {
-            InputStream wavFile = new BufferedInputStream(new FileInputStream(wF));
+            InputStream wavFile = wF;
 
             int read;
 

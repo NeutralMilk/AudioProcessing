@@ -78,18 +78,10 @@ public class LiveSketch extends PApplet
     public void draw()
     {
         //clear the screen with each refresh
-        //otherwise, the screen will fil up with old datasfd
+        //otherwise, the screen will fil up with old data
         background(200);
 
         String note = LivePianoRoll.note;
-
-        /*//dividing lines
-        for(int i = 0; i < width; i ++)
-        {
-            strokeWeight(1);
-            stroke(0);
-            line(160*i + globalX, 0, 160*i + globalX , height);
-        }*/
 
         drawWhiteKeys(note);
         drawBlackKeys(note);
@@ -117,8 +109,6 @@ public class LiveSketch extends PApplet
         //52 white keys
         for(int i = 0; i < 52; i++)
         {
-
-
             //draw current note
             if (n != null && n.equals(white[i]) )
             {
@@ -126,7 +116,6 @@ public class LiveSketch extends PApplet
                 stroke(0);
                 fill(255,0,0);
                 rect(160,80*i+ globalY,width-160,80);
-
             }
             strokeWeight(5);
             stroke(0);
@@ -138,7 +127,6 @@ public class LiveSketch extends PApplet
         int octave = 8;
         for(int i = 0; i<52; i++)
         {
-
             if(i%7 == 0)
             {
                 textSize(50);
@@ -161,13 +149,6 @@ public class LiveSketch extends PApplet
         //only 36 black keys
         for(int i = 0; i < 36; i++)
         {
-            //draw current note
-            if (n != null && n.equals(black[i]) )
-            {
-                stroke(0);
-                fill(255,0,0);
-                rect(160,80*i+ globalY,width-160,80);
-            }
             if(flipFlop)
             {
                 if(count < 3)
@@ -198,7 +179,16 @@ public class LiveSketch extends PApplet
                     flipFlop = true;
                 }
             }
+
+            //draw current note
+            if (n != null && n.equals(black[i]) )
+            {
+                stroke(0);
+                fill(255,0,0);
+                rect(160,(50*(i + 1) + 80) + 30*i + globalY + gap,width-120,60);
+            }
         }
+
     }
 
     //this method will detect the direction of movement of the mouse

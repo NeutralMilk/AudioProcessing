@@ -106,6 +106,7 @@ public class ProcessNote extends AppCompatActivity
         {
             if((note[sRound]+octave).equals(notes[j]))
             {
+                System.out.println(pitch + " " + note[sRound]+octave);
                 return note[sRound]+octave;
 
             }

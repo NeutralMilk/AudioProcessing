@@ -49,7 +49,7 @@ public class Segmentation
 
         for(int i = 0; i < n.length-1; i ++)
         {
-            if(i > 1 && i < n.length-1)
+            if(i > 1 && i < n.length-2)
             {
                 if(!n[i].equals("-"))
                 {

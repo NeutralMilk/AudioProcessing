@@ -19,26 +19,37 @@
             android:id="@+id/piano"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="58dp"
             app:srcCompat="@drawable/piano" />
 
         <ImageView
             android:id="@+id/file"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toStartOf="@+id/piano"
+            android:layout_alignStart="@+id/piano"
+            android:layout_below="@+id/piano"
+            android:layout_marginTop="45dp"
             app:srcCompat="@drawable/wav" />
 
-        <ImageButton
-            android:id="@+id/imageButton"
+        <ImageView
+            android:id="@+id/file2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="200dp"
-            app:srcCompat="@mipmap/ic_launcher_round" />
+            android:layout_alignStart="@+id/file"
+            android:layout_below="@+id/file"
+            android:layout_marginTop="42dp"
+            app:srcCompat="@drawable/wav" />
+
+        <ImageView
+            android:id="@+id/file3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/file2"
+            android:layout_below="@+id/file2"
+            android:layout_marginTop="46dp"
+            app:srcCompat="@drawable/wav" />
 
 
     </RelativeLayout>

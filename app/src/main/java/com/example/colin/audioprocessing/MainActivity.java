@@ -21,6 +21,7 @@ import android.widget.ToggleButton;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import java.io.File;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
@@ -38,6 +39,9 @@ public class MainActivity extends AppCompatActivity
     //General variables
     public static ImageView piano;
     public static ImageView fileExplorer;
+    public static ImageView fileExplorer2;
+    public static ImageView fileExplorer3;
+
     public boolean active;
     public boolean begin;
     static Context context;
@@ -110,10 +114,12 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                String wavPath = MainActivity.context.getFilesDir() + "/" + "scale4.wav";
-                final File wF = new File(wavPath);
+                noteListPost.clear();
+                noteLengthArraylist.clear();
+                InputStream wf = getResources().openRawResource(R.raw.scale4);
+                //final File wF = new File(wavPath);
                 wp = new PostProcessing();
-                note_time = wp.readWav(wF);
+                note_time = wp.readWav(wf);
 
 
                 Intent myIntent = new Intent(MainActivity.this, PostPianoRoll.class);
@@ -130,27 +136,64 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        b = (ImageButton) findViewById(R.id.imageButton);
-        b.setOnClickListener(new View.OnClickListener()
+        fileExplorer2 = (ImageView) findViewById(R.id.file2);
+        fileExplorer2.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                Float[] noteLength = new Float[noteLengthArraylist.size()];
-                for(int i = 0; i < noteLengthArraylist.size(); i ++)
-                {
-                    noteLength[i] = noteLengthArraylist.get(i);
-                }
-                for(int i = 0; i < noteLength.length;i ++)
-                {
-                }
+                noteListPost.clear();
+                noteLengthArraylist.clear();
+                InputStream wf = getResources().openRawResource(R.raw.waltz);
+                //final File wF = new File(wavPath);
+                wp = new PostProcessing();
+                note_time = wp.readWav(wf);
+
+
                 Intent myIntent = new Intent(MainActivity.this, PostPianoRoll.class);
-                myIntent.putExtra("notes", noteListPost); //Optional parameters
-                myIntent.putExtra("noteTimes", noteLength);
                 MainActivity.this.startActivity(myIntent);
+                /*// ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file
+                // browser.
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                // Filter to only show results that can be "opened", such as a
+                // file (as opposed to a list of contacts or timezones)
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                // Filter to show only wav files
+                intent.setType("audio/wav");
+                startActivityForResult(intent, READ_REQUEST_CODE);*/
+            }
+        });
+
+        fileExplorer3 = (ImageView) findViewById(R.id.file3);
+        fileExplorer3.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View v)
+            {
+                noteListPost.clear();
+                noteLengthArraylist.clear();
+                InputStream wf = getResources().openRawResource(R.raw.beach);
+                //final File wF = new File(wavPath);
+                wp = new PostProcessing();
+                note_time = wp.readWav(wf);
+
+
+                Intent myIntent = new Intent(MainActivity.this, PostPianoRoll.class);
+                MainActivity.this.startActivity(myIntent);
+                /*// ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file
+                // browser.
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                // Filter to only show results that can be "opened", such as a
+                // file (as opposed to a list of contacts or timezones)
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                // Filter to show only wav files
+                intent.setType("audio/wav");
+                startActivityForResult(intent, READ_REQUEST_CODE);*/
             }
         });
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
